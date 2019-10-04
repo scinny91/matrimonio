@@ -1,0 +1,28 @@
+
+from django.http import HttpResponse
+from django.contrib.staticfiles.templatetags import staticfiles
+
+
+def start(request):
+
+
+
+    url = request.META['PATH_INFO']
+    ###LOG
+    file = open('/Users/marcoscinicariello/PycharmProjects/matrimonio/matrimonio/logs.log', 'a')
+    file.write('\nRichiesto:')
+    file.write(url)
+    file.close()
+    html = ''
+    if url == '/html/':
+        with open('matrimonio/html/index.html', 'r') as content_file:
+            html = content_file.read()
+    else:
+        with open('matrimonio/%s' % url, 'r') as content_file:
+            html = content_file.read()
+    if '.js' in url:
+        return HttpResponse(html, content_type="application/x-javascript")
+    elif '.css' in url:
+        return HttpResponse(html, content_type="text/css")
+    else:
+       return HttpResponse(html)
