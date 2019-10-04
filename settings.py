@@ -25,7 +25,7 @@ SECRET_KEY = 'qz27$#uy795i@*)x9&v7&a)(=98&$q!$m-a0zet_-1g*9@&n81'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [u'scinny.pythonanywhere.com']
+ALLOWED_HOSTS = [u'scinny.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -65,6 +65,7 @@ TEMPLATES = [
             ],
         },
     },
+
 ]
 
 WSGI_APPLICATION = 'matrimonio.wsgi.application'
@@ -119,9 +120,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+<<<<<<< HEAD
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = u'/home/scinny/matrimonio/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/scinny/matrimonio/static'
 STATIC_URL = '/static/'
+STATIC_HTML = '/html/'
