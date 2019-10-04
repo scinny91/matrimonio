@@ -9,10 +9,10 @@ def start(request):
 
     html = ''
     if url == '/html/':
-        with open('matrimonio/html/index.html', 'r') as content_file:
+        with open('matrimonio/matrimonio/html/index.html', 'r') as content_file:
             html = content_file.read()
     else:
-        with open('matrimonio/%s' % url, 'r') as content_file:
+        with open('matrimonio/matrimonio/%s' % url, 'r') as content_file:
             html = content_file.read()
     if '.js' in url:
         return HttpResponse(html, content_type="application/x-javascript")
