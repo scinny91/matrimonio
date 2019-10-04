@@ -1,9 +1,9 @@
-
 from django.http import HttpResponse
 from django.contrib.staticfiles.templatetags import staticfiles
 from datetime import datetime
 from time import gmtime, strftime
 
+from matrimonio import settings
 
 def start(request):
 
@@ -11,7 +11,7 @@ def start(request):
 
     html = ''
     if url == '/html/':
-        with open('matrimonio/html/index.html', 'r') as content_file:
+        with open(settings.STATIC_HTML + '/html/index.html', 'r') as content_file:
             html = content_file.read()
             dati_dinamici = {
                 'delta_days': (datetime.strptime('2021-07-21', "%Y-%m-%d") -
@@ -20,7 +20,7 @@ def start(request):
             }
             html = html.format(**dati_dinamici)
     else:
-        with open('matrimonio/%s' % url, 'r') as content_file:
+        with open(settings.STATIC_HTML + url, 'r') as content_file:
             html = content_file.read()
     if '.js' in url:
         return HttpResponse(html, content_type="application/x-javascript")
