@@ -103,55 +103,53 @@ blocco_righe_invitato = """
                 </div>
             <div class="col-md-10">
                 <div class="row">
-                    <div class="col-sm-1"> Nome: </div>
+                    <div class="col-sm-1 lbl"> Nome: </div>
                     <div class="col-sm-3">
-                            <div class="form-group">
-                                <input type="text" value="{nome}" placeholder="Inactive" class="form-control" />
-                            </div>
+                        <div class="form-group">
+                            <input type="text" value="{nome}" placeholder="Inactive" class="form-control" />
+                        </div>
                     </div>
-                    <div class="col-sm-1"> Albergo: </div>
-                    <div class="col-sm-1">
-                            <div class="switch"
-                                  data-on-label="<i class='fa fa-check'></i>"
-                                  data-off-label="<i class='fa fa-times'></i>">
-                                  <input type="checkbox" {albergo}/>
-                            </div>
+                    <div class="col-sm-1 lbl"> Albergo: </div>
+                    <div class="col-sm-1 lbl">
+                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+
+                              <input type="checkbox" {albergo}/>
+                        </div>
                     </div>
-                    <div class="col-sm-1"> Albergo: </div>
-                    <div class="col-sm-1">
-                            <div class="switch"
-                                  data-on-label="<i class='fa fa-check'></i>"
-                                  data-off-label="<i class='fa fa-times'></i>">
-                                  <input type="checkbox" {albergo}/>
-                            </div>
+                    <div class="col-sm-1 lbl"> Albergo: </div>
+                    <div class="col-sm-1 lbl">
+                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                              <input type="checkbox" {albergo}/>
+                        </div>
                     </div>
-                    <div class="col-sm-1"> Viaggio: </div>
-                    <div class="col-sm-1">
-                            <div class="switch"
-                                  data-on-label="<i class='fa fa-check'></i>"
-                                  data-off-label="<i class='fa fa-times'></i>">
-                                  <input type="checkbox" {viaggio} />
-                            </div>
+                    <div class="col-sm-1 lbl" > Viaggio: </div>
+                    <div class="col-sm-1 lbl">
+                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                              <input type="checkbox" {viaggio} />
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-1"> Menu </div>
+                    <div class="col-sm-1 lbl"> Menu </div>
                     <div class="col-sm-3">
-                            <div class="form-group">
-                                <input type="text" value="{menu_sel}" placeholder="Inactive" class="form-control" />
-                            </div>
+                        <div class="form-group">
+                            <select class="form-control" id="menu#{row_id}">
+                                  <option>Carne</option>
+                                  <option>Pesce</option>
+                                  <option>Carne (senza glutine)</option>
+                                  <option>Pesce (senza glutine)</option>
+                                  <option>Carne (senza lattosio)</option>
+                                  <option>Pesce (senza lattosio)</option>
+                                </select>  
+                        </div>
                     </div>
-                    <div class="col-sm-1">Note</div>
+                    <div class="col-sm-1 lbl" >Note</div>
                     <div class="col-sm-3">
-                            <div class="form-group">
-                                <input type="text" value="{note}" placeholder="note"  class="form-control" />
-                            </div>
+                         <textarea class="form-control" id="note#{row_id}" rows="2"></textarea>
                     </div>
-                    <div class="col-sm-1">Foto:</div>
+                    <div class="col-sm-1 lbl">Foto:</div>
                     <div class="col-sm-3">
-                            <div class="form-group">
-                                <input type="text" value="{note}" placeholder="note"  class="form-control" />
-                            </div>
+                        <input type="file" class="form-control-file" id="foto#{row_id}">
                     </div>
                 </div>
             </div>
