@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from backand import start
+from backand import start, controller
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^html/', start.start),
+    url(r'^controller/', controller.main),
 ]

@@ -1,10 +1,14 @@
 from datetime import datetime
 from time import gmtime, strftime
+from matrimonio import settings
+
+
+appserver = settings.APPSERVER
 
 due_date = '2021-07-17'
 due_date_umana = datetime.strptime(due_date, "%Y-%m-%d").strftime("%d-%m-%Y")
 
-numero_partecipanti_default = 1
+numero_ospiti_default = 1
 
 js_index = """
 
@@ -40,7 +44,8 @@ js_index = """
     });
 
 
-</script>"""
+</script>
+"""
 
 delta_days = datetime.strptime(due_date, "%Y-%m-%d") - datetime.today()
 delta_days = delta_days.days
@@ -55,44 +60,7 @@ def_usr_data = {
     'foto': '',
 }
 
-blocco_righe_invitato = """
-    <div class="row" id="riga_invitato#{row_id}">
-            <div class="col-sm-1"> Nome </div>
-            <div class="col-sm-1">
-                	<div class="form-group">
-        	        	<input type="text" value="{nome}" placeholder="Inactive" class="form-control" />
-                	</div>
-            </div>
-            <div class="col-sm-1"> Albergo: </div>
-            <div class="col-sm-1">
-                	<div class="switch"
-                          data-on-label="<i class='fa fa-check'></i>"
-                          data-off-label="<i class='fa fa-times'></i>">
-                          <input type="checkbox" {albergo}/>
-                    </div>
-            </div>
-            <div class="col-sm-1"> Viaggio: </div>
-            <div class="col-sm-1">
-                	<div class="switch"
-                          data-on-label="<i class='fa fa-check'></i>"
-                          data-off-label="<i class='fa fa-times'></i>">
-                          <input type="checkbox" {viaggio} />
-                    </div>
-            </div>
-            <div class="col-sm-1"> Menu </div>
-            <div class="col-sm-2">
-                	<div class="form-group">
-        	        	<input type="text" value="{menu_sel}" placeholder="Inactive" class="form-control" />
-                	</div>
-            </div>
-            <div class="col-sm-1">Note</div>
-            <div class="col-sm-2">
-                	<div class="form-group">
-        	        	<input type="text" value="{note}" placeholder="note"  class="form-control" />
-                	</div>
-            </div>
-    </div>
-""".format(**def_usr_data)
+
 
 blocco_righe_invitato = """
     <div class="row" id="riga_invitato#{row_id}">
@@ -111,20 +79,20 @@ blocco_righe_invitato = """
                     </div>
                     <div class="col-sm-1 lbl"> Albergo: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                        <div class="switch-unload" id='switchAlbergo_{row_id}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
 
                               <input type="checkbox" {albergo}/>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl"> Albergo: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                        <div class="switch-unload" id='switchAlbergo1_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
                               <input type="checkbox" {albergo}/>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl" > Viaggio: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch"  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                        <div class="switch-unload" id='switchViaggio_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
                               <input type="checkbox" {viaggio} />
                         </div>
                     </div>
