@@ -3,6 +3,7 @@ import traceback
 from matrimonio import settings
 import costants
 from PIL import Image
+import hashlib
 from django.core.files.base import ContentFile
 import json
 import pprint
@@ -87,15 +88,23 @@ def save_image(request):
     nome_file = request.COOKIES['utente']
     nome_file += '_'+ request.FILES['image']._name
 
+    estesione = nome_file.split('.').pop()
 
-    img = open(settings.IMAGE_USER_PATH + nome_file, 'w')
+
+    img = open(settings.IMAGE_USER_PATH +'original/' + nome_file, 'w')
     img.write(stream.read())
     img.close()
 
-    im1 = Image.open(settings.IMAGE_USER_PATH + nome_file)
+    im1 = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
     height = width = 200
     im2 = im1.resize((width, height), Image.NEAREST)
-    im2.save(settings.IMAGE_USER_PATH +'resized/'+ nome_file)
+
+    nome_file = hashlib.md5(stream.read()).hexdigest()
+    nome_file += '.'
+    nome_file += estesione
+
+    im2.save(settings.IMAGE_USER_PATH + nome_file)
+    #dump(request.__dict__)
 
 
     return HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
