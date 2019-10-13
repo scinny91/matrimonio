@@ -95,7 +95,7 @@ def save_image(request):
     im1 = Image.open(settings.IMAGE_USER_PATH + nome_file)
     height = width = 200
     im2 = im1.resize((width, height), Image.NEAREST)
-    im2.save(settings.IMAGE_USER_PATH + nome_file)
+    im2.save(settings.IMAGE_USER_PATH +'resized/'+ nome_file)
 
 
     return HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
