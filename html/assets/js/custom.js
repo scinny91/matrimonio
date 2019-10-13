@@ -68,10 +68,13 @@ function uploadFile(input){
   var file = input.files[0];
   var file_name = input.id
   file_name += '.'+ file.name.split('.').pop();
+  id_foto = file_name.replace('foto_','').split('.')
+  id_foto = id_foto[0]
 
   if(file != undefined){
     formData= new FormData();
     if(!!file.type.match(/image.*/)){
+      jQuery('#img_'+id_foto).attr("src", 'assets/img/loading.gif');
       formData.append("image", file, file_name);
       $.ajax({
         url: jQuery('#appserver').val() + "/save_image/",
@@ -82,8 +85,7 @@ function uploadFile(input){
         contentType: false,
         success: function(data){
             console.log(data)
-            id_foto = file_name.replace('foto_','').split('.')
-            id_foto = id_foto[0]
+
             console.log('#img_'+id_foto)
             jQuery('#img_'+id_foto).attr("src", data);
         }
