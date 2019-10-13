@@ -3,3 +3,4 @@ settings.py
 html/index_orig.html
 *.DS_Store
 *.log
+html/assets/img_user/

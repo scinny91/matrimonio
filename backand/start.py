@@ -5,7 +5,6 @@ from matrimonio import settings
 import costants
 
 def start(request):
-
     url = request.META['PATH_INFO']
 
     html = ''
@@ -22,7 +21,10 @@ def start(request):
     elif '.html' in url:
         # per l'html ci schiaffo dentro le costanti...
         html = html.format(**costants.get_costants())
-        return HttpResponse(html)
+        ret = HttpResponse(html)
+        ret.set_cookie('utente', 'devel')
+        ret.set_cookie('login', True)
+        return ret
     else:
        return HttpResponse(html)
 

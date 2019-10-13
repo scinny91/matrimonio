@@ -25,12 +25,75 @@ function add_guest()
                 {
                     jQuery('#inputs').append(result.result);
                     jQuery('#numero_ospiti').val(parseInt(numero_raggiunto) +1);
-                    //$('.switch')['bootstrapSwitch']();
-                    //$("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
                     themeInit();
 
                 }
   }});
+}
+
+function save_guest(){
+    var lista_dati = new Array()
+    var lista_campi = ['nome_ospite', 'albergo', 'albergo1', 'viaggio', 'menu', 'note']
+
+    var rows_html = jQuery('#inputs').children()
+    rows_html.each(
+        function(element) {
+          var row_index = (this.id).replace('riga_invitato#','')
+          var object = {}
+          for (i=0; i<lista_campi.length; i++)
+          {
+            object[lista_campi[i]] = jQuery('#'+lista_campi[i]+'_'+row_index).val()
+          }
+          lista_dati.push(object)
+        }
+    )
+
+    jQuery.ajax(
+        {url: jQuery('#appserver').val() + "/controller/",
+        data: {'action': 'save_guest', 'lista_valori': lista_dati},
+        success: function(result){
+            console.log(result)
+            if (result.result)
+                {
+                    console.log('salvato con successo')
+                }
+  }});
+
+
+
+}
+
+
+function uploadFile(input){
+  var file = input.files[0];
+  var file_name = input.id
+  file_name += '.'+ file.name.split('.').pop();
+
+  if(file != undefined){
+    formData= new FormData();
+    if(!!file.type.match(/image.*/)){
+      formData.append("image", file, file_name);
+      $.ajax({
+        url: jQuery('#appserver').val() + "/save_image/",
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            id_foto = file_name.replace('foto_','').split('.')
+            id_foto = id_foto[0]
+            console.log('#img_'+id_foto)
+            jQuery('#img_'+id_foto).attr("src", data);
+        }
+      });
+    }else{
+      console.error('Not a valid image!');
+    }
+  }else{
+    console.log('Input something!');
+  }
 }
 
 
@@ -38,6 +101,7 @@ function add_guest()
 function Init()
 {
     jQuery('#add_guest').click(add_guest)
+    jQuery('#save_guest').click(save_guest)
 }
 
 

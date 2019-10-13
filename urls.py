@@ -19,6 +19,8 @@ from backand import start, controller
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^/img_user/', controller.get_image),
     url(r'^html/', start.start),
     url(r'^controller/', controller.main),
+    url(r'^save_image/', controller.save_image),
 ]
