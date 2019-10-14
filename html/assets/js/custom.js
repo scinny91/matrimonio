@@ -88,7 +88,7 @@ function uploadFile(input){
 
             console.log('#img_'+id_foto)
             jQuery('#img_'+id_foto).attr("src", data);
-            jQuery('#img_'+id_foto).relod()
+            //jQuery('#img_'+id_foto).relod()
         }
       });
     }else{

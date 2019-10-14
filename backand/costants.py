@@ -72,7 +72,7 @@ blocco_righe_invitato = """
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-sm-1 lbl"> Nome: </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 lbl">
                         <div class="form-group">
                             <input type="text" value="{nome}" placeholder="Digita il nome dell'ospite" class="form-control" id='nome_ospite_{row_id}' />
                         </div>
@@ -99,7 +99,7 @@ blocco_righe_invitato = """
                 </div>
                 <div class="row">
                     <div class="col-sm-1 lbl"> Menu </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 lbl">
                         <div class="form-group">
                             <select class="form-control" id="menu_{row_id}">
                                   <option>Carne</option>
@@ -112,11 +112,11 @@ blocco_righe_invitato = """
                         </div>
                     </div>
                     <div class="col-sm-1 lbl" >Note</div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 lbl">
                          <textarea class="form-control" id="note_{row_id}" rows="2"></textarea>
                     </div>
                     <div class="col-sm-1 lbl">Foto:</div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 lbl">
                         <input type="file" class="form-control-file" id="foto_{row_id}" onchange='uploadFile(this)'>
                     </div>
                 </div>

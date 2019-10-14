@@ -1,6 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 import traceback
 from matrimonio import settings
+from datetime import datetime
 import costants
 from PIL import Image
 import hashlib
@@ -87,7 +88,6 @@ def save_image(request):
     stream = request.FILES['image']
     nome_file = request.COOKIES['utente']
     nome_file += '_'+ request.FILES['image']._name
-
     estesione = nome_file.split('.').pop()
 
 
@@ -99,13 +99,13 @@ def save_image(request):
     height = width = 200
     im2 = im1.resize((width, height), Image.NEAREST)
 
+
     nome_file = hashlib.md5(stream.read()).hexdigest()
+    nome_file += str(datetime.now()) #senno l'immagine cambia ma il browser se la cacha e mi fotte
     nome_file += '.'
     nome_file += estesione
 
     im2.save(settings.IMAGE_USER_PATH + nome_file)
-    #dump(request.__dict__)
-
 
     return HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
 

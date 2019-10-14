@@ -400,5 +400,6 @@
 }
 
 .lbl{
-    margin: 10px;
+    padding: 1%;
+    min-height: 65px;
 }
