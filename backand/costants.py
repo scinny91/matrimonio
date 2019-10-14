@@ -65,11 +65,11 @@ def_usr_data = {
 blocco_righe_invitato = """
     <div class="row" id="riga_invitato#{row_id}">
 
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                     <img src="assets/img/mockup.png" alt="Circle Image" class="img-circle" id='img_{row_id}'>
 
                 </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="col-sm-1 lbl"> Nome: </div>
                     <div class="col-sm-3 lbl">
