@@ -33,7 +33,7 @@ function add_guest()
 
 function save_guest(){
     var lista_dati = new Array()
-    var lista_campi = ['nome_ospite', 'albergo', 'albergo1', 'viaggio', 'menu', 'note']
+    var lista_campi = ['nome_ospite', 'albergo', 'bambino', 'viaggio', 'menu', 'note']
 
     var rows_html = jQuery('#inputs').children()
     rows_html.each(
@@ -55,7 +55,7 @@ function save_guest(){
             console.log(result)
             if (result.result)
                 {
-                    console.log('salvato con successo')
+                  \
                 }
   }});
 

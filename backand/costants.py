@@ -54,6 +54,7 @@ def_usr_data = {
     'row_id': 0,
     'nome': '',
     'albergo': 'checked',
+    'bambino': '',
     'viaggio': '',
     'menu_sel': '',
     'note': '',
@@ -84,10 +85,10 @@ blocco_righe_invitato = """
                               <input type="checkbox" {albergo} id='albergo_{row_id}'/>
                         </div>
                     </div>
-                    <div class="col-sm-1 lbl"> Albergo: </div>
+                    <div class="col-sm-1 lbl"> Bambino: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchAlbergo1_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {albergo} id='albergo1_{row_id}'/>
+                        <div class="switch-unload" id='switchBambino_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                              <input type="checkbox" {bambino} id='bambino1_{row_id}'/>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl" > Viaggio: </div>

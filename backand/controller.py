@@ -73,6 +73,8 @@ def add_guest(diz_in):
 
 def save_guest(diz_in):
     print diz_in
+
+
     return 'Ok'
 
 @csrf_exempt
