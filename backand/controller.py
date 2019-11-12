@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse
 import traceback
 from matrimonio import settings
 from datetime import datetime
-import costants
+from . import costants
 from PIL import Image
 import hashlib
 from django.core.files.base import ContentFile
@@ -72,7 +72,7 @@ def add_guest(diz_in):
     return html.format(**diz_html)
 
 def save_guest(diz_in):
-    print diz_in
+    print(diz_in)
 
 
     return 'Ok'

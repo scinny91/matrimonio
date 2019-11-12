@@ -55,7 +55,7 @@ function save_guest(){
             console.log(result)
             if (result.result)
                 {
-                  \
+                  console.log('ciao')
                 }
   }});
 
