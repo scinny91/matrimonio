@@ -2,7 +2,6 @@
 
 from django.http import HttpResponse
 
-from fontTools.ttLib import TTFont
 from matrimonio import settings
 from . import costants
 import traceback
