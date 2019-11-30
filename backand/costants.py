@@ -51,7 +51,7 @@ delta_days = datetime.strptime(due_date, "%Y-%m-%d") - datetime.today()
 delta_days = delta_days.days
 
 def_usr_data = {
-    'row_id': 0,
+    'id_ospite': 0,
     'nome': '',
     'albergo': 'checked',
     'bambino': '',
@@ -59,15 +59,16 @@ def_usr_data = {
     'menu_sel': '',
     'note': '',
     'foto': '',
+    'url_img_user': 'assets/img/mockup.png',
 }
 
 
 
 blocco_righe_invitato = """
-    <div class="row" id="riga_invitato#{row_id}">
+    <div class="row" id="riga_invitato#{id_ospite}">
 
             <div class="col-sm-3">
-                    <img src="assets/img/mockup.png" alt="Circle Image" class="img-circle" id='img_{row_id}'>
+                    <img src="{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
 
                 </div>
             <div class="col-md-9">
@@ -75,26 +76,26 @@ blocco_righe_invitato = """
                     <div class="col-sm-1 lbl"> Nome: </div>
                     <div class="col-sm-3 lbl">
                         <div class="form-group">
-                            <input type="text" value="{nome}" placeholder="Digita il nome dell'ospite" class="form-control" id='nome_ospite_{row_id}' />
+                            <input type="text" value="{nome}" placeholder="Digita il nome dell'ospite" class="form-control" id='nome_ospite_{id_ospite}' />
                         </div>
                     </div>
                     <div class="col-sm-1 lbl"> Albergo: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchAlbergo_{row_id}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                        <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
 
-                              <input type="checkbox" {albergo} id='albergo_{row_id}'/>
+                              <input type="checkbox" {albergo} id='albergo_{id_ospite}'/>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl"> Bambino: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchBambino_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {bambino} id='bambino1_{row_id}'/>
+                        <div class="switch-unload" id='switchBambino_{id_ospite}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                              <input type="checkbox" {bambino} id='bambino_{id_ospite}'/>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl" > Viaggio: </div>
                     <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchViaggio_{row_id}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {viaggio} id='viaggio_{row_id}'/>
+                        <div class="switch-unload" id='switchViaggio_{id_ospite}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                              <input type="checkbox" {viaggio} id='viaggio_{id_ospite}'/>
                         </div>
                     </div>
                 </div>
@@ -102,7 +103,7 @@ blocco_righe_invitato = """
                     <div class="col-sm-1 lbl"> Menu </div>
                     <div class="col-sm-3 lbl">
                         <div class="form-group">
-                            <select class="form-control" id="menu_{row_id}">
+                            <select class="form-control" id="menu_{id_ospite}">
                                   <option>Carne</option>
                                   <option>Pesce</option>
                                   <option>Carne (senza glutine)</option>
@@ -114,11 +115,11 @@ blocco_righe_invitato = """
                     </div>
                     <div class="col-sm-1 lbl" >Note</div>
                     <div class="col-sm-3 lbl">
-                         <textarea class="form-control" id="note_{row_id}" rows="2"></textarea>
+                         <textarea class="form-control" id="note_{id_ospite}" rows="2"></textarea>
                     </div>
                     <div class="col-sm-1 lbl">Foto:</div>
                     <div class="col-sm-3 lbl">
-                        <input type="file" class="form-control-file" id="foto_{row_id}" onchange='uploadFile(this)'>
+                        <input type="file" class="form-control-file" id="foto_{id_ospite}" onchange='uploadFile(this)'>
                     </div>
                 </div>
             </div>

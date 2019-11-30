@@ -18,17 +18,16 @@ function add_guest()
 {
     var numero_raggiunto = jQuery('#numero_ospiti').val()
     jQuery.ajax(
-        {url: jQuery('#appserver').val() + "/controller/",
-        data: {'action': 'add_guest', 'index': numero_raggiunto},
+        {url: jQuery('#appserver').val() + "/add_guest",
         success: function(result){
-            if (result.result)
-                {
-                    jQuery('#inputs').append(result.result);
+                console.log('success')
+                    jQuery('#inputs').append(result);
                     jQuery('#numero_ospiti').val(parseInt(numero_raggiunto) +1);
                     themeInit();
 
-                }
-  }});
+
+        }
+  });
 }
 
 function save_guest(){
@@ -43,14 +42,19 @@ function save_guest(){
           for (i=0; i<lista_campi.length; i++)
           {
             object[lista_campi[i]] = jQuery('#'+lista_campi[i]+'_'+row_index).val()
+            console.log('#'+lista_campi[i]+'_'+row_index)
           }
+          object.id_ospite = row_index
+          object.url_img_user = jQuery('#img_'+row_index).attr('src')
           lista_dati.push(object)
         }
     )
-
+    console.log(lista_dati)
     jQuery.ajax(
-        {url: jQuery('#appserver').val() + "/controller/",
-        data: {'action': 'save_guest', 'lista_valori': lista_dati},
+        {
+        url: jQuery('#appserver').val() + "/save_guest/",
+        type: "POST",
+        data: {'lista_valori': JSON.stringify(lista_dati)},
         success: function(result){
             console.log(result)
             if (result.result)
@@ -88,7 +92,6 @@ function uploadFile(input){
 
             console.log('#img_'+id_foto)
             jQuery('#img_'+id_foto).attr("src", data);
-            //jQuery('#img_'+id_foto).relod()
         }
       });
     }else{
@@ -105,6 +108,7 @@ function Init()
 {
     jQuery('#add_guest').click(add_guest)
     jQuery('#save_guest').click(save_guest)
+
 }
 
 

@@ -3,7 +3,7 @@
 from django.http import HttpResponse
 
 from matrimonio import settings
-from . import costants
+from . import costants, view
 import traceback
 import codecs
 from PIL import Image
@@ -38,17 +38,23 @@ def start(request):
         return response
     elif '.html' in url:
         # per l'html ci schiaffo dentro le costanti...
-        html = html.format(**costants.get_costants())
-        ret = HttpResponse(html)
+
+        if 'index.html' in url:
+            html = html.format(**view.mostra_utenti_salvati('fam001'))
+            pass
+
+        ret = HttpResponse()
         ret.set_cookie('utente', 'devel')
+        ret.set_cookie('cod_famiglia', 'fam001')
         ret.set_cookie('login', True)
+        ret.content=html
+
         return ret
     elif '.ttf' in url:
         return HttpResponse(html, content_type='text/html')
     elif '.woff' in url:
         return HttpResponse(html, content_type='text/html')
     else:
-        raise
         return HttpResponse(html)
 
 

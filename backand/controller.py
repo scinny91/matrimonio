@@ -2,10 +2,9 @@ from django.http import JsonResponse, HttpResponse
 import traceback
 from matrimonio import settings
 from datetime import datetime
-from . import costants
+from . import costants, view
 from PIL import Image
 import hashlib
-from django.core.files.base import ContentFile
 import json
 import pprint
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +12,8 @@ from django.views.decorators.csrf import csrf_exempt
 global res
 global utente
 
-from django.contrib.auth.decorators import login_required
+from matrimonio.backand.bo import base
+
 
 def check_login(input):
 
@@ -37,7 +37,7 @@ def main(request):
         'logs': '',
     }
 
-    dump(request)
+    #debug_request(request)
     try:
         if not request.COOKIES.get('login'):
             raise Exception('Login rifiutato....')
@@ -64,22 +64,39 @@ def main(request):
     return JsonResponse(res)
 
 
-def add_guest(diz_in):
-    html = costants.blocco_righe_invitato
+def add_guest(request):
+    html = view.render_aggiungi_ospite()
+    return HttpResponse(html)
 
-    diz_html = costants.def_usr_data
-    diz_html['row_id'] = diz_in['index']
-    return html.format(**diz_html)
+@csrf_exempt
+def save_guest(request):
+    #debug_request(request)
 
-def save_guest(diz_in):
-    print(diz_in)
-
-
-    return 'Ok'
+    try:
+        dati_ospiti = json.loads(request.POST['lista_valori'])
+        #pprint.pprint(dati_ospiti)
+        for ospite in dati_ospiti:
+            ospite['cod_famiglia'] = request.COOKIES['cod_famiglia']
+            ospiteOBJ = base.Ospite(
+                id_ospite=ospite.get('id_ospite'),
+                nome=ospite['nome_ospite'],
+                albergo=ospite['albergo'],
+                bambino=ospite['bambino'],
+                viaggio=ospite['viaggio'],
+                menu=ospite['menu'],
+                note=ospite['note'],
+                url_img_user=ospite['url_img_user'],
+                utente=ospite['cod_famiglia'],
+                cod_famiglia=ospite['cod_famiglia'],
+            )
+            ospiteOBJ.save()
+    except:
+        print(traceback.format_exc())
+    return HttpResponse('ok')
 
 @csrf_exempt
 def get_image(request):
-    dump(request.META['PATH_INFO'])
+    debug_request(request.META)
     filename = (request.META['PATH_INFO'].split('/')).pop()
     with open(settings.IMAGE_USER_PATH + filename , 'r') as content_file:
         content = content_file.read()
@@ -92,8 +109,7 @@ def save_image(request):
     nome_file += '_'+ request.FILES['image']._name
     estesione = nome_file.split('.').pop()
 
-
-    img = open(settings.IMAGE_USER_PATH +'original/' + nome_file, 'w')
+    img = open(settings.IMAGE_USER_PATH +'original/' + nome_file, 'wb')
     img.write(stream.read())
     img.close()
 
@@ -109,7 +125,10 @@ def save_image(request):
 
     im2.save(settings.IMAGE_USER_PATH + nome_file)
 
-    return HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
+    ret = HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
+    ret.set_cookie('url_img_user', settings.IMAGE_USER_PATH_RELATIVE + nome_file)
 
-def dump(input):
-    pprint.pprint(input)
+    return ret
+
+def debug_request(input):
+    pprint.pprint(input.__dict__, width=160)
