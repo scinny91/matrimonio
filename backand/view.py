@@ -22,5 +22,7 @@ def mostra_utenti_salvati(cod_famiglia):
 def render_aggiungi_ospite():
     html = costants.blocco_righe_invitato
     diz_html = costants.def_usr_data
-    diz_html['id_ospite'] = base.Ospite.objects.aggregate(Max('id_ospite'))['id_ospite__max'] +1
+    diz_html['id_ospite'] = 1
+    if base.Ospite.objects.aggregate(Max('id_ospite'))['id_ospite__max']:
+        diz_html['id_ospite'] += base.Ospite.objects.aggregate(Max('id_ospite'))['id_ospite__max']
     return html.format(**diz_html)
