@@ -24,47 +24,57 @@ function add_guest()
                     jQuery('#inputs').append(result);
                     jQuery('#numero_ospiti').val(parseInt(numero_raggiunto) +1);
                     themeInit();
+                    jQuery('.onchangeupdate').change(updateGuest);
 
 
         }
   });
 }
 
-function save_guest(){
-    var lista_dati = new Array()
-    var lista_campi = ['nome_ospite', 'albergo', 'bambino', 'viaggio', 'menu', 'note']
 
-    var rows_html = jQuery('#inputs').children()
-    rows_html.each(
-        function(element) {
-          var row_index = (this.id).replace('riga_invitato#','')
-          var object = {}
-          for (i=0; i<lista_campi.length; i++)
-          {
-            object[lista_campi[i]] = jQuery('#'+lista_campi[i]+'_'+row_index).val()
-            console.log('#'+lista_campi[i]+'_'+row_index)
-          }
-          object.id_ospite = row_index
-          object.url_img_user = jQuery('#img_'+row_index).attr('src')
-          lista_dati.push(object)
-        }
-    )
-    console.log(lista_dati)
-    jQuery.ajax(
-        {
-        url: jQuery('#appserver').val() + "/save_guest/",
+function deleteGuest(){
+    formData= new FormData();
+    id_ospite = (this.id).split('_').pop()
+    formData.append("id_ospite", id_ospite);
+    $.ajax({
+        url: jQuery('#appserver').val() + "/delete_guest/",
         type: "POST",
-        data: {'lista_valori': JSON.stringify(lista_dati)},
-        success: function(result){
-            console.log(result)
-            if (result.result)
-                {
-                  console.log('ciao')
-                }
-  }});
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            $("#riga_invitato#"+id_ospite).remove();
+        }
+      });
+}
 
 
 
+function updateGuest(){
+    formData= new FormData();
+    id_ospite = (this.id).split('_').pop()
+    campo = this.name
+    if (this.type === 'checkbox')
+        valore = (jQuery('#'+this.id).is(':checked') ? 'S' : 'N')
+    else
+        valore = jQuery('#'+this.id).val()
+    formData.append("id_ospite", id_ospite);
+    formData.append("campo", campo);
+    formData.append("valore", valore);
+    $.ajax({
+        url: jQuery('#appserver').val() + "/update_guest/",
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            $("#riga_invitato#"+id_ospite).remove();
+        }
+      });
 }
 
 
@@ -80,6 +90,7 @@ function uploadFile(input){
     if(!!file.type.match(/image.*/)){
       jQuery('#img_'+id_foto).attr("src", 'assets/img/loading.gif');
       formData.append("image", file, file_name);
+      formData.append("id_ospite", id_foto);
       $.ajax({
         url: jQuery('#appserver').val() + "/save_image/",
         type: "POST",
@@ -107,7 +118,8 @@ function uploadFile(input){
 function Init()
 {
     jQuery('#add_guest').click(add_guest)
-    jQuery('#save_guest').click(save_guest)
+    jQuery('.delete_ospite').click(deleteGuest)
+    jQuery('.onchangeupdate').change(updateGuest)
 
 }
 

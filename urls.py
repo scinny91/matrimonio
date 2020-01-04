@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^/img_user/', controller.get_image),
     url(r'^controller/', controller.main),
     url(r'^save_image/', controller.save_image),
-    url(r'^save_guest/', controller.save_guest),
+    url(r'^delete_guest/', controller.delete_guest),
+    url(r'^update_guest/', controller.update_guest),
     url(r'^add_guest/', controller.add_guest),
 ]

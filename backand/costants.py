@@ -54,7 +54,7 @@ def_usr_data = {
     'id_ospite': 0,
     'nome': '',
     'albergo': 'checked',
-    'bambino': '',
+    'mail': '',
     'viaggio': '',
     'menu_sel': '',
     'note': '',
@@ -68,6 +68,7 @@ blocco_righe_invitato = """
     <div class="row" id="riga_invitato#{id_ospite}">
 
             <div class="col-sm-3">
+                    <i class="fas fa-user-times delete_ospite" id='cancella_ospite_{id_ospite}'></i>
                     <img src="{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
 
                 </div>
@@ -76,26 +77,26 @@ blocco_righe_invitato = """
                     <div class="col-sm-1 lbl"> Nome: </div>
                     <div class="col-sm-3 lbl">
                         <div class="form-group">
-                            <input type="text" value="{nome}" placeholder="Digita il nome dell'ospite" class="form-control" id='nome_ospite_{id_ospite}' />
+                            <input type="text" value="{nome}" name='nome' placeholder="Digita il nome dell'ospite" class="form-control onchangeupdate" id='nome_ospite_{id_ospite}' />
                         </div>
                     </div>
                     <div class="col-sm-1 lbl"> Albergo: </div>
                     <div class="col-sm-1 lbl">
                         <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-
-                              <input type="checkbox" {albergo} id='albergo_{id_ospite}'/>
+                              <input type="checkbox" {albergo} id='albergo_{id_ospite}' class='onchangeupdate'  name='albergo'/>
                         </div>
                     </div>
-                    <div class="col-sm-1 lbl"> Bambino: </div>
-                    <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchBambino_{id_ospite}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {bambino} id='bambino_{id_ospite}'/>
+                     <div class="col-sm-1 lbl"> Mail: </div>
+                    <div class="col-sm-3 lbl">
+                        <div class="form-group">
+                            <input type="text" value="{mail}" name='mail' placeholder="Inserisci un indirizzo mail" class="form-control onchangeupdate" id='mail_{id_ospite}' />
                         </div>
                     </div>
+                   
                     <div class="col-sm-1 lbl" > Viaggio: </div>
                     <div class="col-sm-1 lbl">
                         <div class="switch-unload" id='switchViaggio_{id_ospite}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {viaggio} id='viaggio_{id_ospite}'/>
+                              <input type="checkbox" {viaggio} id='viaggio_{id_ospite}' class='onchangeupdate' name='viaggio'/>
                         </div>
                     </div>
                 </div>
@@ -103,7 +104,8 @@ blocco_righe_invitato = """
                     <div class="col-sm-1 lbl"> Menu </div>
                     <div class="col-sm-3 lbl">
                         <div class="form-group">
-                            <select class="form-control" id="menu_{id_ospite}">
+                            <select class="form-control onchangeupdate" id="menu_{id_ospite}" name='menu'>
+                                  <option>Bambino</option>
                                   <option>Carne</option>
                                   <option>Pesce</option>
                                   <option>Carne (senza glutine)</option>
@@ -115,7 +117,7 @@ blocco_righe_invitato = """
                     </div>
                     <div class="col-sm-1 lbl" >Note</div>
                     <div class="col-sm-3 lbl">
-                         <textarea class="form-control" id="note_{id_ospite}" rows="2"></textarea>
+                         <textarea class="form-control onchangeupdate" id="note_{id_ospite}" rows="2" name='note'></textarea>
                     </div>
                     <div class="col-sm-1 lbl">Foto:</div>
                     <div class="col-sm-3 lbl">

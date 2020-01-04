@@ -51,10 +51,15 @@ def start(request):
 
         return ret
     elif '.ttf' in url:
-        return HttpResponse(html, content_type='text/html')
+        print(url)
+        raise
+        return HttpResponse(html)
     elif '.woff' in url:
-        return HttpResponse(html, content_type='text/html')
+        print(url)
+        raise
+        return HttpResponse(html, content_type='application/x-font-woff')
     else:
+        print(url)
         return HttpResponse(html)
 
 

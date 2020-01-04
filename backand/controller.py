@@ -63,33 +63,46 @@ def main(request):
 
     return JsonResponse(res)
 
-
+@csrf_exempt
 def add_guest(request):
-    html = view.render_aggiungi_ospite()
+    try:
+        ospiteOBJ = base.Ospite(
+            utente=request.COOKIES['cod_famiglia'],
+            cod_famiglia=request.COOKIES['cod_famiglia'],
+        )
+        ospiteOBJ.save()
+        diz_html = costants.def_usr_data
+        diz_html['id_ospite'] = ospiteOBJ.id_ospite
+        html = view.render_aggiungi_ospite(diz_html)
+    except:
+        print(traceback.format_exc())
     return HttpResponse(html)
 
-@csrf_exempt
-def save_guest(request):
-    #debug_request(request)
 
+
+@csrf_exempt
+def update_guest(request):
+    res = 'KO'
     try:
-        dati_ospiti = json.loads(request.POST['lista_valori'])
-        #pprint.pprint(dati_ospiti)
-        for ospite in dati_ospiti:
-            ospite['cod_famiglia'] = request.COOKIES['cod_famiglia']
-            ospiteOBJ = base.Ospite(
-                id_ospite=ospite.get('id_ospite'),
-                nome=ospite['nome_ospite'],
-                albergo=ospite['albergo'],
-                bambino=ospite['bambino'],
-                viaggio=ospite['viaggio'],
-                menu=ospite['menu'],
-                note=ospite['note'],
-                url_img_user=ospite['url_img_user'],
-                utente=ospite['cod_famiglia'],
-                cod_famiglia=ospite['cod_famiglia'],
+        ospiteOBJ = base.Ospite.objects.get(
+                id_ospite=request.POST['id_ospite']
             )
-            ospiteOBJ.save()
+        ospiteOBJ.__setattr__(request.POST['campo'], request.POST['valore'])
+        ospiteOBJ.save()
+
+        res = '{campo} aggiornato con {valore}'.format(**request.POST)
+    except:
+        print(traceback.format_exc())
+    return HttpResponse(res)
+
+
+@csrf_exempt
+def delete_guest(request):
+    try:
+        ospiteOBJ = base.Ospite(
+                id_ospite=request.POST['id_ospite']
+            )
+        ospiteOBJ.delete()
     except:
         print(traceback.format_exc())
     return HttpResponse('ok')
@@ -127,6 +140,12 @@ def save_image(request):
 
     ret = HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
     ret.set_cookie('url_img_user', settings.IMAGE_USER_PATH_RELATIVE + nome_file)
+
+    ospiteOBJ = base.Ospite.objects.get(
+        id_ospite=request.POST['id_ospite']
+    )
+    ospiteOBJ.url_img_user = settings.IMAGE_USER_PATH_RELATIVE + nome_file
+    ospiteOBJ.save()
 
     return ret
 
