@@ -53,7 +53,7 @@ delta_days = delta_days.days
 def_usr_data = {
     'id_ospite': 0,
     'nome': '',
-    'albergo': 'checked',
+    'albergo': '',
     'mail': '',
     'viaggio': '',
     'menu_sel': '',

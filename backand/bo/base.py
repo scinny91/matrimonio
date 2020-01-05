@@ -38,3 +38,10 @@ class Ospite(models.Model):
     class Meta:
         db_table = 'ospiti'
         app_label = 'matrimonio'
+
+    def toHtml(self):
+        check_fields = ['albergo', 'viaggio']
+        for item in check_fields:
+            value = self.__getattribute__(item)
+            self.__setattr__(item, '' if value == 'N' else 'checked')
+        return self.__dict__
