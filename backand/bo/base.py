@@ -2,20 +2,6 @@ from django.db import models
 import hashlib
 
 
-"""class Colore(models.Model):
-
-    colore = models.IntegerField(max_length=11, primary_key=True)
-    articolo = models.ManyToManyField('Articolo', blank=True, through='ColoreArticolo')
-
-    class Meta:
-        db_table = 'prova_colori_cim'
-        app_label = 'cim'
-        ordering = ('colore',)
-
-    #objects = ColoreManager()"""
-
-
-
 class Ospite(models.Model):
 
     choices = [

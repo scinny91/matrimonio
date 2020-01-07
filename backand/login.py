@@ -8,11 +8,10 @@ import pprint
 
 def login(request):
     #crea_hash()
-    print(request.COOKIES)
     ret = HttpResponse()
     if not request.COOKIES.get('login'): #nulla di nulla
         ret.set_cookie('login', True)
-        ret.set_cookie('hash', 'b5f4d1d047')
+        ret.set_cookie('hash', 'b84c154494')
         ret.content = render_login(ret)
         print('primo giro, setto hash...')
     else: #qualcosa inserito
