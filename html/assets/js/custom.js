@@ -17,7 +17,7 @@ function handleError()
 function add_guest()
 {
     jQuery.ajax(
-        {url: jQuery('#appserver').val() + "/add_guest",
+        {url: jQuery('#appserver').val() + "/add_guest/",
         success: function(result){
                 console.log('success')
                 console.log(result)
