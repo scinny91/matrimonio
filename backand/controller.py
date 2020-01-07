@@ -76,7 +76,7 @@ def add_guest(request):
         html = view.render_aggiungi_ospite(diz_html)
     except:
         print(traceback.format_exc())
-        raise 
+        html = traceback.format_exc()
     return HttpResponse(html)
 
 
