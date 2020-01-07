@@ -8,7 +8,6 @@ appserver = settings.APPSERVER
 due_date = '2021-07-10'
 due_date_umana = datetime.strptime(due_date, "%Y-%m-%d").strftime("%d-%m-%Y")
 
-numero_ospiti_default = 1
 
 js_index = """
 

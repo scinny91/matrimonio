@@ -38,6 +38,7 @@ def start(request):
         return response
     elif '.html' in url:
         # per l'html ci schiaffo dentro le costanti...
+
         cookies = request.COOKIES
         if 'index.html' in url:
             html = html.format(**view.mostra_utenti_salvati(cookies))

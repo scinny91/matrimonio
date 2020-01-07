@@ -16,13 +16,12 @@ function handleError()
 
 function add_guest()
 {
-    var numero_raggiunto = jQuery('#numero_ospiti').val()
     jQuery.ajax(
         {url: jQuery('#appserver').val() + "/add_guest",
         success: function(result){
                 console.log('success')
+                console.log(result)
                     jQuery('#inputs').append(result);
-                    jQuery('#numero_ospiti').val(parseInt(numero_raggiunto) +1);
                     themeInit();
                     jQuery('.onchangeupdate').change(updateGuest);
 
