@@ -38,25 +38,18 @@ def start(request):
         return response
     elif '.html' in url:
         # per l'html ci schiaffo dentro le costanti...
-
+        cookies = request.COOKIES
         if 'index.html' in url:
-            html = html.format(**view.mostra_utenti_salvati('fam001'))
-            pass
+            html = html.format(**view.mostra_utenti_salvati(cookies))
 
         ret = HttpResponse()
-        ret.set_cookie('utente', 'devel')
-        ret.set_cookie('cod_famiglia', 'fam001')
-        ret.set_cookie('login', True)
-        ret.content=html
-
+        ret.content = html
         return ret
     elif '.ttf' in url:
         print(url)
-        raise
         return HttpResponse(html)
     elif '.woff' in url:
         print(url)
-        raise
         return HttpResponse(html, content_type='application/x-font-woff')
     else:
         print(url)

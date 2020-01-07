@@ -65,10 +65,10 @@ def main(request):
 
 @csrf_exempt
 def add_guest(request):
+    html = ''
     try:
         ospiteOBJ = base.Ospite(
-            utente=request.COOKIES['cod_famiglia'],
-            cod_famiglia=request.COOKIES['cod_famiglia'],
+            utente=request.COOKIES['hash'],
         )
         ospiteOBJ.save()
         diz_html = costants.def_usr_data
@@ -118,7 +118,7 @@ def get_image(request):
 @csrf_exempt
 def save_image(request):
     stream = request.FILES['image']
-    nome_file = request.COOKIES['utente']
+    nome_file = request.COOKIES['hash']
     nome_file += '_'+ request.FILES['image']._name
     estesione = nome_file.split('.').pop()
 

@@ -45,7 +45,7 @@ function deleteGuest(){
         contentType: false,
         success: function(data){
             console.log(data)
-            $("#riga_invitato#"+id_ospite).remove();
+            $("#riga_invitato_"+id_ospite).remove();
         }
       });
 }
@@ -72,7 +72,6 @@ function updateGuest(){
         contentType: false,
         success: function(data){
             console.log(data)
-            $("#riga_invitato#"+id_ospite).remove();
         }
       });
 }
@@ -124,5 +123,9 @@ function Init()
 }
 
 
+function logout()
+{document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+window.location.href = jQuery('#appserver').val()
+}
 
 $(document).ready( Init() )

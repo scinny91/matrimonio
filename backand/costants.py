@@ -60,12 +60,18 @@ def_usr_data = {
     'note': '',
     'foto': '',
     'url_img_user': 'assets/img/mockup.png',
+    'select_bambino': '',
+    'select_carne': '',
+    'select_pesce': '',
+    'select_carne_senza_glutine': '',
+    'select_pesce_senza_glutine': '',
+    'select_carne_senza_lattosio': '',
+    'select_pesce_senza_lattosio': ''
 }
 
 
-
 blocco_righe_invitato = """
-    <div class="row" id="riga_invitato#{id_ospite}">
+    <div class="row" id="riga_invitato_{id_ospite}">
 
             <div class="col-sm-3">
                     <i class="fas fa-user-times delete_ospite" id='cancella_ospite_{id_ospite}'></i>
@@ -93,25 +99,20 @@ blocco_righe_invitato = """
                         </div>
                     </div>
                    
-                    <div class="col-sm-1 lbl" > Viaggio: </div>
-                    <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchViaggio_{id_ospite}' data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {viaggio} id='viaggio_{id_ospite}' class='onchangeupdate' name='viaggio'/>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="row">
                     <div class="col-sm-1 lbl"> Menu </div>
                     <div class="col-sm-3 lbl">
                         <div class="form-group">
                             <select class="form-control onchangeupdate" id="menu_{id_ospite}" name='menu'>
-                                  <option>Bambino</option>
-                                  <option>Carne</option>
-                                  <option>Pesce</option>
-                                  <option>Carne (senza glutine)</option>
-                                  <option>Pesce (senza glutine)</option>
-                                  <option>Carne (senza lattosio)</option>
-                                  <option>Pesce (senza lattosio)</option>
+                                  <option {select_bambino} value='bambino'>Bambino</option>
+                                  <option {select_carne} value='carne'>Carne</option>
+                                  <option {select_pesce} value='pesce'>Pesce</option>
+                                  <option {select_carne_senza_glutine} value='carne_senza_glutine'>Carne (senza glutine)</option>
+                                  <option {select_pesce_senza_glutine} value='pesce_senza_glutine'>Pesce (senza glutine)</option>
+                                  <option {select_carne_senza_lattosio} value='carne_senza_lattosio'>Carne (senza lattosio)</option>
+                                  <option {select_pesce_senza_lattosio} value='pesce_senza_lattosio'>Pesce (senza lattosio)</option>
                                 </select>  
                         </div>
                     </div>
@@ -127,7 +128,9 @@ blocco_righe_invitato = """
             </div>
     </div>
 """
+
 index_blocco_righe_invitato = blocco_righe_invitato.format(**def_usr_data)
 
+hash = 'undef'
 def get_costants():
     return globals()
