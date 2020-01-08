@@ -1,6 +1,13 @@
 from datetime import datetime
 from time import gmtime, strftime
 from matrimonio import settings
+import git
+
+def get_version():
+    repo = git.Repo(search_parent_directories=False, path='matrimonio/')
+    return str(repo.head.object.hexsha)
+
+version = get_version()
 
 
 appserver = settings.APPSERVER

@@ -23,6 +23,7 @@ def render_login(ret):
         'delta_days': costants.delta_days,
         'due_date_umana': costants.due_date_umana,
         'js_index': costants.js_index,
+        'version': costants.get_version(),
     }
     return view.render_login(diz_html)
 
