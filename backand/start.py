@@ -10,7 +10,6 @@ from PIL import Image
 
 def start(request):
     url = request.META['PATH_INFO']
-
     html = ''
     if url == '/html/':
         url += 'index.html'
@@ -57,3 +56,9 @@ def start(request):
         return HttpResponse(html)
 
 
+def get_statics_file(request):
+    if request.META['PATH_INFO'] != '/':
+        request.META['PATH_INFO'] = '/html/' + request.META['PATH_INFO']
+    else:
+        request.META['PATH_INFO'] = '/html/'
+    return start(request)

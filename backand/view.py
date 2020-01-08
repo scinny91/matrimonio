@@ -1,7 +1,11 @@
 import pprint
+import codecs
+
 
 from . import costants
 from .bo import base
+from matrimonio import settings
+
 
 def mostra_utenti_salvati(cookies):
     ret = costants.get_costants()
@@ -23,3 +27,10 @@ def mostra_utenti_salvati(cookies):
 def render_aggiungi_ospite(diz_html):
     html = costants.blocco_righe_invitato
     return html.format(**diz_html)
+
+
+def render_login(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/login.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html

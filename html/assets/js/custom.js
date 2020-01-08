@@ -9,23 +9,14 @@ $(window).scroll(function(e) {
     
 });
 
-function handleError()
-{
-    console.error('Errore!!!')
-}
-
 function add_guest()
 {
     jQuery.ajax(
         {url: jQuery('#appserver').val() + "/add_guest/",
         success: function(result){
-                console.log('success')
-                console.log(result)
-                    jQuery('#inputs').append(result);
-                    themeInit();
-                    jQuery('.onchangeupdate').change(updateGuest);
-
-
+                jQuery('#inputs').append(result);
+                themeInit();
+                jQuery('.onchangeupdate').change(updateGuest);
         }
   });
 }
@@ -43,7 +34,6 @@ function deleteGuest(){
         processData: false,
         contentType: false,
         success: function(data){
-            console.log(data)
             $("#riga_invitato_"+id_ospite).remove();
         }
       });
@@ -70,7 +60,7 @@ function updateGuest(){
         processData: false,
         contentType: false,
         success: function(data){
-            console.log(data)
+
         }
       });
 }
@@ -111,13 +101,51 @@ function uploadFile(input){
   }
 }
 
+function login(){
+    var formData = new FormData();
+    var valore = jQuery('#hash').val()
+    formData.append('hash_inserito', valore)
+    console.log(formData)
+    jQuery.ajax(
+        {
+        url: jQuery('#appserver').val() + "/check_login/",
+        data: formData,
+        type: "POST",
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(result){
+                if (result == 'ok')
+                {
+                    jQuery('#div_hash').removeClass('has-error');
+                    jQuery('#msg_hash').html('');
+                    window.location.reload()
+                }
+                else
+                {
+                    jQuery('#div_hash').addClass('has-error')
+                    jQuery('#msg_hash').html('Codice inserito non valido!');
+                }
 
+
+        }
+    });
+}
+
+function enter_press(e)
+ {
+         if(e.which === 13){
+            jQuery('#login').click()
+         }
+}
 
 function Init()
 {
     jQuery('#add_guest').click(add_guest)
     jQuery('.delete_ospite').click(deleteGuest)
     jQuery('.onchangeupdate').change(updateGuest)
+    jQuery('#login').click(login)
+    jQuery('#body_login').on('keypress', enter_press)
 
 }
 

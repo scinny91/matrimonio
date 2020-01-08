@@ -15,19 +15,8 @@ global utente
 from matrimonio.backand.bo import base
 
 
-def check_login(input):
-
-    def check(request):
-        if request.getattr('COOKIES'):
-            if not request.COOKIES.get('login'):
-                raise Exception('Login rifiutato....')
-            else:
-                utente = request.COOKIES['utente']
-
-    return check()
 
 
-#@check_login()
 def main(request):
     res = {
         'result': [],
@@ -91,7 +80,7 @@ def update_guest(request):
         ospiteOBJ.__setattr__(request.POST['campo'], request.POST['valore'])
         ospiteOBJ.save()
 
-        res = '{campo} aggiornato con {valore}'.format(**request.POST)
+        res = 'OK'#{campo} aggiornato con {valore}'.format(**request.POST)
     except:
         print(traceback.format_exc())
     return HttpResponse(res)
@@ -110,11 +99,28 @@ def delete_guest(request):
 
 @csrf_exempt
 def get_image(request):
-    debug_request(request.META)
     filename = (request.META['PATH_INFO'].split('/')).pop()
     with open(settings.IMAGE_USER_PATH + filename , 'r') as content_file:
         content = content_file.read()
     return HttpResponse(content)
+
+@csrf_exempt
+def check_login(request):
+    ret = HttpResponse()
+    utenteOBJ = base.Famiglia.objects.filter(
+        hash=request.POST['hash_inserito']
+    )
+    if utenteOBJ:
+        ret.set_cookie('hash', utenteOBJ[0].hash)
+        ret.set_cookie('login', True)
+        ret.content = 'ok'
+        #HttpResponseRedirect("%s/html/" % settings.APPSERVER)
+    else:
+        ret.delete_cookie('hash')
+        ret.set_cookie('login', False)
+        ret.content = 'ko'
+    return ret
+
 
 @csrf_exempt
 def save_image(request):

@@ -1,30 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<!--<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
-	<link rel="icon" type="image/png" href="assets/img/favicon.png">	
-	
-	<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
-	<title>Matrimonio - gestione utente</title>
+    <meta charset="UTF-8">
+    <title>Matrimonio - Login</title>
 
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-	
+
     <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
-	<link href="assets/css/gsdk.css" rel="stylesheet" />  
+	<link href="assets/css/gsdk.css" rel="stylesheet" />
     <link href="assets/css/demo.css" rel="stylesheet" />
-    
+
     <!--     Font Awesome     -->
     <link href="fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body id="body_login">
 <input type="hidden" id="appserver" value="{appserver}">
 <div id="navbar-full">
-    <div class="container">
+     <div class="container">
         <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
-          
+
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -39,76 +35,63 @@
                         <div class="logo">
                             <img src="assets/img/new_logo.png">
                         </div>
-                        <div class="brand">
-
-                            Mancano: {delta_days} giorni!
-                        </div>
                     </div>
             </div>
-        
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
-                    <li><a href="area_personale.html" class="btn btn-round btn-default">Area personale</a></li>
-                    <li><a href="index.html" class="btn btn-round btn-default">Home</a></li>
-                    <li><a onclick="logout()" class="btn btn-round btn-default">Logout</a></li>
+                   <!--<li><a onclick="logout()" class="btn btn-round btn-default">Logout</a></li> -->
 
                </ul>
-              
+
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
         </nav>
     </div><!--  end container-->
-    
-    <div class='blurred-container'>
-        <div class="motto">
-            <div>matrimonio</div>
-            <div class="border no-right-border">Marco</div><div class="border">Mary</div>
-            <div>{due_date_umana}</div>
+
+    <div class="row">
+        <div class="col-sm-4 "></div>
+        <div class="col-sm-4 ">
+           <h2> Mancano: {delta_days} giorni! </h2>
         </div>
-        <div class="img-src" style="background-image: url('assets/img/cover_4.jpg')"></div>
-        <div class='img-src blur' style="background-image: url('assets/img/cover_4_blur.jpg')"></div>
+        <div class="col-sm-4 "></div>
     </div>
-    
-</div>     
-    
+    <div class="row">
+        <div class="col-sm-4 "></div>
+        <div class="col-sm-4 ">
+            Benvenuto!
+            dietro la partecipazione troverai un codice di 10 caratteri, inseriscili qui sotto per accedere alla sezione a te dedicata.
+        </div>
+        <div class="col-sm-4 "></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 "></div>
+        <div class="col-sm-4 ">
+            <div id="inputs" >
+                <div class="form-group" id="div_hash">
+                    <input type="text" value="" name='hash' placeholder="Inserisci il codice ricevuto con la partecipazione" class="form-control" id='hash' />
+                </div>
+                <div class="form-group" id="msg_hash">
 
-
-<div class="main">
-    <div class="container tim-container">
-         <div class="col-sm-12">&nbsp;</div>
-         <div class="row">
-             <div class="col-sm-3">
-                 <h3>Sezione invitati</h3>
-             </div>
-             <div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round" id="add_guest">Aggiungi partecipante</button>
+                </div>
             </div>
-            <!--<div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round" id="save_guest">Slava partecipanti</button>
-            </div>-->
         </div>
-
-        <div id="inputs" >
-            {index_blocco_righe_invitato}
-        </div>
+        <div class="col-sm-4 "></div>
 
 
-    <!-- end buttons div -->
-
-
-</div>
-<!-- end container -->
-    <div class="footer">
-        cookie: {hash}
     </div>
-<div class="space-30"></div>
+    <div class="row">
+        <div class="col-sm-5 "></div>
+        <div class="col-sm-2 ">
+            <button class="btn btn-primary btn-round" id='login' >Entra</button>
+        </div>
+        <div class="col-sm-5 "></div>
+
+
+    </div>
+
 </div>
-
-
-<!-- end main -->
-
-
 </body>
 
     <script src="jquery/jquery-1.10.2.js" type="text/javascript"></script>

@@ -1,40 +1,30 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .bo import base
-from . import view, start
+from . import view, start, costants
 from matrimonio import settings
 
-import pprint
 
-def login(request):
-    #crea_hash()
+def mostra_login(request):
+    crea_hash()
     ret = HttpResponse()
-    if not request.COOKIES.get('login'): #nulla di nulla
-        ret.set_cookie('login', True)
-        ret.set_cookie('hash', 'b84c154494')
+    if not request.COOKIES.get('login') and request.META['PATH_INFO'] == '/':
+        # login non fatto o fallito
         ret.content = render_login(ret)
-        print('primo giro, setto hash...')
-    else: #qualcosa inserito
-        check_login(ret)
-        ret.set_cookie('login', True)
-        #valida
-        if False: # login errato
-            pass
-        else: #login corretto, procedo
-            response = HttpResponseRedirect("%s/html/" % settings.APPSERVER)
-            return response
-
-
-
+    else:
+        # file statici, richiamo start
+        ret = start.get_statics_file(request)
     return ret
 
 
 def render_login(ret):
-    return 'finestra_login {hash}'.format(**ret.cookies)
-
-def check_login(ret):
-    print('valido login tramite hash presente nel cookies')
-    return
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+    }
+    return view.render_login(diz_html)
 
 
 def crea_hash():
