@@ -83,5 +83,5 @@ class Famiglia(models.Model):
 
         testo = 'Ciao, inquadra il QR code oppure vai su %s e digita il codice: %s' % (settings.APPSERVER, self.hash)
         c.drawString(units.cm*2, units.cm*3, testo)
-
+        # test commit pycharm
         c.save()
