@@ -6,10 +6,10 @@ from matrimonio import settings
 
 
 def mostra_login(request):
-    crea_hash()
     ret = HttpResponse()
     if not request.COOKIES.get('login') and request.META['PATH_INFO'] == '/':
         # login non fatto o fallito
+        crea_hash()
         ret.content = render_login(ret)
     else:
         # file statici, richiamo start
@@ -34,3 +34,4 @@ def crea_hash():
     for famiglia in elenco_famiglie:
         if not famiglia.hash:
             famiglia.calcola_hash()
+        famiglia.genera_partecipazione()
