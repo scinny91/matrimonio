@@ -106,9 +106,13 @@ def get_image(request):
 
 @csrf_exempt
 def check_login(request):
+    hash_inserito = request.POST['hash_inserito']
+    return _check_login(hash_inserito)
+
+def _check_login(hash_inserito):
     ret = HttpResponse()
     utenteOBJ = base.Famiglia.objects.filter(
-        hash=request.POST['hash_inserito']
+        hash=hash_inserito
     )
     if utenteOBJ:
         ret.set_cookie('hash', utenteOBJ[0].hash)
@@ -120,7 +124,6 @@ def check_login(request):
         ret.set_cookie('login', False)
         ret.content = 'ko'
     return ret
-
 
 @csrf_exempt
 def save_image(request):

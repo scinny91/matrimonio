@@ -1,8 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .bo import base
-from . import view, start, costants
+from . import view, start, costants, controller
 from matrimonio import settings
+
 
 
 def mostra_login(request):
@@ -16,6 +17,10 @@ def mostra_login(request):
         ret = start.get_statics_file(request)
     return ret
 
+
+def fast_login(request):
+    hash_inserito = request.GET.get('hash', '')
+    return controller._check_login(hash_inserito)
 
 def render_login(ret):
     diz_html = {

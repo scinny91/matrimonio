@@ -1,6 +1,7 @@
 from django.db import models
 from matrimonio import settings
 
+
 import hashlib
 from reportlab.pdfgen import canvas
 from reportlab.lib import pagesizes, units, utils
@@ -80,7 +81,8 @@ class Famiglia(models.Model):
         img_for_print = utils.ImageReader(settings.DOCDIR + '/qr.jpeg')
 
         c.drawImage(img_for_print, units.cm*8, units.cm*5, width=units.cm*5, height=units.cm*5)
-
+        testo = settings.APPSERVER + '/fast_login?hash=' + self.hash
+        c.drawString(units.cm * 4, units.cm * 4, testo)
         testo = 'Ciao, inquadra il QR code oppure vai su %s e digita il codice: %s' % (settings.APPSERVER, self.hash)
         c.drawString(units.cm*2, units.cm*3, testo)
         # test commit pycharm
