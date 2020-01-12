@@ -106,6 +106,7 @@
     color: #ddd !important;
 }
 .footer{
+    text-align: center;
     background-color: #DDDDDD;
     background-image: url('../img/cover_4_blur.jpg');
     background-attachment: fixed;
@@ -402,4 +403,8 @@
 .lbl{
     padding: 1%;
     min-height: 65px;
+}
+
+.testo_centrale{
+    text-align: center;
 }
