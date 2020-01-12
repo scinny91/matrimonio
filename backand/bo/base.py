@@ -72,7 +72,7 @@ class Famiglia(models.Model):
             box_size=10,
             border=1,
         )
-        qr.add_data(settings.APPSERVER + '/fast_login?hash=' + self.hash)
+        qr.add_data(settings.APPSERVER + '/fast_login/?hash=' + self.hash)
         qr.make()
         img = qr.make_image(fill_color="black", back_color="white")
 
