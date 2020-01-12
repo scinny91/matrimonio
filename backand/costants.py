@@ -2,10 +2,15 @@ from datetime import datetime
 from time import gmtime, strftime
 from matrimonio import settings
 import git
+import traceback
 
 def get_version():
-    repo = git.Repo(search_parent_directories=False, path='matrimonio/')
-    return str(repo.head.object.hexsha)
+    try:
+        repo = git.Repo(search_parent_directories=False, path=settings.GITFILE)
+        return str(repo.head.object.hexsha)
+    except:
+        print(traceback.format_exc())
+        return 'git info not found'
 
 version = get_version()
 
@@ -104,8 +109,8 @@ blocco_righe_invitato = """
                             <input type="text" value="{mail}" name='mail' placeholder="Inserisci un indirizzo mail" class="form-control onchangeupdate" id='mail_{id_ospite}' />
                         </div>
                     </div>
-                   
-                    
+
+
                 </div>
                 <div class="row">
                     <div class="col-sm-1 lbl"> Menu </div>
@@ -119,7 +124,7 @@ blocco_righe_invitato = """
                                   <option {select_pesce_senza_glutine} value='pesce_senza_glutine'>Pesce (senza glutine)</option>
                                   <option {select_carne_senza_lattosio} value='carne_senza_lattosio'>Carne (senza lattosio)</option>
                                   <option {select_pesce_senza_lattosio} value='pesce_senza_lattosio'>Pesce (senza lattosio)</option>
-                                </select>  
+                                </select>
                         </div>
                     </div>
                     <div class="col-sm-1 lbl" >Note</div>
