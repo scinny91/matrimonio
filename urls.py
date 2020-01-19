@@ -18,7 +18,7 @@ from django.contrib import admin
 from .backand import start, controller, login
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', admin.site.urls),
     #url(r'^html/', start.start),
     url(r'^/img_user/', controller.get_image),
     url(r'^controller/', controller.main),
@@ -28,5 +28,7 @@ urlpatterns = [
     url(r'^add_guest/', controller.add_guest),
     url(r'^check_login/', controller.check_login),
     url(r'^fast_login/', login.fast_login),
+    url(r'^admin/', login.admin),
+    url(r'^admin_download/', controller.admin_download),
     url(r'', login.mostra_login),
 ]

@@ -1,4 +1,4 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 import traceback
 from matrimonio import settings
 from datetime import datetime
@@ -6,6 +6,8 @@ from . import costants, view
 from PIL import Image
 import hashlib
 import json
+import zipfile
+import os
 import pprint
 from django.views.decorators.csrf import csrf_exempt
 
@@ -109,8 +111,11 @@ def check_login(request):
     hash_inserito = request.POST['hash_inserito']
     return _check_login(hash_inserito)
 
-def _check_login(hash_inserito):
-    ret = HttpResponse()
+def _check_login(hash_inserito, fromQr=False):
+    if fromQr:
+        ret = HttpResponseRedirect(settings.APPSERVER)
+    else:
+        ret = HttpResponse()
     utenteOBJ = base.Famiglia.objects.filter(
         hash=hash_inserito
     )
@@ -158,6 +163,20 @@ def save_image(request):
     ospiteOBJ.save()
 
     return ret
+
+
+def admin_download(request):
+    if not request.COOKIES.get('hash') == 'super_user':
+        return HttpResponse('utente non autorizzato')
+
+    zf = zipfile.ZipFile("doc.zip", "w")
+    for dirname, subdirs, files in os.walk(settings.DOCDIR):
+        zf.write(dirname)
+        for filename in files:
+            zf.write(os.path.join(dirname, filename))
+    zf.close()
+    return HttpResponse(open("doc.zip", 'rb'), content_type='application/zip')
+
 
 def debug_request(input):
     pprint.pprint(input.__dict__, width=160)

@@ -1,12 +1,9 @@
 from django.db import models
 from matrimonio import settings
+from matrimonio.backand.bo import doc
 
 
 import hashlib
-from reportlab.pdfgen import canvas
-from reportlab.lib import pagesizes, units, utils
-import qrcode
-
 class Ospite(models.Model):
 
     choices = [
@@ -62,28 +59,5 @@ class Famiglia(models.Model):
         self.save()
 
     def genera_partecipazione(self):
-        print('genero %s' % self.alias)
-        path_file = '%s/%s.pdf' % (settings.DOCDIR, self.alias)
-        c = canvas.Canvas(path_file, pagesize=pagesizes.landscape(pagesizes.A5))
+        doc.genera_partecipazione(self.alias, self.hash)
 
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=1,
-        )
-        qr.add_data(settings.APPSERVER + '/fast_login/?hash=' + self.hash)
-        qr.make()
-        img = qr.make_image(fill_color="black", back_color="white")
-
-        img_jpeg = img.convert('RGB')
-        img_jpeg.save(settings.DOCDIR + '/qr.jpeg')
-        img_for_print = utils.ImageReader(settings.DOCDIR + '/qr.jpeg')
-
-        c.drawImage(img_for_print, units.cm*8, units.cm*5, width=units.cm*5, height=units.cm*5)
-        testo = settings.APPSERVER + '/fast_login?hash=' + self.hash
-        c.drawString(units.cm * 4, units.cm * 4, testo)
-        testo = 'Ciao, inquadra il QR code oppure vai su %s e digita il codice: %s' % (settings.APPSERVER, self.hash)
-        c.drawString(units.cm*2, units.cm*3, testo)
-        # test commit pycharm
-        c.save()

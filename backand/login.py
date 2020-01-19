@@ -1,6 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .bo import base
+from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
 
@@ -10,7 +10,6 @@ def mostra_login(request):
     ret = HttpResponse()
     if not request.COOKIES.get('login') and request.META['PATH_INFO'] == '/':
         # login non fatto o fallito
-        crea_hash()
         ret.content = render_login(ret)
     else:
         # file statici, richiamo start
@@ -20,7 +19,9 @@ def mostra_login(request):
 
 def fast_login(request):
     hash_inserito = request.GET.get('hash', '')
-    return controller._check_login(hash_inserito)
+
+    return controller._check_login(hash_inserito, fromQr=True)
+
 
 def render_login(ret):
     diz_html = {
@@ -32,11 +33,23 @@ def render_login(ret):
     }
     return view.render_login(diz_html)
 
+def admin(request):
+    if not request.COOKIES.get('hash') == 'super_user':
+        return HttpResponse('utente non autorizzato')
+    crea_hash()
+    crea_segnaposto()
+    return HttpResponse('operazioni eseguite, passo e chiudo!')
+
 
 def crea_hash():
     elenco_famiglie = base.Famiglia.objects.filter()
-
     for famiglia in elenco_famiglie:
         if not famiglia.hash:
             famiglia.calcola_hash()
         famiglia.genera_partecipazione()
+
+def crea_segnaposto():
+    elenco_ospiti = base.Ospite.objects.filter()
+    print(elenco_ospiti)
+    doc.genera_segnaposto([i.nome for i in elenco_ospiti])
+    pass
