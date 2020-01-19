@@ -5,3 +5,5 @@ html/index_orig.html
 *.log
 html/assets/img_user/
 doc/*
+.DS_Store
+
