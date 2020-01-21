@@ -1,6 +1,7 @@
 from matrimonio import settings
 
 from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import pagesizes, units, utils
 import qrcode
 
@@ -8,7 +9,7 @@ import qrcode
 def genera_partecipazione(alias, hash):
     path_file = '%s/%s.pdf' % (settings.DOCDIR, alias)
     c = canvas.Canvas(path_file, pagesize=pagesizes.landscape(pagesizes.A5))
-
+    c.setFontSize(12)
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,

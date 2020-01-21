@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
@@ -38,7 +38,27 @@ def admin(request):
         return HttpResponse('utente non autorizzato')
     crea_hash()
     crea_segnaposto()
-    return HttpResponse('operazioni eseguite, passo e chiudo!')
+
+    dati_tabella = []
+    elenco_famiglie = base.Famiglia.objects.filter()
+    for famiglia in elenco_famiglie:
+        uuid = famiglia.__dict__
+        invitati = base.Ospite.objects.filter(utente=famiglia.hash)
+        uuid['invitati'] = [i.__dict__ for i in invitati]
+        dati_tabella.append(uuid)
+
+
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'tabella_ospiti': view.render_tabella_ospiti(dati_tabella),
+    }
+    html = view.render_admin(diz_html)
+    return HttpResponse(html)
 
 
 def crea_hash():

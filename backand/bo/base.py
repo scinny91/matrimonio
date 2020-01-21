@@ -1,9 +1,8 @@
 from django.db import models
 from matrimonio import settings
 from matrimonio.backand.bo import doc
-
-
 import hashlib
+
 class Ospite(models.Model):
 
     choices = [
@@ -13,7 +12,7 @@ class Ospite(models.Model):
 
     id_ospite = models.AutoField(max_length=11, primary_key=True)
     nome = models.Field(name='nome', blank=True)
-    speciale = models.CharField(max_length=1, choices=choices, default='N')
+    speciale = models.CharField(max_length=10, choices=choices, default='')
     albergo = models.CharField(max_length=1, choices=choices, default='N')
     mail = models.CharField(max_length=100, blank=True)
     viaggio = models.CharField(max_length=1, choices=choices, default='N')
@@ -21,6 +20,7 @@ class Ospite(models.Model):
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
     menu = models.Field(blank=True, default='bambino')
     utente = models.Field(blank=True)
+    upd_ts = models.Field(name='upd_ts', blank=True)
 
     class Meta:
         db_table = 'ospiti'
@@ -49,6 +49,8 @@ class Famiglia(models.Model):
     id_famiglia = models.AutoField(max_length=11, primary_key=True)
     alias = models.Field(name='alias', blank=True)
     hash = models.Field(name='hash', blank=True)
+    nome_famiglia = models.Field(name='nome_famiglia', blank=True)
+    upd_ts = models.Field(name='upd_ts', blank=True)
 
     class Meta:
         db_table = 'famiglie'

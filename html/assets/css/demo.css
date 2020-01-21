@@ -408,3 +408,25 @@
 .testo_centrale{
     text-align: center;
 }
+
+
+.tabella_ospiti{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%
+}
+
+.cella_ospiti{
+     border-collapse: collapse;
+     border: 1px solid gray;
+}
+
+
+.title{
+    background-color: #33abdb;
+}
+
+.img-piccola{
+    width: 50px;
+    height: auto;
+}
