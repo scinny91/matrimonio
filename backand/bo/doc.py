@@ -28,7 +28,7 @@ def genera_partecipazione(alias, hash):
     testo = settings.APPSERVER + '/fast_login/?hash=' + hash
     c.drawString(units.cm * 4, units.cm * 4, testo)
     testo = 'Ciao, inquadra il QR code oppure vai su %s e digita il codice: %s' % (settings.APPSERVER, hash)
-    c.drawString(units.cm * 2, units.cm * 3, testo)
+    c.drawString(units.cm * 1, units.cm * 3, testo)
     c.save()
 
 def genera_segnaposto(lista_ospiti):
