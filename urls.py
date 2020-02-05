@@ -21,7 +21,6 @@ urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     #url(r'^html/', start.start),
     url(r'^/img_user/', controller.get_image),
-    url(r'^controller/', controller.main),
     url(r'^save_image/', controller.save_image),
     url(r'^delete_guest/', controller.delete_guest),
     url(r'^update_guest/', controller.update_guest),

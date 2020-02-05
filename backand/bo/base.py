@@ -1,5 +1,4 @@
 from django.db import models
-from matrimonio import settings
 from matrimonio.backand.bo import doc
 import hashlib
 
@@ -15,6 +14,7 @@ class Ospite(models.Model):
     speciale = models.CharField(max_length=10, choices=choices, default='')
     albergo = models.CharField(max_length=1, choices=choices, default='N')
     mail = models.CharField(max_length=100, blank=True)
+    mail_valida = models.CharField(max_length=100, blank=True, default='N')
     viaggio = models.CharField(max_length=1, choices=choices, default='N')
     note = models.Field(blank=True)
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
@@ -62,4 +62,3 @@ class Famiglia(models.Model):
 
     def genera_partecipazione(self):
         doc.genera_partecipazione(self.alias, self.hash)
-

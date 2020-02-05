@@ -19,40 +19,6 @@ from matrimonio.backand.bo import base
 
 
 
-def main(request):
-    res = {
-        'result': [],
-        'errori': [],
-        'warning': [],
-        'logs': str(request.__dict__),
-        'logs': '',
-    }
-
-    #debug_request(request)
-    try:
-        if not request.COOKIES.get('login'):
-            raise Exception('Login rifiutato....')
-        else:
-            utente = request.COOKIES['utente']
-        action = request.POST.get('action', request.GET.get('action', ''))
-        res['result'] = action
-
-        if not action:
-            raise ValueError('action non specificata, esco')
-
-        import sys
-        diz = {'logs': None}
-        diz.update((request.POST).dict())
-        diz.update((request.GET).dict())
-        res['result'] = getattr(sys.modules[__name__], action)(diz)
-
-    except Exception:
-        res['warning'] = []
-        res['result'] = []
-        res['errori'] = traceback.format_exc()
-
-
-    return JsonResponse(res)
 
 @csrf_exempt
 def add_guest(request):
@@ -80,6 +46,8 @@ def update_guest(request):
                 id_ospite=request.POST['id_ospite']
             )
         ospiteOBJ.__setattr__(request.POST['campo'], request.POST['valore'])
+        if request.POST['campo'] == 'mail':
+            ospiteOBJ.mail_valida = 'N'
         ospiteOBJ.save()
 
         res = 'OK'#{campo} aggiornato con {valore}'.format(**request.POST)
@@ -116,6 +84,7 @@ def _check_login(hash_inserito, fromQr=False):
         ret = HttpResponseRedirect(settings.APPSERVER)
     else:
         ret = HttpResponse()
+
     utenteOBJ = base.Famiglia.objects.filter(
         hash=hash_inserito
     )

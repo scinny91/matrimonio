@@ -52,6 +52,18 @@ function updateGuest(){
     formData.append("id_ospite", id_ospite);
     formData.append("campo", campo);
     formData.append("valore", valore);
+
+    if (this.name == 'mail')
+    {
+        if (!ValidateEmail(valore))
+            {
+                jQuery('#'+this.id).addClass('error')
+                return
+            }
+             jQuery('#'+this.id).removeClass('error')
+
+    }
+
     $.ajax({
         url: jQuery('#appserver').val() + "/update_guest/",
         type: "POST",
@@ -138,6 +150,16 @@ function enter_press(e)
             jQuery('#login').click()
          }
 }
+
+function ValidateEmail(mail)
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+  {
+    return (true)
+  }
+    return (false)
+}
+
 
 function Init()
 {

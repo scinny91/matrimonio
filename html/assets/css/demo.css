@@ -430,3 +430,7 @@
     width: 50px;
     height: auto;
 }
+
+.error{
+ color: red;
+}
