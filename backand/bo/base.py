@@ -1,6 +1,7 @@
 from django.db import models
 from matrimonio.backand.bo import doc
 import hashlib
+from datetime import datetime
 
 class Ospite(models.Model):
 
@@ -20,7 +21,7 @@ class Ospite(models.Model):
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
     menu = models.Field(blank=True, default='bambino')
     utente = models.Field(blank=True)
-    upd_ts = models.Field(name='upd_ts', blank=True)
+    upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
     class Meta:
         db_table = 'ospiti'
@@ -50,7 +51,7 @@ class Famiglia(models.Model):
     alias = models.Field(name='alias', blank=True)
     hash = models.Field(name='hash', blank=True)
     nome_famiglia = models.Field(name='nome_famiglia', blank=True)
-    upd_ts = models.Field(name='upd_ts', blank=True)
+    upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
     class Meta:
         db_table = 'famiglie'

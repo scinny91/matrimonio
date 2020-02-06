@@ -1,7 +1,6 @@
 from matrimonio import settings
 
 from reportlab.pdfgen import canvas
-from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import pagesizes, units, utils
 import qrcode
 
@@ -44,5 +43,3 @@ def genera_segnaposto(lista_ospiti):
             colonna += 1
 
     c.save()
-
-    pass

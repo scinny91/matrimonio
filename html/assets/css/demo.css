@@ -110,7 +110,10 @@
     background-color: #DDDDDD;
     background-image: url('../img/cover_4_blur.jpg');
     background-attachment: fixed;
-    position: relative;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
 .heart{
     color: #FF3B30;
@@ -284,7 +287,7 @@
 }
 .credits{
     display: block;
-    margin: 15px 0;
+    margin: 0;
     color: #ddd;
     opacity: .8;
 }

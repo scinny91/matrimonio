@@ -53,6 +53,7 @@ def update_guest(request):
         res = 'OK'#{campo} aggiornato con {valore}'.format(**request.POST)
     except:
         print(traceback.format_exc())
+        res = traceback.format_exc()
     return HttpResponse(res)
 
 
@@ -146,6 +147,3 @@ def admin_download(request):
     zf.close()
     return HttpResponse(open("doc.zip", 'rb'), content_type='application/zip')
 
-
-def debug_request(input):
-    pprint.pprint(input.__dict__, width=160)
