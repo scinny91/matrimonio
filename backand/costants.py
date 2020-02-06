@@ -89,7 +89,6 @@ blocco_righe_invitato = """
                         <i class="fas fa-user-times"></i>
                     </div>
                     <img src="{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
-
                 </div>
             <div class="col-md-9">
                 <div class="row">
