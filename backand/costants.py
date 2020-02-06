@@ -93,21 +93,23 @@ blocco_righe_invitato = """
                 </div>
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-sm-1 lbl"> Nome: </div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
                         <div class="form-group">
+                             <label class="control-label">Nome:</label>
                             <input type="text" value="{nome}" name='nome' placeholder="Digita il nome dell'ospite" class="form-control onchangeupdate" id='nome_ospite_{id_ospite}' />
                         </div>
                     </div>
-                    <div class="col-sm-1 lbl"> Albergo: </div>
-                    <div class="col-sm-1 lbl">
-                        <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
-                              <input type="checkbox" {albergo} id='albergo_{id_ospite}' class='onchangeupdate'  name='albergo'/>
+                    <div class="col-sm-2 lbl">
+                        <div class="form-group">
+                            <label class="control-label" >Albergo:</label>
+                            <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                                  <input type="checkbox" {albergo} id='albergo_{id_ospite}' class='onchangeupdate'  name='albergo'/>
+                            </div>
                         </div>
                     </div>
-                     <div class="col-sm-1 lbl"> Mail: </div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
                         <div class="form-group">
+                            <label class="control-label">Mail:</label>
                             <input type="text" value="{mail}" name='mail' placeholder="Inserisci un indirizzo mail" class="form-control onchangeupdate" id='mail_{id_ospite}' />
                         </div>
                     </div>
@@ -115,9 +117,9 @@ blocco_righe_invitato = """
 
                 </div>
                 <div class="row">
-                    <div class="col-sm-1 lbl"> Menu </div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
                         <div class="form-group">
+                            <label class="control-label">Menu:</label>
                             <select class="form-control onchangeupdate" id="menu_{id_ospite}" name='menu'>
                                   <option {select_bambino} value='bambino'>Bambino</option>
                                   <option {select_carne} value='carne'>Carne</option>
@@ -129,12 +131,12 @@ blocco_righe_invitato = """
                                 </select>
                         </div>
                     </div>
-                    <div class="col-sm-1 lbl" >Note</div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
+                          <label class="control-label">Note:</label>
                          <textarea class="form-control onchangeupdate" id="note_{id_ospite}" rows="2" name='note'></textarea>
                     </div>
-                    <div class="col-sm-1 lbl">Foto:</div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
+                        <label class="control-label">Foto:</label>
                         <input type="file" class="form-control-file" id="foto_{id_ospite}" onchange='uploadFile(this)'>
                     </div>
                 </div>
