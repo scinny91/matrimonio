@@ -16,10 +16,12 @@ version = get_version()
 
 
 appserver = settings.APPSERVER
+hash = 'undef'
 
 due_date = '2021-07-10'
 due_date_umana = datetime.strptime(due_date, "%Y-%m-%d").strftime("%d-%m-%Y")
-
+delta_days = datetime.strptime(due_date, "%Y-%m-%d") - datetime.today()
+delta_days = delta_days.days
 
 js_index = """
 
@@ -58,9 +60,6 @@ js_index = """
 </script>
 """
 
-delta_days = datetime.strptime(due_date, "%Y-%m-%d") - datetime.today()
-delta_days = delta_days.days
-
 def_usr_data = {
     'id_ospite': 0,
     'nome': '',
@@ -77,7 +76,7 @@ def_usr_data = {
     'select_carne_senza_glutine': '',
     'select_pesce_senza_glutine': '',
     'select_carne_senza_lattosio': '',
-    'select_pesce_senza_lattosio': ''
+    'select_pesce_senza_lattosio': '',
 }
 
 
@@ -99,7 +98,7 @@ blocco_righe_invitato = """
                         </div>
                     </div>
                     <div class="col-sm-2 lbl">
-                        <div class="form-group">
+                        <div class="form-group {mostra_albergo}">
                             <label class="control-label" >Albergo:</label>
                             <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
                                   <input type="checkbox" {albergo} id='albergo_{id_ospite}' class='onchangeupdate'  name='albergo'/>
@@ -143,8 +142,6 @@ blocco_righe_invitato = """
     </div>
 """
 
-index_blocco_righe_invitato = blocco_righe_invitato.format(**def_usr_data)
 
-hash = 'undef'
 def get_costants():
     return globals()

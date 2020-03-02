@@ -51,6 +51,7 @@ class Famiglia(models.Model):
     alias = models.Field(name='alias', blank=True)
     hash = models.Field(name='hash', blank=True)
     nome_famiglia = models.Field(name='nome_famiglia', blank=True)
+    albergo_abilitato = models.Field(name='albergo_abilitato', blank=True)
     upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
     class Meta:

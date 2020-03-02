@@ -8,10 +8,13 @@ from matrimonio import settings
 
 
 def mostra_utenti_salvati(cookies):
-    ret = costants.get_costants()
     utente = cookies.get('hash', 'undef')
+    famiglia = base.Famiglia.objects.filter(hash=utente)[0]
+
+    ret = costants.get_costants()
+
     dati_ospiti = base.Ospite.objects.filter(utente=utente)
-    lista_righe = [(costants.blocco_righe_invitato).format(**i.toHtml()) for i in dati_ospiti]
+    lista_righe = [render_riga_invitato(famiglia, i.toHtml()) for i in dati_ospiti]
     ret['index_blocco_righe_invitato'] = ''.join(lista_righe)
 
     famiglia = base.Famiglia.objects.filter(hash=utente)
@@ -24,9 +27,8 @@ def mostra_utenti_salvati(cookies):
     return ret
 
 
-def render_aggiungi_ospite(diz_html):
-    html = costants.blocco_righe_invitato
-    return html.format(**diz_html)
+def render_aggiungi_ospite(utente, diz_html):
+    return render_riga_invitato(utente,diz_html)
 
 
 def render_login(diz_html):
@@ -51,6 +53,7 @@ def render_tabella_ospiti(dati_tabella):
             <td class="cella_ospiti title"> Alias </td> 
             <td class="cella_ospiti title"> hash </td> 
             <td class="cella_ospiti title"> Nome famiglia </td>  
+            <td class="cella_ospiti title"> Albergo abilitato </td>  
             <td class="cella_ospiti title"> Upd TS </td> 
         </tr>''')
     for famiglia in dati_tabella:
@@ -59,6 +62,7 @@ def render_tabella_ospiti(dati_tabella):
                 <td  class="cella_ospiti"> {alias} </td> 
                 <td  class="cella_ospiti"> {hash} </td> 
                 <td  class="cella_ospiti"> {nome_famiglia}</td>  
+                <td  class="cella_ospiti"> {albergo_abilitato}</td>  
                 <td  class="cella_ospiti"> {upd_ts} </td> 
             </tr>
             '''.format(**famiglia))
@@ -93,7 +97,15 @@ def render_tabella_ospiti(dati_tabella):
                                     <td class="cella_ospiti"> {upd_ts} </td> 
                                    </tr>'''.format(**ospite))
             print(ospite)
-        lista_html.append('<tr class="famiglia"> <td colspan=4> <table class="tabella_ospiti"> %s </table> </td> </tr>' % ''.join(tabella_ospiti))
+        lista_html.append('<tr class="famiglia"> <td colspan=5> <table class="tabella_ospiti"> %s </table> </td> </tr>' % ''.join(tabella_ospiti))
     lista_html.append('</table>')
 
     return ''.join(lista_html)
+
+def render_riga_invitato(famiglia, invitato):
+    riga = costants.blocco_righe_invitato
+    invitato['mostra_albergo'] = ''
+    if famiglia.albergo_abilitato != 'S':
+        invitato['mostra_albergo'] = 'nascosta'
+    pprint.pprint(invitato)
+    return riga.format(**invitato)

@@ -288,7 +288,7 @@
 .credits{
     display: block;
     margin: 0;
-    color: #ddd;
+    color: black;
     opacity: .8;
 }
 .credits a{
@@ -436,4 +436,8 @@
 
 .error{
  color: red;
+}
+
+.nascosta{
+    display: none
 }

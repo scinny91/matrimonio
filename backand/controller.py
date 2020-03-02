@@ -24,13 +24,14 @@ from matrimonio.backand.bo import base
 def add_guest(request):
     html = ''
     try:
+        hash_famiglia = request.COOKIES['hash']
         ospiteOBJ = base.Ospite(
-            utente=request.COOKIES['hash'],
+            utente=hash_famiglia,
         )
         ospiteOBJ.save()
         diz_html = costants.def_usr_data
         diz_html['id_ospite'] = ospiteOBJ.id_ospite
-        html = view.render_aggiungi_ospite(diz_html)
+        html = view.render_aggiungi_ospite(hash_famiglia, diz_html)
     except:
         print(traceback.format_exc())
         html = traceback.format_exc()
