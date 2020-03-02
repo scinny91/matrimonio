@@ -28,7 +28,8 @@ def mostra_utenti_salvati(cookies):
 
 
 def render_aggiungi_ospite(utente, diz_html):
-    return render_riga_invitato(utente,diz_html)
+    famiglia = base.Famiglia.objects.filter(hash=utente)[0]
+    return render_riga_invitato(famiglia, diz_html)
 
 
 def render_login(diz_html):
@@ -105,6 +106,7 @@ def render_tabella_ospiti(dati_tabella):
 def render_riga_invitato(famiglia, invitato):
     riga = costants.blocco_righe_invitato
     invitato['mostra_albergo'] = ''
+    pprint.pprint(famiglia.__dict__)
     if famiglia.albergo_abilitato != 'S':
         invitato['mostra_albergo'] = 'nascosta'
     pprint.pprint(invitato)
