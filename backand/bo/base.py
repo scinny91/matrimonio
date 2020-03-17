@@ -64,3 +64,18 @@ class Famiglia(models.Model):
 
     def genera_partecipazione(self):
         doc.genera_partecipazione(self.alias, self.hash)
+
+
+class Frase(models.Model):
+    id_frase = models.AutoField(max_length=11, primary_key=True)
+    testo = models.Field(name='testo', blank=True)
+    citazione = models.Field(name='citazione', blank=True)
+    canzone = models.Field(name='canzone', blank=True)
+    autore = models.Field(name='autore', blank=True)
+    font = models.Field(name='font', blank=True)
+    lead = models.Field(name='lead', blank=True)
+    margin_left = models.Field(name='margin_left', blank=True)
+    margin_bottom = models.Field(name='margin_bottom', blank=True)
+    class Meta:
+        db_table = 'frasi'
+        app_label = 'matrimonio'

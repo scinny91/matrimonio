@@ -6,4 +6,5 @@ html/index_orig.html
 html/assets/img_user/
 doc/*
 .DS_Store
+*.DS_Store
 
