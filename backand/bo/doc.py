@@ -7,7 +7,7 @@ from reportlab.lib import pagesizes, units, utils, colors
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont('mvboli', 'matrimonio/html/mvboli.ttf'))
+pdfmetrics.registerFont(TTFont('mvboli', settings.FONT_DIR+'mvboli.ttf'))
 
 import qrcode
 
@@ -48,7 +48,7 @@ def genera_segnaposto(nome):
 
 
 def genera_copertina(citazione):
-    sfondo = 'matrimonio/html/assets/img/coperchio_bomboniera.jpg'
+    sfondo = settings.IMG_DIR + 'coperchio_bomboniera.jpg'
 
     img_for_print = utils.ImageReader(sfondo)
     print(citazione['canzone'])
