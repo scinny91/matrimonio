@@ -13,6 +13,8 @@ def main(args):
         crea_lettera(args)
     print('Segnposto....')
     crea_segnaposto()
+    print('Partecipazioni....')
+    crea_partecipazione()
 
 def crea_segnaposto():
     svuota_cartelle('%s/segnaposto' % (settings.DOCDIR))
@@ -43,6 +45,11 @@ def crea_lettera(args):
     for brano in lista_canzoni:
         doc.genera_lettera(brano.__dict__)
 
+def crea_partecipazione():
+    svuota_cartelle('%s/partecipazione' % (settings.DOCDIR))
+    elenco_famiglie = base.Famiglia.objects.filter()
+    for famiglia in elenco_famiglie:
+        famiglia.genera_partecipazione()
 
 def svuota_cartelle(cartella):
     folder = cartella
