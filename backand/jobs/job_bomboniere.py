@@ -6,9 +6,9 @@ from matrimonio.backand.bo import doc, base
 
 def main(args):
     print('Copertine....')
-    #crea_copertina(args)
+    crea_copertina(args)
     print('Lettere....')
-    #crea_lettera(args)
+    crea_lettera(args)
     print('Segnposto....')
     crea_segnaposto()
 
@@ -16,7 +16,8 @@ def crea_segnaposto():
     print('creo segnaposto')
     elenco_ospiti = base.Ospite.objects.filter()
     for ospite in elenco_ospiti:
-        doc.genera_segnaposto(ospite.nome)
+        if ospite.nom:
+            doc.genera_segnaposto(ospite.nome)
 
 
 def crea_copertina(args):

@@ -41,7 +41,7 @@ def genera_segnaposto(nome):
     path_file = '%s/segnaposto/%s.pdf' % (settings.DOCDIR, nome)
     dimensione = (9 * units.cm, 1.8 * units.cm)
     c = canvas.Canvas(path_file, pagesize=dimensione)
-    #c.setFontSize(0.6*units.cm)
+
     c.setFont('mvboli', 0.6*units.cm)
     c.drawCentredString(4.5*units.cm, 0.6*units.cm, nome.upper())
     c.save()
