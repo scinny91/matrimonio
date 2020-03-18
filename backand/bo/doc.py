@@ -95,7 +95,6 @@ def genera_lettera(citazione):
     row = len(citazione['testo'].split('''
 '''))
     print(citazione['canzone'])
-    print(row)
 
     size = 6 if row <80 else 4
 
