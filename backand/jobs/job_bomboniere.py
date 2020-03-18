@@ -6,10 +6,11 @@ import os, shutil
 
 
 def main(args):
-    print('Copertine....')
-    crea_copertina(args)
-    print('Lettere....')
-    crea_lettera(args)
+    if settings.AMBIENTE == 'LOCALE':
+        print('Copertine....')
+        crea_copertina(args)
+        print('Lettere....')
+        crea_lettera(args)
     print('Segnposto....')
     crea_segnaposto()
 

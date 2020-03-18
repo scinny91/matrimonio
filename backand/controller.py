@@ -1,4 +1,4 @@
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse
 import traceback
 from matrimonio import settings
 from datetime import datetime
@@ -146,5 +146,8 @@ def admin_download(request):
         for filename in files:
             zf.write(os.path.join(dirname, filename))
     zf.close()
-    return HttpResponse(open("doc.zip", 'rb'), content_type='application/zip')
+
+    res = FileResponse(open("doc.zip", 'rb'), content_type='application/zip', filename='doc.zip')
+    os.remove("doc.zip")
+    return res
 
