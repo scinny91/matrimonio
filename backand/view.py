@@ -50,6 +50,12 @@ def render_info(diz_html):
     html = html.format(**diz_html)
     return html
 
+def render_unauth(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/unauthorized.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
 def render_tabella_ospiti(dati_tabella):
     lista_html = ['<table class="tabella_ospiti">']
     if not dati_tabella:

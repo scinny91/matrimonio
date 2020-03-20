@@ -5,6 +5,17 @@ from . import view, start, costants, controller
 from matrimonio import settings
 
 
+def check_login(func):
+    def wrapper(request):
+        if request.COOKIES.get('login'):
+            return func(request)
+        else:
+            diz_html = {
+                'appserver': settings.APPSERVER,
+                'version': costants.get_version(),
+            }
+            return HttpResponse(view.render_unauth(diz_html))
+    return wrapper
 
 def mostra_login(request):
     ret = HttpResponse()
@@ -33,6 +44,7 @@ def render_login(ret):
     }
     return view.render_login(diz_html)
 
+@check_login
 def admin(request):
     if not request.COOKIES.get('hash') == 'super_user':
         return HttpResponse('utente non autorizzato')
@@ -58,7 +70,7 @@ def admin(request):
     html = view.render_admin(diz_html)
     return HttpResponse(html)
 
-
+@check_login
 def render_info(request):
     diz_html = {
         'appserver': settings.APPSERVER,
@@ -70,3 +82,4 @@ def render_info(request):
     }
     html = view.render_info(diz_html)
     return HttpResponse(html)
+
