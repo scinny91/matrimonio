@@ -16,7 +16,8 @@ class Ospite(models.Model):
     albergo = models.CharField(max_length=1, choices=choices, default='N')
     mail = models.CharField(max_length=100, blank=True)
     mail_valida = models.CharField(max_length=100, blank=True, default='N')
-    viaggio = models.CharField(max_length=1, choices=choices, default='N')
+    sesso = models.CharField(default='Uomo')
+    piede = models.IntegerField(default=0)
     note = models.Field(blank=True)
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
     menu = models.Field(blank=True, default='bambino')
@@ -28,20 +29,20 @@ class Ospite(models.Model):
         app_label = 'matrimonio'
 
     def toHtml(self):
-        check_fields = ['albergo', 'viaggio']
+        check_fields = ['albergo']
         for item in check_fields:
             value = self.__getattribute__(item)
             self.__setattr__(item, '' if value == 'N' else 'checked')
 
         self.select_bambino = ''
-        self.select_carne = ''
-        self.select_pesce = ''
-        self.select_carne_senza_glutine = ''
-        self.select_pesce_senza_glutine = ''
-        self.select_carne_senza_lattosio = ''
-        self.select_pesce_senza_lattosio = ''
-
+        self.select_adulto = ''
+        self.select_senza_glutine = ''
+        self.select_senza_lattosio = ''
         self.__setattr__('select_%s' % self.menu, 'selected')
+
+        self.select_uomo = ''
+        self.select_donna = ''
+        self.__setattr__('select_%s' % self.sesso, 'selected')
 
         return self.__dict__
 

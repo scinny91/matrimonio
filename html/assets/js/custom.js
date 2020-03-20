@@ -11,7 +11,7 @@ jQuery(window).scroll(function(e) {
 
 function add_guest()
 {
-    jQuery('#add_guest').html('<i class="fas fa-spinner"></i>')
+    jQuery('.add_guest').html('<i class="fas fa-spinner"></i>')
     jQuery.ajax(
         {url: jQuery('#appserver').val() + "/add_guest/",
         success: function(result){
@@ -19,7 +19,7 @@ function add_guest()
                 themeInit();
                 jQuery('.onchangeupdate').change(updateGuest);
                 jQuery('.delete_ospite').click(deleteGuest)
-                jQuery('#add_guest').html('Aggiungi partecipante')
+                jQuery('.add_guest').html('Aggiungi partecipante')
         }
   });
 }
@@ -167,7 +167,7 @@ function ValidateEmail(mail)
 
 function Init()
 {
-    jQuery('#add_guest').click(add_guest)
+    jQuery('.add_guest').click(add_guest)
     jQuery('.delete_ospite').click(deleteGuest)
     jQuery('.onchangeupdate').change(updateGuest)
     jQuery('#login').click(login)

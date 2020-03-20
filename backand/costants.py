@@ -65,18 +65,17 @@ def_usr_data = {
     'nome': '',
     'albergo': '',
     'mail': '',
-    'viaggio': '',
     'menu_sel': '',
+    'select_uomo': 'checked',
+    'select_donna': '',
+    'piede': 0,
     'note': '',
     'foto': '',
     'url_img_user': 'assets/img/mockup.png',
     'select_bambino': '',
-    'select_carne': '',
-    'select_pesce': '',
-    'select_carne_senza_glutine': '',
-    'select_pesce_senza_glutine': '',
-    'select_carne_senza_lattosio': '',
-    'select_pesce_senza_lattosio': '',
+    'select_adulto': '',
+    'select_senza_glutine': '',
+    'select_senza_lattosio': '',
 }
 
 
@@ -97,7 +96,7 @@ blocco_righe_invitato = """
                             <input type="text" value="{nome}" name='nome' placeholder="Digita il nome dell'ospite" class="form-control onchangeupdate" id='nome_ospite_{id_ospite}' />
                         </div>
                     </div>
-                    <div class="col-sm-2 lbl">
+                    <div class="col-sm-1 lbl">
                         <div class="form-group {mostra_albergo}">
                             <label class="control-label" >Albergo:</label>
                             <div class="switch-unload" id='switchAlbergo_{id_ospite}'  data-on-label="<i class='fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
@@ -105,10 +104,25 @@ blocco_righe_invitato = """
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4 lbl">
+                    <div class="col-sm-3 lbl">
                         <div class="form-group">
                             <label class="control-label">Mail:</label>
                             <input type="text" value="{mail}" name='mail' placeholder="Inserisci un indirizzo mail" class="form-control onchangeupdate" id='mail_{id_ospite}' />
+                        </div>
+                    </div>
+                    <div class="col-sm-2 lbl">
+                        <div class="form-group">
+                            <label class="control-label">Sesso:</label>
+                            <select class="form-control onchangeupdate" id="sesso_{id_ospite}" name='sesso'>
+                                  <option {select_uomo} value='Uomo'>Uomo</option>
+                                  <option {select_donna} value='Donna'>Donna</option>
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="col-sm-2 lbl">
+                        <div class="form-group">
+                            <label class="control-label">Numero scarpa:</label>
+                            <input type="text" value="{piede}" name='piede' placeholder="" class="form-control onchangeupdate" id='piede_{id_ospite}' />
                         </div>
                     </div>
 
@@ -120,13 +134,10 @@ blocco_righe_invitato = """
                             <label class="control-label">Menu:</label>
                             <select class="form-control onchangeupdate" id="menu_{id_ospite}" name='menu'>
                                   <option {select_bambino} value='bambino'>Bambino</option>
-                                  <option {select_carne} value='carne'>Carne</option>
-                                  <option {select_pesce} value='pesce'>Pesce</option>
-                                  <option {select_carne_senza_glutine} value='carne_senza_glutine'>Carne (senza glutine)</option>
-                                  <option {select_pesce_senza_glutine} value='pesce_senza_glutine'>Pesce (senza glutine)</option>
-                                  <option {select_carne_senza_lattosio} value='carne_senza_lattosio'>Carne (senza lattosio)</option>
-                                  <option {select_pesce_senza_lattosio} value='pesce_senza_lattosio'>Pesce (senza lattosio)</option>
-                                </select>
+                                  <option {select_adulto} value='adulto'>Carne</option>
+                                  <option {select_senza_glutine} value='senza_glutine'>Senza glutine</option>
+                                  <option {select_senza_lattosio} value='senza_lattosio'>Senza lattosio</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-sm-4 lbl">
