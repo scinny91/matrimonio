@@ -59,3 +59,14 @@ def admin(request):
     return HttpResponse(html)
 
 
+def render_info(request):
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+    }
+    html = view.render_info(diz_html)
+    return HttpResponse(html)

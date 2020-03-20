@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .backand import start, controller, login
+from .backand import view, controller, login
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^check_login/', controller.check_login),
     url(r'^fast_login/', login.fast_login),
     url(r'^admin/', login.admin),
+    url(r'^info/', login.render_info),
     url(r'^admin_download/', controller.admin_download),
     url(r'', login.mostra_login),
 ]

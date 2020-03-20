@@ -44,6 +44,12 @@ def render_admin(diz_html):
     html = html.format(**diz_html)
     return html
 
+def render_info(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/info.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
 def render_tabella_ospiti(dati_tabella):
     lista_html = ['<table class="tabella_ospiti">']
     if not dati_tabella:
@@ -97,7 +103,7 @@ def render_tabella_ospiti(dati_tabella):
                                     <td class="cella_ospiti"> {speciale} </td>  
                                     <td class="cella_ospiti"> {upd_ts} </td> 
                                    </tr>'''.format(**ospite))
-            print(ospite)
+            #print(ospite)
         lista_html.append('<tr class="famiglia"> <td colspan=5> <table class="tabella_ospiti"> %s </table> </td> </tr>' % ''.join(tabella_ospiti))
     lista_html.append('</table>')
 
@@ -106,8 +112,6 @@ def render_tabella_ospiti(dati_tabella):
 def render_riga_invitato(famiglia, invitato):
     riga = costants.blocco_righe_invitato
     invitato['mostra_albergo'] = ''
-    pprint.pprint(famiglia.__dict__)
     if famiglia.albergo_abilitato != 'S':
         invitato['mostra_albergo'] = 'nascosta'
-    pprint.pprint(invitato)
     return riga.format(**invitato)

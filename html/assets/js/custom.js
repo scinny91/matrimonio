@@ -3,20 +3,23 @@ var fixedTop = false;
 
 
 
-$(window).scroll(function(e) {
-    oVal = ($(window).scrollTop() / 170);
-    $(".blur").css("opacity", oVal);
+jQuery(window).scroll(function(e) {
+    oVal = (jQuery(window).scrollTop() / 170);
+    jQuery(".blur").css("opacity", oVal);
     
 });
 
 function add_guest()
 {
+    jQuery('#add_guest').html('<i class="fas fa-spinner"></i>')
     jQuery.ajax(
         {url: jQuery('#appserver').val() + "/add_guest/",
         success: function(result){
                 jQuery('#inputs').append(result);
                 themeInit();
                 jQuery('.onchangeupdate').change(updateGuest);
+                jQuery('.delete_ospite').click(deleteGuest)
+                jQuery('#add_guest').html('Aggiungi partecipante')
         }
   });
 }
@@ -26,7 +29,8 @@ function deleteGuest(){
     formData= new FormData();
     id_ospite = (this.id).split('_').pop()
     formData.append("id_ospite", id_ospite);
-    $.ajax({
+    jQuery("#riga_invitato_"+id_ospite).html('<i class="fas fa-spinner"></i>')
+    jQuery.ajax({
         url: jQuery('#appserver').val() + "/delete_guest/",
         type: "POST",
         data: formData,
@@ -34,7 +38,7 @@ function deleteGuest(){
         processData: false,
         contentType: false,
         success: function(data){
-            $("#riga_invitato_"+id_ospite).remove();
+            jQuery("#riga_invitato_"+id_ospite).remove();
         }
       });
 }
@@ -64,7 +68,7 @@ function updateGuest(){
 
     }
 
-    $.ajax({
+    jQuery.ajax({
         url: jQuery('#appserver').val() + "/update_guest/",
         type: "POST",
         data: formData,
@@ -91,7 +95,7 @@ function uploadFile(input){
       jQuery('#img_'+id_foto).attr("src", 'assets/img/loading.gif');
       formData.append("image", file, file_name);
       formData.append("id_ospite", id_foto);
-      $.ajax({
+      jQuery.ajax({
         url: jQuery('#appserver').val() + "/save_image/",
         type: "POST",
         data: formData,

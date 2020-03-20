@@ -46,11 +46,9 @@ def start(request):
         ret.content = html
         return ret
     elif '.ttf' in url:
-        print(url)
         html = read_file(url)
         return HttpResponse(html)
     elif '.woff' in url:
-        print(url)
         html = read_file(url)
         return HttpResponse(html, content_type='application/x-font-woff')
     else:
