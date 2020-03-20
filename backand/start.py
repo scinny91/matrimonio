@@ -30,6 +30,11 @@ def start(request):
         response = HttpResponse(content_type="image/png")
         img.save(response, "PNG")
         return response
+    elif '.jpeg' in url:
+        img = Image.open(settings.STATIC_HTML + url)
+        response = HttpResponse(content_type="image/png")
+        img.save(response, "PNG")
+        return response
     elif '.gif' in url:
         img = Image.open(settings.STATIC_HTML + url)
         response = HttpResponse(content_type="image/png")
