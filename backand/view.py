@@ -181,7 +181,7 @@ def html_carosello():
     DIR = settings.IMG_DIR + '/carosello/'
 
     uuid = os.listdir(DIR)
-    #random.shuffle(uuid)
+    random.shuffle(uuid)
     for name in uuid:
         if '.jpeg' in name:
             html.append("""
