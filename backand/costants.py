@@ -1,5 +1,6 @@
 from datetime import datetime
 from time import gmtime, strftime
+import os
 from matrimonio import settings
 import git
 import traceback
@@ -86,7 +87,7 @@ blocco_righe_invitato = """
                     <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
                         <i class="fas fa-user-times"></i>
                     </div>
-                    <img src="{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
+                    <img src="../{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
                 </div>
             <div class="col-md-9">
                 <div class="row">
@@ -152,7 +153,6 @@ blocco_righe_invitato = """
             </div>
     </div>
 """
-
 
 def get_costants():
     return globals()

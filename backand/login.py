@@ -66,7 +66,9 @@ def admin(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'tabella_ospiti': view.render_tabella_ospiti(dati_tabella),
+        'page' : 'admin',
     }
+    diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_admin(diz_html)
     return HttpResponse(html)
 
@@ -79,7 +81,39 @@ def render_info(request):
         'js_index': costants.js_index,
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
+        'page': 'info',
     }
+    diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_info(diz_html)
+    return HttpResponse(html)
+
+
+@check_login
+def render_profilazione(request):
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'page': 'profilazione',
+    }
+    diz_html['menu'] = view.render_menu(diz_html)
+
+    utente = request.COOKIES['hash']
+    famiglia = base.Famiglia.objects.filter(hash=utente)[0]
+    dati_ospiti = base.Ospite.objects.filter(utente=utente)
+    lista_righe = [view.render_riga_invitato(famiglia, i.toHtml()) for i in dati_ospiti]
+    diz_html['index_blocco_righe_invitato'] = ''.join(lista_righe)
+
+    famiglia = base.Famiglia.objects.filter(hash=utente)
+    desc_fam = 'None'
+    if famiglia:
+        desc_fam = famiglia[0].alias
+    diz_html['hash'] = 'famiglia: %s (%s)' % (desc_fam, utente)
+
+
+    html = view.render_profilazione(diz_html)
     return HttpResponse(html)
 

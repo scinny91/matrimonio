@@ -40,12 +40,22 @@ def start(request):
         response = HttpResponse(content_type="image/png")
         img.save(response, "PNG")
         return response
-    elif '.html' in url:
+    elif '.html' in url: #2020 03 21 lo stacco
         # per l'html ci schiaffo dentro le costanti...
         html = read_file(url)
         cookies = request.COOKIES
         if 'index.html' in url:
-            html = html.format(**view.mostra_utenti_salvati(cookies))
+            diz_html = {
+                'appserver': settings.APPSERVER,
+                'delta_days': costants.delta_days,
+                'due_date_umana': costants.due_date_umana,
+                'js_index': costants.js_index,
+                'version': costants.get_version(),
+                'hash': request.COOKIES['hash'],
+                'page': 'index',
+                'altre_foto': view.html_carosello()
+            }
+            html = view.render_index(diz_html)
 
         ret = HttpResponse()
         ret.content = html

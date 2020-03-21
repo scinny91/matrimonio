@@ -23,51 +23,41 @@
 <body>
 <input type="hidden" id="appserver" value="{appserver}">
 <div id="navbar-full">
-    <div class="container">
-        <nav class="navbar navbar-ct-blue navbar-transparent navbar-fixed-top" role="navigation">
-          
-          <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    {menu}
 
-                     <div class="logo-container">
-                        <div class="logo">
-                            <img src="assets/img/new_logo.png">
-                        </div>
-                        <div class="brand">
-                            Mancano: {delta_days} giorni!
-                        </div>
-                    </div>
+    <div id="carousel" style="margin-top: 100px;">
+    <!--
+            IMPORTANT - This carousel can have a special class for a smooth transition "gsdk-transition". Since javascript cannot be overwritten, if you want to use it, you can use the bootstrap.js or bootstrap.min.js from the GSDKit or you can open your bootstrap.js file, search for "emulateTransitionEnd(600)" and change it with "emulateTransitionEnd(1200)"
+
+    -->
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active">
+              <img src="assets/img/carosello/foto1.jpeg" alt="Awesome Image">
             </div>
-        
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-right">
-                    <li><a href="admin/" class="btn btn-round btn-block">Pagina admin</a></li>
-                    <li><a href="index.html" class="btn btn-round btn-block">Home</a></li>
-                    <li><a href="info/" class="btn btn-round btn-block">Info evento</a></li>
-                    <li><a onclick="logout()" class="btn btn-round btn-block">Logout</a></li>
+            <div class="item">
+              <img src="assets/img/carosello/foto2.jpeg" alt="Awesome Image">
+            </div>
+            {altre_foto}
+          </div>
 
-               </ul>
-              
-            </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
-    </div><!--  end container-->
-
-    <div class='blurred-container'>
-        <div class="motto">
-            <img src="assets/img/marco_mary.png" width="100%">
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="fa fa-angle-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="fa fa-angle-right"></span>
+          </a>
         </div>
-        <div class="img-src" style="background-image: url('assets/img/cover_4.jpg')"></div>
-        <div class='img-src blur' style="background-image: url('assets/img/cover_4_blur.jpg')"></div>
-    </div>
+    </div> <!-- end carousel -->
     
 </div>     
     
@@ -77,37 +67,21 @@
     <div class="container tim-container">
          <div class="col-sm-12">&nbsp;</div>
          <div class="row">
-             <div class="col-sm-3">
-                 <h3>Sezione invitati</h3>
+             <div class="col-sm-1 lbl"></div>
+             <div class="col-sm-10">
+                 <h3>Marco Scinicariello & Marialaura Roma sono lieti di annunciare il loro matrimonio il 10 Luglio 2021.</h3>
+                 Per poter organizzare al meglio l'evento in tutti i suoi minimi particolari ti chiediamo di registrarti all'interno della sezione "Profilazione".
+
              </div>
-             <div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round add_guest" >Aggiungi partecipante</button>
-            </div>
-            <!--<div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round" id="save_guest">Slava partecipanti</button>
-            </div>-->
+             <div class="col-sm-1 lbl"></div>
         </div>
 
-        <div id="inputs" >
-            {index_blocco_righe_invitato}
-        </div>
-
-        <div class="row">
-             <div class="col-sm-3">
-             </div>
-             <div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round add_guest" >Aggiungi partecipante</button>
-            </div>
-            <!--<div class="col-sm-2 lbl">
-                <button class="btn btn-block btn-sm btn-info btn-round" id="save_guest">Slava partecipanti</button>
-            </div>-->
-        </div>
 
 
     <!-- end buttons div -->
 
 
-</div>
+    </div>
 <!-- end container -->
 
 </div>
@@ -117,7 +91,6 @@
   </div>
 
 
-<!-- end main -->
 
 
 </body>
@@ -132,4 +105,5 @@
 	<script src="assets/js/get-shit-done.js"></script>
     <script src="assets/js/custom.js"></script>
     {js_index}
+
 </html>
