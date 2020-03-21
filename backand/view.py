@@ -186,9 +186,9 @@ def html_carosello():
         if '.jpeg' in name:
             html.append("""
             <div class="item">
-                <img src="assets/img/carosello/%s" alt="Awesome Image">
+                <img src="assets/img/carosello/%s" alt="%s">
             </div>
-            """% name)
+            """ % (name, name) )
 
 
     return ''.join(html)
