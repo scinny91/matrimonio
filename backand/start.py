@@ -53,7 +53,11 @@ def start(request):
                 'version': costants.get_version(),
                 'hash': request.COOKIES['hash'],
                 'page': 'index',
-                'altre_foto': view.html_carosello()
+                'carosello_alto': view.html_carosello('carosello'),
+                'foto_sposo': view.html_carosello('carosello_sposo', rand=False),
+                'foto_sposa': view.html_carosello('carosello_sposa', rand=False),
+                'foto_sposo_testimoni': view.html_carosello('carosello_sposo_testimoni', rand=False),
+                'foto_sposa_testimoni': view.html_carosello('carosello_sposa_testimoni', rand=False),
             }
             html = view.render_index(diz_html)
 

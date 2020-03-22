@@ -441,3 +441,17 @@
 .nascosta{
     display: none
 }
+
+.sfondo_azzuro{
+background-color: rgba(52, 172, 220, 0.98);
+}
+
+.titolo_paragrafi{
+    text-align: center;
+	color: #FFFFFF;
+	font-weight: 500;
+	font-size: 11px;
+	text-transform: uppercase;
+	display: inline-block;
+	margin-bottom: 3px;
+}

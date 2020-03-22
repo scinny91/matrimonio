@@ -175,20 +175,22 @@ def render_menu(diz_html):
     """.format(**diz_html)
     return html
 
-def html_carosello():
+def html_carosello(tipo_carosello, rand=True):
     html = []
 
-    DIR = settings.IMG_DIR + '/carosello/'
+    DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
 
     uuid = os.listdir(DIR)
-    random.shuffle(uuid)
+    if rand:
+        random.shuffle(uuid)
     for name in uuid:
         if '.jpeg' in name:
+            selected = '' if name != 'foto1.jpeg' else 'active'
             html.append("""
-            <div class="item">
-                <img src="assets/img/carosello/%s" alt="%s">
+            <div class="item {selected}">
+                <img src="assets/img/{tipo_carosello}/{name}" alt="{name}">
             </div>
-            """ % (name, name) )
+            """.format(**locals()))
 
 
     return ''.join(html)
