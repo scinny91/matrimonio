@@ -69,7 +69,6 @@ def_usr_data = {
     'menu_sel': '',
     'select_uomo': 'checked',
     'select_donna': '',
-    'piede': 0,
     'note': '',
     'foto': '',
     'url_img_user': 'assets/img/mockup.png',
@@ -87,7 +86,7 @@ blocco_righe_invitato = """
                     <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
                         <i class="fas fa-user-times"></i>
                     </div>
-                    <img src="../{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
+                    <img src="{url_img_user}" alt="Circle Image" class="img-circle" id='img_{id_ospite}'>
                 </div>
             <div class="col-md-9">
                 <div class="row">
@@ -105,13 +104,13 @@ blocco_righe_invitato = """
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3 lbl">
+                    <div class="col-sm-4 lbl">
                         <div class="form-group">
                             <label class="control-label">Mail:</label>
                             <input type="text" value="{mail}" name='mail' placeholder="Inserisci un indirizzo mail" class="form-control onchangeupdate" id='mail_{id_ospite}' />
                         </div>
                     </div>
-                    <div class="col-sm-2 lbl">
+                    <div class="col-sm-3 lbl">
                         <div class="form-group">
                             <label class="control-label">Sesso:</label>
                             <select class="form-control onchangeupdate" id="sesso_{id_ospite}" name='sesso'>
@@ -120,13 +119,6 @@ blocco_righe_invitato = """
                             </select> 
                         </div>
                     </div>
-                    <div class="col-sm-2 lbl">
-                        <div class="form-group">
-                            <label class="control-label">Numero scarpa:</label>
-                            <input type="text" value="{piede}" name='piede' placeholder="" class="form-control onchangeupdate" id='piede_{id_ospite}' />
-                        </div>
-                    </div>
-
 
                 </div>
                 <div class="row">

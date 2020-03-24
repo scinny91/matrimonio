@@ -92,7 +92,7 @@ function uploadFile(input){
   if(file != undefined){
     formData= new FormData();
     if(!!file.type.match(/image.*/)){
-      jQuery('#img_'+id_foto).attr("src", 'assets/img/loading.gif');
+      jQuery('#img_'+id_foto).attr("src", '../assets/img/loading.gif');
       formData.append("image", file, file_name);
       formData.append("id_ospite", id_foto);
       jQuery.ajax({

@@ -89,7 +89,6 @@ def render_tabella_ospiti(dati_tabella):
                  <td class="cella_ospiti title"> Note </td> 
                  <td class="cella_ospiti title"> Menu </td> 
                  <td class="cella_ospiti title"> Sesso </td> 
-                 <td class="cella_ospiti title"> Piede </td> 
                  <td class="cella_ospiti title"> Albergo </td>
                  <td class="cella_ospiti title"> Speciale </td>  
                  <td class="cella_ospiti title"> Upd TS </td> 
@@ -103,7 +102,6 @@ def render_tabella_ospiti(dati_tabella):
                                     <td class="cella_ospiti"> {note} </td> 
                                     <td class="cella_ospiti"> {menu} </td> 
                                     <td class="cella_ospiti"> {sesso} </td> 
-                                    <td class="cella_ospiti"> {piede} </td> 
                                     <td class="cella_ospiti"> {albergo} </td>
                                     <td class="cella_ospiti"> {speciale} </td>  
                                     <td class="cella_ospiti"> {upd_ts} </td> 

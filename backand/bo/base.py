@@ -17,7 +17,6 @@ class Ospite(models.Model):
     mail = models.CharField(max_length=100, blank=True)
     mail_valida = models.CharField(max_length=100, blank=True, default='N')
     sesso = models.CharField(default='Uomo')
-    piede = models.IntegerField(default=0)
     note = models.Field(blank=True)
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
     menu = models.Field(blank=True, default='bambino')
