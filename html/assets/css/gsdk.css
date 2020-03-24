@@ -1735,7 +1735,10 @@ input.ct-red + span + label + span.switch-right {
 @media (max-width: 767px) {
   .navbar-transparent {
     padding-top: 0px;
-    background-color: rgba(0, 0, 0, 0.45); }
+    /* background-color: rgba(0, 0, 0, 0.45);*/
+    /* Per iphone lo disegno direttamente azzurro*/
+     background-color: rgba(52, 172, 220, 0.80);
+     }
 
   .body-click {
     right: 230px; }
