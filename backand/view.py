@@ -121,16 +121,16 @@ def render_riga_invitato(famiglia, invitato):
 
 
 def render_menu(diz_html):
-    lista_pulsanti = [
-        """<li><a href="{appserver}" class="btn btn-round btn-block">Home</a></li>""",
-    ]
+    lista_pulsanti = []
+    if diz_html['page'] != 'index':
+        lista_pulsanti.append("""<li><a href="{appserver}" class="btn btn-round btn-block pulsanti_menu">Home</a></li>""")
     if diz_html['page'] != 'profilazione':
-        lista_pulsanti.append("""<li><a href="{appserver}/profilazione/" class="btn btn-round btn-block">Profilazione</a></li>""")
+        lista_pulsanti.append("""<li><a href="{appserver}/profilazione/" class="btn btn-round btn-block pulsanti_menu">Profilazione</a></li>""")
     if diz_html['page'] != 'info':
-        lista_pulsanti.append("""<li><a href="{appserver}/info/" class="btn btn-round btn-block">Info</a></li>""")
+        lista_pulsanti.append("""<li><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu">Info</a></li>""")
     if diz_html['page'] != 'admin' and diz_html['hash'] == 'super_user':
-        lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block">Admin</a></li>""")
-    lista_pulsanti.append("""<li><a onclick="logout()" class="btn btn-round btn-block">Logout</a></li>""")
+        lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu">Admin</a></li>""")
+    lista_pulsanti.append("""<li><a onclick="logout()" class="btn btn-round btn-block pulsanti_menu">Logout</a></li>""")
 
     diz_html['pulsanti'] = ''.join(lista_pulsanti).format(**diz_html)
 
@@ -151,7 +151,7 @@ def render_menu(diz_html):
 
                      <div class="logo-container">
                         <div class="logo">
-                            <img src="../assets/img/new_logo.png">
+                            <img src="{appserver}/assets/img/new_logo.png">
                         </div>
                         <div class="brand">
 

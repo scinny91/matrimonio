@@ -146,8 +146,8 @@ def save_image(request):
 
     im2.save(settings.IMAGE_USER_PATH + nome_file)
 
-    ret = HttpResponse(settings.IMAGE_USER_PATH_RELATIVE + nome_file)
-    ret.set_cookie('url_img_user', settings.IMAGE_USER_PATH_RELATIVE + nome_file)
+    ret = HttpResponse('../' + settings.IMAGE_USER_PATH_RELATIVE + nome_file)
+    ret.set_cookie('url_img_user', '../' + settings.IMAGE_USER_PATH_RELATIVE + nome_file)
 
     ospiteOBJ = base.Ospite.objects.get(
         id_ospite=request.POST['id_ospite']
