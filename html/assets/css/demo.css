@@ -455,3 +455,12 @@ background-color: rgba(52, 172, 220, 0.98);
 	display: inline-block;
 	margin-bottom: 3px;
 }
+
+.pulsanti_menu{
+    text-transform: uppercase;
+}
+@media (min-width: 767px) {
+.pulsanti_menu{
+    text-transform: uppercase;
+    width: 150px
+}
