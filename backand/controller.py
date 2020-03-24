@@ -3,7 +3,7 @@ import traceback
 from matrimonio import settings
 from datetime import datetime
 from . import costants, view
-from PIL import Image
+from PIL import Image, ExifTags
 import hashlib
 import json
 import zipfile
@@ -111,6 +111,28 @@ def save_image(request):
     img = open(settings.IMAGE_USER_PATH +'original/' + nome_file, 'wb')
     img.write(stream.read())
     img.close()
+
+    # la ruoto dal lato corretto
+    try:
+        image = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = dict(image._getexif().items())
+
+        if exif[orientation] == 3:
+            image = image.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            image = image.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            image = image.rotate(90, expand=True)
+        image.save(settings.IMAGE_USER_PATH +'original/' + nome_file)
+        image.close()
+    except:
+        print('KO ma ok')
+        image.close()
+    # fine rotazione
+
 
     im1 = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
     height = width = 200
