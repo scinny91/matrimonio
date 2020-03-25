@@ -92,3 +92,5 @@ def get_statics_file(request):
     else:
         request.META['PATH_INFO'] = '/html/'
     return start(request)
+
+#test commir to delete
