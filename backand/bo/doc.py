@@ -65,21 +65,22 @@ def genera_copertina(citazione):
             par_nero('...{citazione}...'.format(**citazione), font=citazione['font'], lead=citazione['lead'], fontName='mvboli', align=TA_CENTER)
         ],
         [
-            par_nero("<i>{canzone}</i>".format(**citazione), font=15, align=TA_RIGHT)
+            par_nero("<i></i>".format(**citazione), font=15, align=TA_RIGHT, lead= 15)
         ],
         [
-            par_nero("{autore}".format(**citazione), font=15, align=TA_RIGHT)
+            par_nero("<i>{canzone}</i>".format(**citazione), font=15, align=TA_RIGHT, lead= 15)
         ],
         [
-            par_nero("{font}, {lead}".format(**citazione), font=15, align=TA_RIGHT)
-        ]
+            par_nero("{autore}".format(**citazione), font=15, align=TA_RIGHT, lead= 15)
+        ],
+
     ]
 
     style_row = TableStyle([])
-    style_row.add('LINEABOVE', (0, 0), (-1, 0), 0.25, colors.grey)
-    style_row.add('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.grey)
-    style_row.add('LINEAFTER', (-1, 0), (-1, 0), 0.25, colors.grey)
-    style_row.add('LINEBEFORE', (0, 0), (0, 0), 0.25, colors.grey)
+    #style_row.add('LINEABOVE', (0, 0), (-1, 0), 0.25, colors.grey)
+    #style_row.add('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.grey)
+    #style_row.add('LINEAFTER', (-1, 0), (-1, 0), 0.25, colors.grey)
+    #style_row.add('LINEBEFORE', (0, 0), (0, 0), 0.25, colors.grey)
 
     table = Table(tabella_testo, colWidths=11.5*units.cm, style=style_row)
     table.wrapOn(c, citazione['margin_left']*units.cm, citazione['margin_bottom']*units.cm)
