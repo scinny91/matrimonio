@@ -47,6 +47,13 @@ def render_profilazione(diz_html):
     html = html.format(**diz_html)
     return html
 
+
+def render_gallery(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/gallery.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
 def render_unauth(diz_html):
     with codecs.open(settings.STATIC_HTML + '/html/unauthorized.html', 'r', encoding='utf-8', errors='ignore') as content_file:
         html = content_file.read()
@@ -130,6 +137,8 @@ def render_menu(diz_html):
         lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu">Info</a></li>""")
     if diz_html['page'] != 'admin' and diz_html['hash'] == 'super_user':
         lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/admin/" class="btn btn-round btn-block ">Admin</a></li>""")
+    if diz_html['hash'] == 'super_user':
+        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/gallery/" class="btn btn-round btn-block ">Gallery</a></li>""")
     lista_pulsanti.append("""<li  class='pulsanti_menu'><a onclick="logout()" class="btn btn-round btn-block ">Logout</a></li>""")
 
     diz_html['pulsanti'] = ''.join(lista_pulsanti).format(**diz_html)
@@ -174,21 +183,55 @@ def render_menu(diz_html):
     return html
 
 def html_carosello(tipo_carosello, rand=True):
-    html = []
 
     DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
-
     uuid = os.listdir(DIR)
     if rand:
         random.shuffle(uuid)
-    for name in uuid:
+    posizione = 'assets/img/%s' % tipo_carosello
+    return crea_html_carosello(uuid, posizione)
+
+
+def crea_html_carosello(lista_file, posizione):
+    html = []
+    for name in lista_file:
         if '.jpeg' in name:
             selected = '' if name != 'foto1.jpeg' else 'active'
             html.append("""
-            <div class="item {selected}">
-                <img src="assets/img/{tipo_carosello}/{name}" alt="{name}">
-            </div>
-            """.format(**locals()))
-
-
+               <div class="item {selected}">
+                   <img src="{posizione}/{name}" alt="{name}">
+               </div>
+               """.format(**locals()))
     return ''.join(html)
+
+
+def get_elenco_file_gallery():
+    DIR = settings.IMG_DIR + 'gallery/original/'
+
+    html = []
+    elenco_file = os.listdir(DIR)
+    step = 4
+    for i in range(0, len(elenco_file), step):
+        print(i)
+        html.append("""
+        <div class="row">
+        """)
+        for k in range(0, step):
+            if i+k < len(elenco_file):
+                img = elenco_file[i+k]
+                d_format = {
+                    'url': '../assets/img/gallery/miniature/' + img,
+                    'img': img
+                }
+                html.append("""
+                    <div class="col-sm-3">
+                        <img src="{url}" class="img-thumbnail"> <i class="fas fa-download fa-2x"></i>
+                    </div>
+                """.format(**d_format))
+
+        html.append("""
+           </div>
+           """)
+
+    html = ''.join(html)
+    return (html)

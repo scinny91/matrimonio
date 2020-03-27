@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, render_to_response
 from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
+import os
 
 
 def check_login(func):
@@ -117,3 +118,25 @@ def render_profilazione(request):
     html = view.render_profilazione(diz_html)
     return HttpResponse(html)
 
+
+@check_login
+def render_gallery(request):
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'page': 'gallery',
+    }
+    diz_html['menu'] = view.render_menu(diz_html)
+
+    DIR = settings.IMG_DIR + '/gallery/original'
+    elenco_file = os.listdir(DIR)
+    diz_html['carosello'] = view.crea_html_carosello(elenco_file, '../assets/img/gallery/ridimensionate')
+
+    diz_html['elenco_file'] = view.get_elenco_file_gallery()
+
+    html = view.render_gallery(diz_html)
+    return HttpResponse(html)

@@ -7,4 +7,6 @@ html/assets/img_user/
 doc/*
 .DS_Store
 *.DS_Store
-
+html/assets/img/gallery/original/
+html/assets/img/gallery/miniature/
+html/assets/img/gallery/ridimensionate/

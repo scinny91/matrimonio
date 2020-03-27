@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^admin/', login.admin),
     url(r'^info/', login.render_info),
     url(r'^profilazione/', login.render_profilazione),
+    url(r'^gallery/', login.render_gallery),
     url(r'^admin_download/', controller.admin_download),
     url(r'', login.mostra_login),
 ]
