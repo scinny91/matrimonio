@@ -53,9 +53,7 @@ js_index = """
 			range: "min",
 			animate: true
 	});
-	$('.carousel').carousel({
-      interval: 4000
-    });
+	
 
 
 </script>

@@ -102,6 +102,34 @@ def _check_login(hash_inserito, fromQr=False):
     return ret
 
 @csrf_exempt
+def gallery_save_image(request):
+    for nome_file in request.FILES:
+        stream = request.FILES[nome_file]
+        img = open(settings.GALLERY_PATH + 'original/' + nome_file, 'wb')
+        img.write(stream.read())
+        img.close()
+
+        _ruota_immagine(settings.GALLERY_PATH + 'original/' + nome_file)
+
+        im1 = Image.open(settings.GALLERY_PATH + 'original/' + nome_file)
+        basewidth = 200
+        wpercent = (basewidth / float(im1.size[0]))
+        hsize = int((float(im1.size[1]) * float(wpercent)))
+        im2 = im1.resize((basewidth, hsize), Image.ANTIALIAS)
+        im2.save(settings.GALLERY_PATH + 'miniature/' + nome_file)
+
+        basewidth = 1280
+        wpercent = (basewidth / float(im1.size[0]))
+        hsize = int((float(im1.size[1]) * float(wpercent)))
+        im3 = im1.resize((basewidth, hsize), Image.ANTIALIAS)
+        im3.save(settings.GALLERY_PATH + 'ridimensionate/' + nome_file)
+
+
+    ret = HttpResponse(view.get_elenco_file_gallery())
+
+    return ret
+
+@csrf_exempt
 def save_image(request):
     stream = request.FILES['image']
     nome_file = request.COOKIES['hash']
@@ -112,26 +140,7 @@ def save_image(request):
     img.write(stream.read())
     img.close()
 
-    # la ruoto dal lato corretto
-    try:
-        image = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation] == 'Orientation':
-                break
-        exif = dict(image._getexif().items())
-
-        if exif[orientation] == 3:
-            image = image.rotate(180, expand=True)
-        elif exif[orientation] == 6:
-            image = image.rotate(270, expand=True)
-        elif exif[orientation] == 8:
-            image = image.rotate(90, expand=True)
-        image.save(settings.IMAGE_USER_PATH +'original/' + nome_file)
-        image.close()
-    except:
-        print('KO ma ok')
-        image.close()
-    # fine rotazione
+    _ruota_immagine(settings.IMAGE_USER_PATH + 'original/' + nome_file)
 
 
     im1 = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
@@ -173,3 +182,24 @@ def admin_download(request):
     os.remove("doc.zip")
     return res
 
+
+def _ruota_immagine(path):
+    # la ruoto dal lato corretto
+    try:
+        image = Image.open(path)
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = dict(image._getexif().items())
+
+        if exif[orientation] == 3:
+            image = image.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            image = image.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            image = image.rotate(90, expand=True)
+        image.save(path)
+        image.close()
+    except:
+        image.close()
+    # fine rotazione

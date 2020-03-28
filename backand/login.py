@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, render_to_response
 from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
+import random
 import os
 
 
@@ -134,6 +135,8 @@ def render_gallery(request):
 
     DIR = settings.IMG_DIR + '/gallery/original'
     elenco_file = os.listdir(DIR)
+    elenco_file = [i for i in elenco_file if i != '.DS_Store']
+    random.shuffle(elenco_file)
     diz_html['carosello'] = view.crea_html_carosello(elenco_file, '../assets/img/gallery/ridimensionate')
 
     diz_html['elenco_file'] = view.get_elenco_file_gallery()

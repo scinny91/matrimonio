@@ -3,6 +3,19 @@ var fixedTop = false;
 
 
 
+function Init()
+{
+    jQuery('.add_guest').click(add_guest)
+    jQuery('.delete_ospite').click(deleteGuest)
+    jQuery('.onchangeupdate').change(updateGuest)
+    jQuery('#login').click(login)
+    jQuery('#body_login').on('keypress', enter_press)
+    $('.carousel').carousel({
+      interval: 4000
+    });
+
+}
+
 jQuery(window).scroll(function(e) {
     oVal = (jQuery(window).scrollTop() / 170);
     jQuery(".blur").css("opacity", oVal);
@@ -165,16 +178,6 @@ function ValidateEmail(mail)
 }
 
 
-function Init()
-{
-    jQuery('.add_guest').click(add_guest)
-    jQuery('.delete_ospite').click(deleteGuest)
-    jQuery('.onchangeupdate').change(updateGuest)
-    jQuery('#login').click(login)
-    jQuery('#body_login').on('keypress', enter_press)
-
-}
-
 
 function logout()
 {document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
@@ -182,3 +185,45 @@ window.location.href = jQuery('#appserver').val()
 }
 
 $(document).ready( Init() )
+
+
+
+
+function galleryUpload(input){
+    jQuery('#div_barra').show()
+    var formData= new FormData();
+    for (var i=0; i<input.files.length; i++)
+        {
+             formData.append(input.files[i].name, input.files[i]);
+        }
+    jQuery.ajax({
+        url: jQuery('#appserver').val() + "/gallery_save_image/",
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(data){
+             console.log(data)
+            setTimeout(function () {
+              jQuery('#div_barra').hide();
+            }, 1000);
+            jQuery('#miniature').html(data)
+        },
+        xhr: function(){
+            var xhr = new window.XMLHttpRequest();
+            //Upload progress
+            xhr.upload.addEventListener("progress", function(evt){
+              if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total *100;
+                //Do something with upload progress
+                jQuery('#barra_upload_img').css('width', percentComplete+'%')
+              }
+            }, false);
+
+            return xhr;
+          },
+
+      });
+
+}

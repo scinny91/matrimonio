@@ -183,25 +183,34 @@ def render_menu(diz_html):
     return html
 
 def html_carosello(tipo_carosello, rand=True):
-
     DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
-    uuid = os.listdir(DIR)
+    elenco_file = os.listdir(DIR)
+    elenco_file = [i for i in elenco_file if i != '.DS_Store']
     if rand:
-        random.shuffle(uuid)
+        random.shuffle(elenco_file)
     posizione = 'assets/img/%s' % tipo_carosello
-    return crea_html_carosello(uuid, posizione)
+    return crea_html_carosello(elenco_file, posizione)
 
 
 def crea_html_carosello(lista_file, posizione):
     html = []
+    count = 0
+    flag_selected = False
     for name in lista_file:
-        if '.jpeg' in name:
-            selected = '' if name != 'foto1.jpeg' else 'active'
-            html.append("""
-               <div class="item {selected}">
-                   <img src="{posizione}/{name}" alt="{name}">
-               </div>
-               """.format(**locals()))
+        count += 1
+        if name == 'foto1.jpeg':
+            selected = 'active'
+            flag_selected = True
+        else:
+            selected = ''
+            if not flag_selected and count == len(lista_file):
+                selected = 'active'
+
+        html.append("""
+           <div class="item {selected}">
+               <img src="{posizione}/{name}" alt="{name}">
+           </div>
+           """.format(**locals()))
     return ''.join(html)
 
 
@@ -210,28 +219,28 @@ def get_elenco_file_gallery():
 
     html = []
     elenco_file = os.listdir(DIR)
+    elenco_file.sort(key=lambda x: os.stat(os.path.join(DIR, x)).st_mtime)
+    elenco_file = [i for i in elenco_file if i != '.DS_Store']
     step = 4
     for i in range(0, len(elenco_file), step):
-        print(i)
         html.append("""
         <div class="row">
         """)
-        for k in range(0, step):
-            if i+k < len(elenco_file):
-                img = elenco_file[i+k]
-                d_format = {
-                    'url': '../assets/img/gallery/miniature/' + img,
-                    'img': img
-                }
-                html.append("""
-                    <div class="col-sm-3">
-                        <img src="{url}" class="img-thumbnail"> <i class="fas fa-download fa-2x"></i>
-                    </div>
-                """.format(**d_format))
+        for k in range(i, min(i+step, len(elenco_file))):
+            img = elenco_file[k]
+            d_format = {
+                'url': '../assets/img/gallery/miniature/' + img,
+                'img': img
+            }
+            html.append("""
+                <div class="col-sm-3">
+                    <img src="{url}" class="img-thumbnail"> <i class="fas fa-download fa-2x"></i>
+                </div>
+            """.format(**d_format))
 
         html.append("""
            </div>
            """)
 
     html = ''.join(html)
-    return (html)
+    return html

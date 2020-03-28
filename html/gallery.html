@@ -56,17 +56,25 @@
 
        <div class="row">
            <div class="col-sm-4"></div>
-           <div class="col-sm-4">
-                 <input type="file" name="upload2" id="upload2" class="upload" multiple="multiple" style="display: none;"/>
+           <div class="col-sm-4" style="text-align: center;">
+                 <input type="file" name="upload2" id="upload2" class="upload" multiple="multiple" style="display: none;" onchange="galleryUpload(this)"/>
                  <label for="upload2" >
-                    <span> <i class="fas fa-upload fa-2x"></i> Carica una nuova foro</span>
+                    <span> <i class="fas fa-upload fa-2x"></i> Carica una nuova foto</span>
                   </label>
+                 <div class="progress nascosta" id="div_barra">
+                     Caricamento in corso
+                      <div class="progress-bar progress-bar-success" id='barra_upload_img' style="width: 0%">
+                        <span class="sr-only">Caricamento in corso</span>
+                      </div>
+                 </div>
 
              </div>
              <div class="col-sm-4"></div>
 
         </div>
-        {elenco_file}
+        <div id="miniature">
+            {elenco_file}
+        </div>
     </div>
 
 
