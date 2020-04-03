@@ -138,6 +138,7 @@ def render_gallery(request):
     elenco_file = [i for i in elenco_file if i != '.DS_Store']
     random.shuffle(elenco_file)
     diz_html['carosello'] = view.crea_html_carosello(elenco_file, '../assets/img/gallery/ridimensionate')
+    diz_html['indicators_carosello'] = view.indicators_carosello('/gallery/original', 'carousel-example-generic')
 
     diz_html['elenco_file'] = view.get_elenco_file_gallery()
 

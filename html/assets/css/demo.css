@@ -458,9 +458,10 @@ background-color: rgba(52, 172, 220, 0.98);
 
 .pulsanti_menu{
     text-transform: uppercase;
+    border-width: 0px !important;
 }
 @media (min-width: 767px) {
 .pulsanti_menu{
     text-transform: uppercase;
-    width: 130px
+    width: 110px;
 }

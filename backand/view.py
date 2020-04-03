@@ -130,16 +130,16 @@ def render_riga_invitato(famiglia, invitato):
 def render_menu(diz_html):
     lista_pulsanti = []
     if diz_html['page'] != 'index':
-        lista_pulsanti.append("""<li class='pulsanti_menu'><a href="{appserver}" class="btn btn-round btn-block ">Home</a></li>""")
+        lista_pulsanti.append("""<li class='pulsanti_menu'><a href="{appserver}" class="btn btn-round btn-block pulsanti_menu">Home</a></li>""")
     if diz_html['page'] != 'profilazione':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/profilazione/" class="btn btn-round btn-block ">Profilazione</a></li>""")
+            lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/profilazione/" class="btn btn-round btn-block pulsanti_menu">Profilazione</a></li>""")
     if diz_html['page'] != 'info':
         lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu">Info</a></li>""")
     if diz_html['page'] != 'admin' and diz_html['hash'] == 'super_user':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/admin/" class="btn btn-round btn-block ">Admin</a></li>""")
+        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu">Admin</a></li>""")
     if diz_html['hash'] == 'super_user':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/gallery/" class="btn btn-round btn-block ">Gallery</a></li>""")
-    lista_pulsanti.append("""<li  class='pulsanti_menu'><a onclick="logout()" class="btn btn-round btn-block ">Logout</a></li>""")
+        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/gallery/" class="btn btn-round btn-block pulsanti_menu">Gallery</a></li>""")
+    lista_pulsanti.append("""<li  class='pulsanti_menu'><a onclick="logout()" class="btn btn-round btn-block pulsanti_menu">Logout</a></li>""")
 
     diz_html['pulsanti'] = ''.join(lista_pulsanti).format(**diz_html)
 
@@ -190,6 +190,16 @@ def html_carosello(tipo_carosello, rand=True):
         random.shuffle(elenco_file)
     posizione = 'assets/img/%s' % tipo_carosello
     return crea_html_carosello(elenco_file, posizione)
+
+
+def indicators_carosello(tipo_carosello, id_carosello):
+    DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
+    elenco_file = os.listdir(DIR)
+    elenco_file = [i for i in elenco_file if i != '.DS_Store']
+    html = ["""<li data-target="#%s" data-slide-to="0" class="active"></li>""" % id_carosello]
+    for index in range(1, len(elenco_file)):
+        html.append("""<li data-target="#{id_carosello}" data-slide-to="{index}"></li>""".format(**locals()))
+    return ''.join(html)
 
 
 def crea_html_carosello(lista_file, posizione):

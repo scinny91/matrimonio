@@ -54,6 +54,7 @@ def start(request):
                 'hash': request.COOKIES['hash'],
                 'page': 'index',
                 'carosello_alto': view.html_carosello('carosello'),
+                'indicators_alto': view.indicators_carosello('carosello', 'carousel-example-generic'),
                 'foto_sposo': view.html_carosello('carosello_sposo', rand=False),
                 'foto_sposa': view.html_carosello('carosello_sposa', rand=False),
                 'foto_sposo_testimoni': view.html_carosello('carosello_sposo_testimoni', rand=False),
