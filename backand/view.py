@@ -229,7 +229,7 @@ def get_elenco_file_gallery():
 
     html = []
     elenco_file = os.listdir(DIR)
-    elenco_file.sort(key=lambda x: os.stat(os.path.join(DIR, x)).st_mtime)
+    elenco_file.sort(key=lambda x: os.stat(os.path.join(DIR, x)).st_mtime, reverse=True)
     elenco_file = [i for i in elenco_file if i != '.DS_Store']
     step = 4
     for i in range(0, len(elenco_file), step):

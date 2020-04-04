@@ -204,7 +204,6 @@ function galleryUpload(input){
         processData: false,
         contentType: false,
         success: function(data){
-             console.log(data)
             setTimeout(function () {
               jQuery('#div_barra').hide();
             }, 1000);
