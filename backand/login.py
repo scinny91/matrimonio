@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, render_to_response
 from .bo import base, doc
 from . import view, start, costants, controller
@@ -19,6 +19,7 @@ def check_login(func):
             return HttpResponse(view.render_unauth(diz_html))
     return wrapper
 
+
 def mostra_login(request):
     ret = HttpResponse()
     if not request.COOKIES.get('login') and request.META['PATH_INFO'] == '/':
@@ -33,7 +34,7 @@ def mostra_login(request):
 def fast_login(request):
     hash_inserito = request.GET.get('hash', '')
 
-    return controller._check_login(hash_inserito, fromQr=True)
+    return make_login(hash_inserito, HttpResponseRedirect(settings.APPSERVER))
 
 
 def render_login(ret):
@@ -45,6 +46,7 @@ def render_login(ret):
         'version': costants.get_version(),
     }
     return view.render_login(diz_html)
+
 
 @check_login
 def admin(request):
@@ -73,6 +75,7 @@ def admin(request):
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_admin(diz_html)
     return HttpResponse(html)
+
 
 @check_login
 def render_info(request):
@@ -144,3 +147,31 @@ def render_gallery(request):
 
     html = view.render_gallery(diz_html)
     return HttpResponse(html)
+
+
+
+def make_login(hash_inserito, response):
+    codice_famiglia = None
+
+    #fallback con codice utente
+    famigliaObj = base.Famiglia.objects.filter(
+        hash=hash_inserito
+    )
+    if famigliaObj:
+        codice_famiglia = famigliaObj[0].hash
+    else:
+        ospiteObj = base.Ospite.objects.filter(
+            nome=hash_inserito
+        )
+        if ospiteObj:
+            codice_famiglia = ospiteObj[0].utente
+
+    if codice_famiglia:
+        response.set_cookie('hash', codice_famiglia)
+        response.set_cookie('login', True)
+        response.content = 'ok'
+    else:
+        response.delete_cookie('hash')
+        response.set_cookie('login', False)
+        response.content = 'ko'
+    return response

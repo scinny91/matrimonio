@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileRe
 import traceback
 from matrimonio import settings
 from datetime import datetime
-from . import costants, view
+from . import costants, view, login
 from PIL import Image, ExifTags
 import hashlib
 import json
@@ -69,6 +69,7 @@ def delete_guest(request):
         print(traceback.format_exc())
     return HttpResponse('ok')
 
+
 @csrf_exempt
 def get_image(request):
     filename = (request.META['PATH_INFO'].split('/')).pop()
@@ -76,30 +77,12 @@ def get_image(request):
         content = content_file.read()
     return HttpResponse(content)
 
+
 @csrf_exempt
 def check_login(request):
     hash_inserito = request.POST['hash_inserito']
-    return _check_login(hash_inserito)
+    return login.make_login(hash_inserito, HttpResponse())
 
-def _check_login(hash_inserito, fromQr=False):
-    if fromQr:
-        ret = HttpResponseRedirect(settings.APPSERVER)
-    else:
-        ret = HttpResponse()
-
-    utenteOBJ = base.Famiglia.objects.filter(
-        hash=hash_inserito
-    )
-    if utenteOBJ:
-        ret.set_cookie('hash', utenteOBJ[0].hash)
-        ret.set_cookie('login', True)
-        ret.content = 'ok'
-        #HttpResponseRedirect("%s/html/" % settings.APPSERVER)
-    else:
-        ret.delete_cookie('hash')
-        ret.set_cookie('login', False)
-        ret.content = 'ko'
-    return ret
 
 @csrf_exempt
 def gallery_save_image(request):
@@ -128,6 +111,7 @@ def gallery_save_image(request):
     ret = HttpResponse(view.get_elenco_file_gallery())
 
     return ret
+
 
 @csrf_exempt
 def save_image(request):
