@@ -29,8 +29,7 @@ def add_guest(request):
             utente=hash_famiglia,
         )
         ospiteOBJ.save()
-        diz_html = costants.def_usr_data
-        diz_html['id_ospite'] = ospiteOBJ.id_ospite
+        diz_html =ospiteOBJ.toHtml()
         html = view.render_aggiungi_ospite(hash_famiglia, diz_html)
     except:
         print(traceback.format_exc())

@@ -112,13 +112,6 @@ def render_profilazione(request):
     lista_righe = [view.render_riga_invitato(famiglia, i.toHtml()) for i in dati_ospiti]
     diz_html['index_blocco_righe_invitato'] = ''.join(lista_righe)
 
-    famiglia = base.Famiglia.objects.filter(hash=utente)
-    desc_fam = 'None'
-    if famiglia:
-        desc_fam = famiglia[0].alias
-    diz_html['hash'] = 'famiglia: %s (%s)' % (desc_fam, utente)
-
-
     html = view.render_profilazione(diz_html)
     return HttpResponse(html)
 
@@ -175,3 +168,5 @@ def make_login(hash_inserito, response):
         response.set_cookie('login', False)
         response.content = 'ko'
     return response
+
+
