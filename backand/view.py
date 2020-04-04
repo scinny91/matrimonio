@@ -61,7 +61,7 @@ def render_unauth(diz_html):
     return html
 
 def render_tabella_ospiti(dati_tabella):
-    lista_html = ['<table class="tabella_ospiti">']
+    lista_html = ['<table class="tabella_ospiti table">']
     if not dati_tabella:
         lista_html.append('Nessuna famiglia trovata')
     else:
