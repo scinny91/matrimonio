@@ -66,7 +66,6 @@ def pulisci_immagini():
         elenco_immagini_ospiti.append(name.split('/').pop())
 
     elenco_immagini_system = os.listdir(settings.IMAGE_USER_PATH)
-    print(elenco_immagini_system)
 
     for file in elenco_immagini_system:
         if os.path.isdir(settings.IMAGE_USER_PATH + file):
@@ -74,7 +73,10 @@ def pulisci_immagini():
             print('skip %s' % file)
             continue
         if file not in elenco_immagini_ospiti:
-            print('cancello %s%s' % (settings.IMAGE_USER_PATH, file))
-            print('cancello %soriginal/%s' % (settings.IMAGE_USER_PATH, file))
-            #os.remove('%s%s' % (settings.IMAGE_USER_PATH, file))
-            #os.remove('%soriginal/%s' % (settings.IMAGE_USER_PATH, file))
+            print('rm %s%s' % (settings.IMAGE_USER_PATH, file))
+            print('rm %soriginal/%s' % (settings.IMAGE_USER_PATH, file))
+            os.remove('%s%s' % (settings.IMAGE_USER_PATH, file))
+            try:
+                os.remove('%soriginal/%s' % (settings.IMAGE_USER_PATH, file))
+            except:
+                pass
