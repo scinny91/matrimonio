@@ -465,3 +465,10 @@ background-color: rgba(52, 172, 220, 0.98);
     text-transform: uppercase;
     width: 110px;
 }
+
+
+.riga_invitato{
+	border: 1px solid #dddddd;
+	margin-top: 15px;
+	border-radius: 4px;
+}
