@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from email.message import EmailMessage
 import smtplib
+import os
 
 from matrimonio.backand.bo import base, doc
 from matrimonio import settings
@@ -17,8 +18,9 @@ Marco&Marialaura
 
 
 def main(args):
+    pulisci_immagini()
     crea_hash()
-    invia_mail_aggiornamento()
+    #invia_mail_aggiornamento()
 
 def crea_hash():
     print('creo hash famiglie')
@@ -55,3 +57,24 @@ def invia_mail_aggiornamento():
 
         ospite.mail_valida = 'S'
         ospite.save()
+
+
+def pulisci_immagini():
+    elenco_immagini_ospiti = []
+    for o in base.Ospite.objects.filter():
+        name = o.url_img_user
+        elenco_immagini_ospiti.append(name.split('/').pop())
+
+    elenco_immagini_system = os.listdir(settings.IMAGE_USER_PATH)
+    print(elenco_immagini_system)
+
+    for file in elenco_immagini_system:
+        if os.path.isdir(settings.IMAGE_USER_PATH + file):
+            # skip directories
+            print('skip %s' % file)
+            continue
+        if file not in elenco_immagini_ospiti:
+            print('cancello %s%s' % (settings.IMAGE_USER_PATH, file))
+            print('cancello %soriginal/%s' % (settings.IMAGE_USER_PATH, file))
+            #os.remove('%s%s' % (settings.IMAGE_USER_PATH, file))
+            #os.remove('%soriginal/%s' % (settings.IMAGE_USER_PATH, file))

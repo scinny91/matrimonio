@@ -116,8 +116,11 @@ def gallery_save_image(request):
 def save_image(request):
     stream = request.FILES['image']
     nome_file = request.COOKIES['hash']
-    nome_file += '_'+ request.FILES['image']._name
-    estesione = nome_file.split('.').pop()
+
+    estesione = stream._name.split('.').pop()
+    nome_file += str(datetime.now()) #senno l'immagine cambia ma il browser se la cacha e mi fotte
+    nome_file += '.'
+    nome_file += estesione
 
     img = open(settings.IMAGE_USER_PATH +'original/' + nome_file, 'wb')
     img.write(stream.read())
@@ -125,16 +128,11 @@ def save_image(request):
 
     _ruota_immagine(settings.IMAGE_USER_PATH + 'original/' + nome_file)
 
-
     im1 = Image.open(settings.IMAGE_USER_PATH +'original/' + nome_file)
     height = width = 200
     im2 = im1.resize((width, height), Image.NEAREST)
 
 
-    nome_file = hashlib.md5(stream.read()).hexdigest()
-    nome_file += str(datetime.now()) #senno l'immagine cambia ma il browser se la cacha e mi fotte
-    nome_file += '.'
-    nome_file += estesione
 
     im2.save(settings.IMAGE_USER_PATH + nome_file)
 
