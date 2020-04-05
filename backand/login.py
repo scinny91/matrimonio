@@ -114,12 +114,18 @@ def render_viaggio(request):
 def render_guestbook(request):
     commenti = []
     for i in base.Commento.objects.filter():
-        try:
-            i.info_ospite = base.Ospite.objects.get(nome=i.utente_commento).__dict__
-            i.info_famiglia = base.Famiglia.objects.get(hash=i.famiglia).__dict__
-        except ObjectDoesNotExist:
+        info_ospite = base.Ospite.objects.filter(nome=i.utente_commento, utente=i.famiglia)
+        if info_ospite:
+            i.info_ospite = info_ospite[0].__dict__
+        else:
             i.info_ospite = {}
+
+        info_famiglia = base.Famiglia.objects.filter(hash=i.famiglia)
+        if info_famiglia:
+            i.info_famiglia = info_famiglia[0].__dict__
+        else:
             i.info_famiglia = {}
+
         commenti.append(i.__dict__)
 
 
