@@ -128,17 +128,39 @@ def render_riga_invitato(famiglia, invitato):
 
 def render_menu(diz_html):
     lista_pulsanti = []
-    if diz_html['page'] != 'index':
-        lista_pulsanti.append("""<li class='pulsanti_menu'><a href="{appserver}" class="btn btn-round btn-block pulsanti_menu">Home</a></li>""")
-    if diz_html['page'] != 'profilazione':
-            lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/profilazione/" class="btn btn-round btn-block pulsanti_menu">Profilazione</a></li>""")
-    if diz_html['page'] != 'info':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu">Info</a></li>""")
-    if diz_html['page'] != 'admin' and diz_html['hash'] == 'super_user':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu">Admin</a></li>""")
+
+    tap_selezionato = ''
+    if diz_html['page'] == 'index':
+        tap_selezionato = 'menu_selected'
+    lista_pulsanti.append("""<li><a href="{appserver}" class="btn btn-round btn-block pulsanti_menu %s">Home</a></li>""" % tap_selezionato)
+
+    tap_selezionato = ''
+    if diz_html['page'] == 'profilazione':
+        tap_selezionato = 'menu_selected'
+
+    lista_pulsanti.append("""<li><a href="{appserver}/profilazione/" class="btn btn-round btn-block pulsanti_menu %s">Profilazione</a></li>""" % tap_selezionato)
+
+    tap_selezionato = ''
+    if diz_html['page'] == 'info':
+        tap_selezionato = 'menu_selected'
+
+    lista_pulsanti.append("""<li><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu %s">Info</a></li>""" % tap_selezionato)
+
     if diz_html['hash'] == 'super_user':
-        lista_pulsanti.append("""<li  class='pulsanti_menu'><a href="{appserver}/gallery/" class="btn btn-round btn-block pulsanti_menu">Gallery</a></li>""")
-    lista_pulsanti.append("""<li  class='pulsanti_menu'><a onclick="logout()" class="btn btn-round btn-block pulsanti_menu">Logout</a></li>""")
+        tap_selezionato = ''
+        if diz_html['page'] == 'admin':
+            tap_selezionato = 'menu_selected'
+        lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu %s">Admin</a></li>""" % tap_selezionato)
+
+    tap_selezionato = ''
+    if diz_html['hash'] == 'super_user':
+        tap_selezionato = 'menu_selected'
+        tap_selezionato = ''
+        if diz_html['page'] == 'gallery':
+            tap_selezionato = 'menu_selected'
+        lista_pulsanti.append("""<li ><a href="{appserver}/gallery/" class="btn btn-round btn-block pulsanti_menu %s">Gallery</a></li>""" % tap_selezionato)
+
+    lista_pulsanti.append("""<li><a onclick="logout()" class="btn btn-round btn-block pulsanti_menu">Logout</a></li>""")
 
     diz_html['pulsanti'] = ''.join(lista_pulsanti).format(**diz_html)
 
