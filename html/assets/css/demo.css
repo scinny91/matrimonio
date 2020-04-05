@@ -478,3 +478,16 @@ background-color: rgba(52, 172, 220, 0.98);
 	border-radius: 4px;
 	padding: 5px;
 }
+
+.messaggio{
+    background-color: #f5f6fa;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 100px;
+    width: 400px;
+}
+
+.messaggio-small{
+    min-height: 0px;
+    margin-top: -10px;
+}

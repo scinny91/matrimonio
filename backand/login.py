@@ -94,6 +94,48 @@ def render_info(request):
 
 
 @check_login
+def render_viaggio(request):
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'page': 'viaggio',
+    }
+    diz_html['menu'] = view.render_menu(diz_html)
+
+    html = view.render_unauth(diz_html)
+    return HttpResponse(html)
+
+
+@check_login
+def render_guestbook(request):
+    commenti = []
+    for i in base.Commento.objects.filter():
+        i.info_ospite = base.Ospite.objects.get(nome=i.utente_commento).__dict__
+        i.info_famiglia = base.Famiglia.objects.get(hash=i.famiglia).__dict__
+        commenti.append(i.__dict__)
+
+
+
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'page': 'guestbook',
+        'sezione_commenti': view.render_tabella_commenti(commenti),
+    }
+    diz_html['menu'] = view.render_menu(diz_html)
+    html = view.render_guestbook(diz_html)
+    return HttpResponse(html)
+
+
+@check_login
 def render_profilazione(request):
     diz_html = {
         'appserver': settings.APPSERVER,

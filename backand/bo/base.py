@@ -79,3 +79,14 @@ class Frase(models.Model):
     class Meta:
         db_table = 'frasi'
         app_label = 'matrimonio'
+
+
+class Commento(models.Model):
+    id_commento = models.AutoField(max_length=11, primary_key=True)
+    utente_commento = models.Field(name='utente_commento', blank=True)
+    famiglia = models.Field(name='famiglia', blank=True)
+    descrizione = models.Field(name='descrizione', blank=True)
+    ins_ts = models.DateTimeField(name='ins_ts', auto_now=True)
+    class Meta:
+        db_table = 'commenti'
+        app_label = 'matrimonio'

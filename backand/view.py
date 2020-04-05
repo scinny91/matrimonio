@@ -2,9 +2,8 @@ import pprint
 import random
 import codecs
 import os
+from datetime import datetime, timezone
 
-
-from . import costants
 from .bo import base
 from matrimonio import settings
 
@@ -54,11 +53,20 @@ def render_gallery(diz_html):
     html = html.format(**diz_html)
     return html
 
+
 def render_unauth(diz_html):
     with codecs.open(settings.STATIC_HTML + '/html/unauthorized.html', 'r', encoding='utf-8', errors='ignore') as content_file:
         html = content_file.read()
     html = html.format(**diz_html)
     return html
+
+
+def render_guestbook(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/guestbook.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
 
 def render_tabella_ospiti(dati_tabella):
     lista_html = ['<table class="tabella_ospiti table">']
@@ -119,6 +127,7 @@ def render_tabella_ospiti(dati_tabella):
 
     return ''.join(lista_html)
 
+
 def render_riga_invitato(famiglia, invitato):
     invitato['mostra_albergo'] = ''
     if famiglia.albergo_abilitato != 'S':
@@ -137,14 +146,22 @@ def render_menu(diz_html):
     tap_selezionato = ''
     if diz_html['page'] == 'profilazione':
         tap_selezionato = 'menu_selected'
-
     lista_pulsanti.append("""<li><a href="{appserver}/profilazione/" class="btn btn-round btn-block pulsanti_menu %s">Profilazione</a></li>""" % tap_selezionato)
 
     tap_selezionato = ''
     if diz_html['page'] == 'info':
         tap_selezionato = 'menu_selected'
-
     lista_pulsanti.append("""<li><a href="{appserver}/info/" class="btn btn-round btn-block pulsanti_menu %s">Info</a></li>""" % tap_selezionato)
+
+    tap_selezionato = ''
+    if diz_html['page'] == 'viaggio':
+        tap_selezionato = 'menu_selected'
+    lista_pulsanti.append("""<li><a href="{appserver}/viaggio/" class="btn btn-round btn-block pulsanti_menu %s">Viaggio di nozze</a></li>""" % tap_selezionato)
+
+    tap_selezionato = ''
+    if diz_html['page'] == 'guestbook':
+        tap_selezionato = 'menu_selected'
+    lista_pulsanti.append("""<li><a href="{appserver}/guestbook/" class="btn btn-round btn-block pulsanti_menu %s">Guestbook</a></li>""" % tap_selezionato)
 
     if diz_html['hash'] == 'super_user':
         tap_selezionato = ''
@@ -152,9 +169,7 @@ def render_menu(diz_html):
             tap_selezionato = 'menu_selected'
         lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu %s">Admin</a></li>""" % tap_selezionato)
 
-    tap_selezionato = ''
     if diz_html['hash'] == 'super_user':
-        tap_selezionato = 'menu_selected'
         tap_selezionato = ''
         if diz_html['page'] == 'gallery':
             tap_selezionato = 'menu_selected'
@@ -202,6 +217,7 @@ def render_menu(diz_html):
     </div><!--  end container-->
     """.format(**diz_html)
     return html
+
 
 def html_carosello(tipo_carosello, rand=True):
     DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
@@ -275,6 +291,7 @@ def get_elenco_file_gallery():
 
     html = ''.join(html)
     return html
+
 
 def render_blocco_righe_invitato(diz_invitato):
     return """
@@ -364,3 +381,78 @@ def render_blocco_righe_invitato(diz_invitato):
                 </div>
         </div>
     """.format(**diz_invitato)
+
+
+def render_tabella_commenti(commenti):
+    html = []
+    pprint.pprint(commenti)
+
+    for commento in commenti:
+
+
+        if commento['info_ospite']:
+            commento['immagine_utente'] = """ <img src="../{url_img_user}" alt="foto {nome}" class="img-circle " width=120px>""".format(**commento['info_ospite'])
+        else:
+            commento['immagine_utente'] = """ <img src="../assets/img/mockup.png" alt="foto utente cancellato" class="img-circle " width=120px>"""
+
+
+        commento['rif_ospite'] = '<b>Utente cancellato</b>'
+        if commento['info_ospite']:
+            commento['rif_ospite'] = '<b>%s</b> - Famiglia: %s' % (commento['info_ospite']['nome'], commento['info_famiglia']['nome_famiglia'])
+
+
+
+
+
+
+        ora_commento = commento['ins_ts'].strftime('%Y-%m-%d %H:%M:%S')
+        delta_days = datetime.now() - datetime.strptime(ora_commento, '%Y-%m-%d %H:%M:%S')
+
+        minuti = int(delta_days.seconds / 60)
+        ore = int(minuti / 60)
+        giorni = int(ore / 24)
+        mesi = int(giorni / 30)
+        anni = int(mesi / 12)
+
+        if anni:
+            commento['delta_time'] = 'Scritto: %s anni fa' % anni
+        elif mesi:
+            commento['delta_time'] = 'Scritto: %s mesi fa' % mesi
+        elif giorni:
+            commento['delta_time'] = 'Scritto: %s giorni fa' % giorni
+        elif ore:
+            commento['delta_time'] = 'Scritto: %s ore fa' % ore
+        elif minuti:
+            commento['delta_time'] = 'Scritto: %s minuti fa' % minuti
+        else:
+            commento['delta_time'] = 'Scritto: adesso'
+
+
+        html.append("""
+        <div class="row tim-row">
+            <div class="col-sm-2 ">{immagine_utente}</div>
+            <div class="col-sm-4">
+                <div class='messaggio'>
+                {rif_ospite}
+                <br>
+                {descrizione}
+                </div>
+                <div class='messaggio messaggio-small'>
+                    <small class="opacity-65">{delta_time}</small>
+                </div>
+                
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        """.format(**commento))
+
+    if not html:
+        html.append('''
+        <div class="row" style="margin-top: 100px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">Nessun commento presente</div>
+            <div class="col-sm-4"></div>
+        ''')
+
+
+    return ''.join(html)
