@@ -24,6 +24,7 @@ jQuery(window).scroll(function(e) {
 
 function add_guest()
 {
+    jQuery('#scritta_vuota').hide()
     jQuery('.add_guest').html('<i class="fas fa-spinner"></i>')
     jQuery.ajax(
         {url: jQuery('#appserver').val() + "/add_guest/",

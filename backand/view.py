@@ -383,7 +383,7 @@ def render_blocco_righe_invitato(diz_invitato):
     """.format(**diz_invitato)
 
 
-def render_tabella_commenti(commenti):
+def render_tabella_commenti(commenti, dati_utente):
     html = []
 
     for commento in commenti:
@@ -429,8 +429,9 @@ def render_tabella_commenti(commenti):
 
         html.append("""
         <div class="row tim-row">
-            <div class="col-sm-2 ">{immagine_utente}</div>
-            <div class="col-sm-4">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">{immagine_utente}</div>
+            <div class="col-sm-6">
                 <div class='messaggio'>
                 {rif_ospite}
                 <br>
@@ -441,17 +442,58 @@ def render_tabella_commenti(commenti):
                 </div>
                 
             </div>
-            <div class="col-sm-4"></div>
+            <div class="col-sm-2"></div>
         </div>
         """.format(**commento))
 
     if not html:
         html.append('''
         <div class="row" style="margin-top: 100px">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">Nessun commento presente</div>
-            <div class="col-sm-4"></div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">Nessun commento presente</div>
+            <div class="col-sm-2"></div>
         ''')
+    if dati_utente:
+        opz_utente = []
+        for utente in dati_utente:
+            opz_utente.append("""
+                <option value='{nome}'>{nome}</option>
+            """.format(**utente.__dict__))
+        opz_utente = ''.join(opz_utente)
+
+        html.append("""
+        <div class="row tim-row">
+            <div class="col-sm-2 "> </div>
+            <div class="col-sm-2 ">
+                Utente che commenta: <br>
+                
+            </div>
+            <div class="col-sm-3">
+                <select name='utente_commento'>
+                  {0}
+                </select> 
+            </div>
+            <div class="col-sm-3"><button class="btn btn-block btn-l btn-info btn-square add_comment">Commenta</button></div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 "> </div>
+            <div class="col-sm-8">
+                Commento:<br>
+                <textarea class="form-control" rows="10" name='nuovo_commento' id='commento'></textarea>
+                
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        """.format(opz_utente))
+    else:
+        html.append("""
+                <div class="row tim-row">
+                    <div class="col-sm-2 "> </div>
+                    <div class="col-sm-8 "><b>Prima di poter aggiungere un commento è necessario registrare almeno un ospite nella sezione PROFILAZIONE.</b></div>
+                    <div class="col-sm-2 "> </div>
+                </div>
+                """)
 
 
     return ''.join(html)

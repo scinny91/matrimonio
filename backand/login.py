@@ -128,7 +128,8 @@ def render_guestbook(request):
 
         commenti.append(i.__dict__)
 
-
+    utente = request.COOKIES['hash']
+    dati_utente = base.Ospite.objects.filter(utente=utente)
 
     diz_html = {
         'appserver': settings.APPSERVER,
@@ -138,7 +139,7 @@ def render_guestbook(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'page': 'guestbook',
-        'sezione_commenti': view.render_tabella_commenti(commenti),
+        'sezione_commenti': view.render_tabella_commenti(commenti, dati_utente),
     }
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_guestbook(diz_html)
@@ -163,7 +164,16 @@ def render_profilazione(request):
     dati_ospiti = base.Ospite.objects.filter(utente=utente)
     lista_righe = [view.render_riga_invitato(famiglia, i.toHtml()) for i in dati_ospiti]
     diz_html['index_blocco_righe_invitato'] = ''.join(lista_righe)
-
+    if not lista_righe:
+        diz_html['index_blocco_righe_invitato'] = '''
+         <div class="row" id='scritta_vuota'>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <h1>Nessun ospite registrato</h1>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        '''
     html = view.render_profilazione(diz_html)
     return HttpResponse(html)
 
