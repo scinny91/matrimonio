@@ -385,7 +385,6 @@ def render_blocco_righe_invitato(diz_invitato):
 
 def render_tabella_commenti(commenti):
     html = []
-    pprint.pprint(commenti)
 
     for commento in commenti:
 

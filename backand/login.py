@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
+from django.core.exceptions import ObjectDoesNotExist
 from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
@@ -114,8 +114,12 @@ def render_viaggio(request):
 def render_guestbook(request):
     commenti = []
     for i in base.Commento.objects.filter():
-        i.info_ospite = base.Ospite.objects.get(nome=i.utente_commento).__dict__
-        i.info_famiglia = base.Famiglia.objects.get(hash=i.famiglia).__dict__
+        try:
+            i.info_ospite = base.Ospite.objects.get(nome=i.utente_commento).__dict__
+            i.info_famiglia = base.Famiglia.objects.get(hash=i.famiglia).__dict__
+        except ObjectDoesNotExist:
+            i.info_ospite = {}
+            i.info_famiglia = {}
         commenti.append(i.__dict__)
 
 
