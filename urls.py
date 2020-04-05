@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^fast_login/', login.fast_login),
     url(r'^admin/', login.admin),
     url(r'^info/', login.render_info),
+    url(r'^viaggio/', login.render_viaggio),
+    url(r'^guestbook/', login.render_guestbook),
     url(r'^profilazione/', login.render_profilazione),
     url(r'^gallery/', login.render_gallery),
     url(r'^gallery_save_image/', controller.gallery_save_image),
