@@ -1,14 +1,11 @@
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse
+from django.http import HttpResponse, FileResponse
 import traceback
 from matrimonio import settings
 from datetime import datetime
-from . import costants, view, login
+from . import view, login
 from PIL import Image, ExifTags
-import hashlib
-import json
 import zipfile
 import os
-import pprint
 from django.views.decorators.csrf import csrf_exempt
 
 global res
