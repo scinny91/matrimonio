@@ -409,7 +409,7 @@ def render_tabella_commenti(commenti, dati_utente):
 
         minuti = int(delta_days.seconds / 60)
         ore = int(minuti / 60)
-        giorni = int(ore / 24)
+        giorni = int(delta_days.days)
         mesi = int(giorni / 30)
         anni = int(mesi / 12)
 
