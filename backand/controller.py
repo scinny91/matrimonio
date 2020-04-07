@@ -14,10 +14,8 @@ global utente
 from matrimonio.backand.bo import base
 
 
-
-
-
 @csrf_exempt
+@login.check_login
 def add_guest(request):
     html = ''
     try:
@@ -34,8 +32,46 @@ def add_guest(request):
     return HttpResponse(html)
 
 
+@csrf_exempt
+@login.check_login
+def add_comment(request):
+    html = ''
+    try:
+        hash_utente = request.COOKIES['hash']
+
+        objCommento = base.Commento(
+            famiglia=hash_utente,
+            utente_commento=request.POST['utente_commento'],
+            descrizione=request.POST['commento']
+        )
+        objCommento.save()
+
+        commenti = []
+        for i in base.Commento.objects.filter():
+            info_ospite = base.Ospite.objects.filter(nome=i.utente_commento, utente=i.famiglia)
+            if info_ospite:
+                i.info_ospite = info_ospite[0].__dict__
+            else:
+                i.info_ospite = {}
+
+            info_famiglia = base.Famiglia.objects.filter(hash=i.famiglia)
+            if info_famiglia:
+                i.info_famiglia = info_famiglia[0].__dict__
+            else:
+                i.info_famiglia = {}
+
+            commenti.append(i.__dict__)
+
+        dati_utente = base.Ospite.objects.filter(utente=hash_utente)
+        html = view.render_tabella_commenti(commenti)
+    except:
+        print(traceback.format_exc())
+        html = traceback.format_exc()
+    return HttpResponse(html)
+
 
 @csrf_exempt
+@login.check_login
 def update_guest(request):
     res = 'KO'
     try:
@@ -55,6 +91,7 @@ def update_guest(request):
 
 
 @csrf_exempt
+@login.check_login
 def delete_guest(request):
     try:
         ospiteOBJ = base.Ospite(
@@ -67,20 +104,13 @@ def delete_guest(request):
 
 
 @csrf_exempt
-def get_image(request):
-    filename = (request.META['PATH_INFO'].split('/')).pop()
-    with open(settings.IMAGE_USER_PATH + filename , 'r') as content_file:
-        content = content_file.read()
-    return HttpResponse(content)
-
-
-@csrf_exempt
 def check_login(request):
     hash_inserito = request.POST['hash_inserito']
     return login.make_login(hash_inserito, HttpResponse())
 
 
 @csrf_exempt
+@login.check_login
 def gallery_save_image(request):
     for nome_file in request.FILES:
         stream = request.FILES[nome_file]
@@ -110,6 +140,7 @@ def gallery_save_image(request):
 
 
 @csrf_exempt
+@login.check_login
 def save_image(request):
     stream = request.FILES['image']
     nome_file = request.COOKIES['hash']
@@ -145,6 +176,7 @@ def save_image(request):
     return ret
 
 
+@login.check_login
 def admin_download(request):
     if not request.COOKIES.get('hash') == 'super_user':
         return HttpResponse('utente non autorizzato')

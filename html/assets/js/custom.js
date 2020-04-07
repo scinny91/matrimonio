@@ -14,6 +14,8 @@ function Init()
       interval: 4000
     });
 
+    jQuery('#add_comment').click(add_comment)
+
 }
 
 jQuery(window).scroll(function(e) {
@@ -21,6 +23,7 @@ jQuery(window).scroll(function(e) {
     jQuery(".blur").css("opacity", oVal);
     
 });
+
 
 function add_guest()
 {
@@ -226,4 +229,30 @@ function galleryUpload(input){
 
       });
 
+}
+
+function add_comment()
+{
+    jQuery('#add_comment').html('<i class="fas fa-spinner"></i>')
+    var formData= new FormData();
+    formData.append("utente_commento", jQuery('#utente_commento').val());
+    formData.append("commento", jQuery('#commento').val());
+    jQuery.ajax(
+        {
+        url: jQuery('#appserver').val() + "/add_comment/",
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(result){
+              jQuery('#add_comment').html('Commenta')
+              jQuery('#sezione_commenti').html(result)
+              jQuery('#commento').val('')
+              jQuery('#messaggio_successo').show()
+              setTimeout(function () {
+                jQuery('#messaggio_successo').hide()
+                 }, 4000);
+        }
+  });
 }

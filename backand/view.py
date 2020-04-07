@@ -383,26 +383,18 @@ def render_blocco_righe_invitato(diz_invitato):
     """.format(**diz_invitato)
 
 
-def render_tabella_commenti(commenti, dati_utente):
+def render_tabella_commenti(commenti):
     html = []
 
     for commento in commenti:
-
-
         if commento['info_ospite']:
             commento['immagine_utente'] = """ <img src="../{url_img_user}" alt="foto {nome}" class="img-circle " width=120px>""".format(**commento['info_ospite'])
         else:
             commento['immagine_utente'] = """ <img src="../assets/img/mockup.png" alt="foto utente cancellato" class="img-circle " width=120px>"""
 
-
         commento['rif_ospite'] = '<b>Utente cancellato</b>'
         if commento['info_ospite']:
             commento['rif_ospite'] = '<b>%s</b> - Famiglia: %s' % (commento['info_ospite']['nome'], commento['info_famiglia']['nome_famiglia'])
-
-
-
-
-
 
         ora_commento = commento['ins_ts'].strftime('%Y-%m-%d %H:%M:%S')
         delta_days = datetime.now() - datetime.strptime(ora_commento, '%Y-%m-%d %H:%M:%S')
@@ -425,7 +417,6 @@ def render_tabella_commenti(commenti, dati_utente):
             commento['delta_time'] = 'Scritto: %s minuti fa' % minuti
         else:
             commento['delta_time'] = 'Scritto: adesso'
-
 
         html.append("""
         <div class="row tim-row">
@@ -453,6 +444,12 @@ def render_tabella_commenti(commenti, dati_utente):
             <div class="col-sm-6">Nessun commento presente</div>
             <div class="col-sm-2"></div>
         ''')
+
+    return ''.join(html)
+
+
+def render_nuovo_commento(dati_utente):
+
     if dati_utente:
         opz_utente = []
         for utente in dati_utente:
@@ -461,39 +458,45 @@ def render_tabella_commenti(commenti, dati_utente):
             """.format(**utente.__dict__))
         opz_utente = ''.join(opz_utente)
 
-        html.append("""
+        html = """
         <div class="row tim-row">
             <div class="col-sm-2 "> </div>
             <div class="col-sm-2 ">
                 Utente che commenta: <br>
-                
+
             </div>
             <div class="col-sm-3">
-                <select name='utente_commento'>
+                <select name='utente_commento' id='utente_commento'>
                   {0}
                 </select> 
             </div>
-            <div class="col-sm-3"><button class="btn btn-block btn-l btn-info btn-square add_comment">Commenta</button></div>
+            <div class="col-sm-3"><button class="btn btn-block btn-l btn-info btn-square add_comment" id='add_comment'>Commenta</button></div>
             <div class="col-sm-2"></div>
+        </div>
+        <div class="row nascon">
+            <div class="col-sm-2 alert"> </div>
+            <div class="col-sm-8 alert alert-success testo_centrale nascosta" id='messaggio_successo'>
+                Commento inserito con successo
+            </div>
+            <div class="col-sm-2 "> </div>
         </div>
         <div class="row">
             <div class="col-sm-2 "> </div>
             <div class="col-sm-8">
                 Commento:<br>
                 <textarea class="form-control" rows="10" name='nuovo_commento' id='commento'></textarea>
-                
+
             </div>
             <div class="col-sm-2"></div>
         </div>
-        """.format(opz_utente))
+        """.format(opz_utente)
     else:
-        html.append("""
+        html = """
                 <div class="row tim-row">
                     <div class="col-sm-2 "> </div>
                     <div class="col-sm-8 "><b>Prima di poter aggiungere un commento è necessario registrare almeno un ospite nella sezione PROFILAZIONE.</b></div>
                     <div class="col-sm-2 "> </div>
                 </div>
-                """)
+                """
 
-
-    return ''.join(html)
+    return html

@@ -139,7 +139,8 @@ def render_guestbook(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'page': 'guestbook',
-        'sezione_commenti': view.render_tabella_commenti(commenti, dati_utente),
+        'sezione_commenti': view.render_tabella_commenti(commenti),
+        'nuovo_commento': view.render_nuovo_commento(dati_utente),
     }
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_guestbook(diz_html)
