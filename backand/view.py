@@ -399,6 +399,7 @@ def render_tabella_commenti(commenti):
         ora_commento = commento['ins_ts'].strftime('%Y-%m-%d %H:%M:%S')
         delta_days = datetime.now() - datetime.strptime(ora_commento, '%Y-%m-%d %H:%M:%S')
 
+
         minuti = int(delta_days.seconds / 60)
         ore = int(minuti / 60)
         giorni = int(delta_days.days)
@@ -409,7 +410,7 @@ def render_tabella_commenti(commenti):
             commento['delta_time'] = 'Scritto: %s anni fa' % anni
         elif mesi:
             commento['delta_time'] = 'Scritto: %s mesi fa' % mesi
-        elif giorni:
+        elif giorni > 0:
             commento['delta_time'] = 'Scritto: %s giorni fa' % giorni
         elif ore:
             commento['delta_time'] = 'Scritto: %s ore fa' % ore
