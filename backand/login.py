@@ -130,6 +130,7 @@ def render_guestbook(request):
 
     utente = request.COOKIES['hash']
     dati_utente = base.Ospite.objects.filter(utente=utente)
+    objFamiglia = base.Famiglia.objects.get(hash=utente)
 
     diz_html = {
         'appserver': settings.APPSERVER,
@@ -139,7 +140,7 @@ def render_guestbook(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'page': 'guestbook',
-        'sezione_commenti': view.render_tabella_commenti(commenti),
+        'sezione_commenti': view.render_tabella_commenti(commenti, objFamiglia),
         'nuovo_commento': view.render_nuovo_commento(dati_utente),
     }
     diz_html['menu'] = view.render_menu(diz_html)

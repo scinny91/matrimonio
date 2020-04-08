@@ -320,7 +320,7 @@ def render_blocco_righe_invitato(diz_invitato):
                     <div class="row">
                         <div class="col-sm-4 lbl">
                             <div class="input-group">
-                                <span class="input-group-addon">Nome:</span>
+                                <span class="input-group-addon">Nome e cognome:</span>
                                 <input type="text" value="{nome}" name='nome' placeholder="Digita il nome dell'ospite" class="form-control onchangeupdate" id='nome_ospite_{id_ospite}' />
                             </div>
                         </div>
@@ -383,7 +383,7 @@ def render_blocco_righe_invitato(diz_invitato):
     """.format(**diz_invitato)
 
 
-def render_tabella_commenti(commenti):
+def render_tabella_commenti(commenti, famiglia_commento):
     html = []
 
     for commento in commenti:
@@ -399,6 +399,9 @@ def render_tabella_commenti(commenti):
         ora_commento = commento['ins_ts'].strftime('%Y-%m-%d %H:%M:%S')
         delta_days = datetime.now() - datetime.strptime(ora_commento, '%Y-%m-%d %H:%M:%S')
 
+        commento['pulsante_cancella'] = ''
+        if commento['info_famiglia']['hash'] == famiglia_commento.hash or famiglia_commento.hash == 'super_user':
+            commento['pulsante_cancella'] = '<i class="fas fa-trash-alt  fa-2x" title="Elimina commento"></i>'
 
         minuti = int(delta_days.seconds / 60)
         ore = int(minuti / 60)
@@ -419,15 +422,16 @@ def render_tabella_commenti(commenti):
         else:
             commento['delta_time'] = 'Scritto: adesso'
 
+
         html.append("""
         <div class="row tim-row">
             <div class="col-sm-2"></div>
-            <div class="col-sm-2">{immagine_utente}</div>
+            <div class="col-sm-2">{immagine_utente} {pulsante_cancella}</div>
             <div class="col-sm-6">
                 <div class='messaggio'>
                 {rif_ospite}
                 <br>
-                {descrizione}
+                <span class='messaggio_guestbook'>{descrizione}<span>
                 </div>
                 <div class='messaggio messaggio-small'>
                     <small class="opacity-65">{delta_time}</small>

@@ -438,7 +438,7 @@
  color: red;
 }
 
-.nascosta{
+.{
     display: none
 }
 
@@ -485,6 +485,10 @@ background-color: rgba(52, 172, 220, 0.98);
     padding: 10px;
     min-height: 100px;
     width: 100%;
+}
+
+span.messaggio_guestbook{
+    white-space: pre-line;
 }
 
 .messaggio-small{

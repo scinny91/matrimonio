@@ -62,8 +62,8 @@ def add_comment(request):
 
             commenti.append(i.__dict__)
 
-        dati_utente = base.Ospite.objects.filter(utente=hash_utente)
-        html = view.render_tabella_commenti(commenti)
+        objFamiglia = base.Famiglia.objects.get(hash=hash_utente)
+        html = view.render_tabella_commenti(commenti, objFamiglia)
     except:
         print(traceback.format_exc())
         html = traceback.format_exc()
