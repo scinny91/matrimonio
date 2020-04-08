@@ -90,3 +90,22 @@ class Commento(models.Model):
     class Meta:
         db_table = 'commenti'
         app_label = 'matrimonio'
+
+    @staticmethod
+    def get_commenti_per_html():
+        commenti = []
+        for i in Commento.objects.filter():
+            info_ospite = Ospite.objects.filter(nome=i.utente_commento, utente=i.famiglia)
+            if info_ospite:
+                i.info_ospite = info_ospite[0].__dict__
+            else:
+                i.info_ospite = {}
+
+            info_famiglia = Famiglia.objects.filter(hash=i.famiglia)
+            if info_famiglia:
+                i.info_famiglia = info_famiglia[0].__dict__
+            else:
+                i.info_famiglia = {}
+
+            commenti.append(i.__dict__)
+        return commenti

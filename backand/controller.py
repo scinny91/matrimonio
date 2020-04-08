@@ -7,7 +7,7 @@ from PIL import Image, ExifTags
 import zipfile
 import os
 from django.views.decorators.csrf import csrf_exempt
-
+import time
 global res
 global utente
 
@@ -46,21 +46,29 @@ def add_comment(request):
         )
         objCommento.save()
 
-        commenti = []
-        for i in base.Commento.objects.filter():
-            info_ospite = base.Ospite.objects.filter(nome=i.utente_commento, utente=i.famiglia)
-            if info_ospite:
-                i.info_ospite = info_ospite[0].__dict__
-            else:
-                i.info_ospite = {}
+        commenti = base.Commento.get_commenti_per_html()
+        time.sleep(0.5)
+        objFamiglia = base.Famiglia.objects.get(hash=hash_utente)
+        html = view.render_tabella_commenti(commenti, objFamiglia)
+    except:
+        print(traceback.format_exc())
+        html = traceback.format_exc()
+    return HttpResponse(html)
 
-            info_famiglia = base.Famiglia.objects.filter(hash=i.famiglia)
-            if info_famiglia:
-                i.info_famiglia = info_famiglia[0].__dict__
-            else:
-                i.info_famiglia = {}
 
-            commenti.append(i.__dict__)
+@csrf_exempt
+@login.check_login
+def delete_comment(request):
+    html = ''
+    try:
+        hash_utente = request.COOKIES['hash']
+
+        objCommento = base.Commento.objects.get(
+            id_commento=request.POST['id_commento'],
+        )
+        objCommento.delete()
+
+        commenti = base.Commento.get_commenti_per_html()
 
         objFamiglia = base.Famiglia.objects.get(hash=hash_utente)
         html = view.render_tabella_commenti(commenti, objFamiglia)

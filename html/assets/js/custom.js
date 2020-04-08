@@ -15,6 +15,7 @@ function Init()
     });
 
     jQuery('#add_comment').click(add_comment)
+    jQuery('.elimina_commento').click(elimina_commento)
 
 }
 
@@ -248,10 +249,39 @@ function add_comment()
         success: function(result){
               jQuery('#add_comment').html('Commenta')
               jQuery('#sezione_commenti').html(result)
+              jQuery('.elimina_commento').click(elimina_commento)
               jQuery('#commento').val('')
               jQuery('#messaggio_successo').show()
               setTimeout(function () {
                 jQuery('#messaggio_successo').hide()
+                 }, 4000);
+        }
+  });
+}
+
+
+function elimina_commento()
+{
+    var id_commento = this.id
+    jQuery('#'+id_commento).html('<i class="fas fa-spinner"></i>')
+    id_commento = id_commento.replace('elimina_commento_','')
+    var formData= new FormData();
+    formData.append("id_commento", id_commento);
+
+    jQuery.ajax(
+        {
+        url: jQuery('#appserver').val() + "/delete_comment/",
+        type: "POST",
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        success: function(result){
+              jQuery('#sezione_commenti').html(result)
+              jQuery('.elimina_commento').click(elimina_commento)
+              jQuery('#messaggio_eliminazione').show()
+              setTimeout(function () {
+                jQuery('#messaggio_eliminazione').hide()
                  }, 4000);
         }
   });

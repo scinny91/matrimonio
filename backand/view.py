@@ -401,7 +401,10 @@ def render_tabella_commenti(commenti, famiglia_commento):
 
         commento['pulsante_cancella'] = ''
         if commento['info_famiglia']['hash'] == famiglia_commento.hash or famiglia_commento.hash == 'super_user':
-            commento['pulsante_cancella'] = '<i class="fas fa-trash-alt  fa-2x" title="Elimina commento"></i>'
+            commento['pulsante_cancella'] = """
+            <span id="elimina_commento_{id_commento}" class='elimina_commento' title="Elimina commento">
+                <i class="fas fa-trash-alt  fa-2x"></i>
+            </span>""".format(**commento)
 
         minuti = int(delta_days.seconds / 60)
         ore = int(minuti / 60)
@@ -421,7 +424,6 @@ def render_tabella_commenti(commenti, famiglia_commento):
             commento['delta_time'] = 'Scritto: %s minuti fa' % minuti
         else:
             commento['delta_time'] = 'Scritto: adesso'
-
 
         html.append("""
         <div class="row tim-row">
@@ -478,7 +480,7 @@ def render_nuovo_commento(dati_utente):
             <div class="col-sm-3"><button class="btn btn-block btn-l btn-info btn-square add_comment" id='add_comment'>Commenta</button></div>
             <div class="col-sm-2"></div>
         </div>
-        <div class="row nascon">
+        <div class="row">
             <div class="col-sm-2 alert"> </div>
             <div class="col-sm-8 alert alert-success testo_centrale nascosta" id='messaggio_successo'>
                 Commento inserito con successo

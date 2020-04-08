@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^update_guest/', controller.update_guest),
     url(r'^add_guest/', controller.add_guest),
     url(r'^add_comment/', controller.add_comment),
+    url(r'^delete_comment/', controller.delete_comment),
     url(r'^check_login/', controller.check_login),
     url(r'^fast_login/', login.fast_login),
     url(r'^admin/', login.admin),
