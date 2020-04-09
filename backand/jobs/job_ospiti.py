@@ -7,10 +7,11 @@ from matrimonio.backand.bo import base, doc
 from matrimonio import settings
 
 testo = """
-benvenuto {nome},
+Benvenuto {nome},
 Siamo lieti di averti ospite nel giorno più bello della nostra vita.
 
-Innanzitutto ti ringraziamo per l'esserti profilato e permetterci così di poter organizzare il nostro evento al meglio.
+Ti ringraziamo per esserti profilato e permetterci così di poter organizzare il nostro evento al meglio.
+Non perdere il codice ({utente}) per poter accedere nuovamente al sito.
 
 #stayTuned
 Marco&Marialaura
@@ -20,7 +21,7 @@ Marco&Marialaura
 def main(args):
     pulisci_immagini()
     crea_hash()
-    #invia_mail_aggiornamento()
+    invia_mail_aggiornamento()
 
 def crea_hash():
     print('creo hash famiglie')
@@ -41,16 +42,17 @@ def invia_mail_aggiornamento():
     print('invia_mail_aggiornamento')
     elenco_ospiti = base.Ospite.objects.filter(
                 mail_valida='N'
-            )
+            ).exclude(mail='')
     for ospite in elenco_ospiti:
         server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
         server.starttls()
         server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
         msg = EmailMessage()
         msg.set_content(testo.format(**ospite.__dict__))
 
         msg['Subject'] = 'Benvenuto'
-        msg['From'] = 'mscinic@gmail.com'
+        msg['From'] = settings.EMAIL_HOST_USER
         msg['To'] = ospite.mail
         server.send_message(msg)
 
