@@ -16,11 +16,6 @@ def render_index(diz_html):
     return html
 
 
-def render_aggiungi_ospite(utente, diz_html):
-    famiglia = base.Famiglia.objects.filter(hash=utente)[0]
-    return render_riga_invitato(famiglia, diz_html)
-
-
 def render_login(diz_html):
     with codecs.open(settings.STATIC_HTML + '/html/login.html', 'r', encoding='utf-8', errors='ignore') as content_file:
         html = content_file.read()
@@ -126,13 +121,6 @@ def render_tabella_ospiti(dati_tabella):
     lista_html.append('</table>')
 
     return ''.join(lista_html)
-
-
-def render_riga_invitato(famiglia, invitato):
-    invitato['mostra_albergo'] = ''
-    if famiglia.albergo_abilitato != 'S':
-        invitato['mostra_albergo'] = 'nascosta'
-    return render_blocco_righe_invitato(invitato)
 
 
 def render_menu(diz_html):

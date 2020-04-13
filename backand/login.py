@@ -164,7 +164,7 @@ def render_profilazione(request):
     utente = request.COOKIES['hash']
     famiglia = base.Famiglia.objects.filter(hash=utente)[0]
     dati_ospiti = base.Ospite.objects.filter(utente=utente)
-    lista_righe = [view.render_riga_invitato(famiglia, i.toHtml()) for i in dati_ospiti]
+    lista_righe = [view.render_blocco_righe_invitato(i.toHtml(famiglia)) for i in dati_ospiti]
     diz_html['index_blocco_righe_invitato'] = ''.join(lista_righe)
     if not lista_righe:
         diz_html['index_blocco_righe_invitato'] = '''

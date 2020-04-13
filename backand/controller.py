@@ -24,8 +24,9 @@ def add_guest(request):
             utente=hash_famiglia,
         )
         ospiteOBJ.save()
-        diz_html =ospiteOBJ.toHtml()
-        html = view.render_aggiungi_ospite(hash_famiglia, diz_html)
+        famiglia = base.Famiglia.objects.filter(hash=hash_famiglia)[0]
+        diz_html = ospiteOBJ.toHtml(famiglia)
+        html = view.render_blocco_righe_invitato(diz_html)
     except:
         print(traceback.format_exc())
         html = traceback.format_exc()

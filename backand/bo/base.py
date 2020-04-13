@@ -27,7 +27,7 @@ class Ospite(models.Model):
         db_table = 'ospiti'
         app_label = 'matrimonio'
 
-    def toHtml(self):
+    def toHtml(self, famigliaObj):
         check_fields = ['albergo']
         for item in check_fields:
             value = self.__getattribute__(item)
@@ -43,6 +43,9 @@ class Ospite(models.Model):
         self.select_donna = ''
         self.__setattr__('select_%s' % self.sesso, 'selected')
 
+        self.mostra_albergo = ''
+        if famigliaObj.albergo_abilitato != 'S':
+            self.mostra_albergo = 'nascosta'
         return self.__dict__
 
 
