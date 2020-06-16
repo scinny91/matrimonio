@@ -8,6 +8,7 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 pdfmetrics.registerFont(TTFont('mvboli', settings.FONT_DIR+'mvboli.ttf'))
+pdfmetrics.registerFont(TTFont('papyrus', settings.FONT_DIR+'papyrus.ttf'))
 
 import qrcode
 
@@ -48,7 +49,7 @@ def genera_segnaposto(nome):
 
 
 def genera_copertina(citazione):
-    sfondo = settings.IMG_DIR + 'coperchio_bomboniera.jpg'
+    sfondo = settings.IMG_DIR + 'coperchio_bomboniera2.jpg'
 
     img_for_print = utils.ImageReader(sfondo)
     print(citazione['canzone'])
@@ -99,29 +100,52 @@ def genera_lettera(citazione):
 
     size = 6 if row <80 else 4
 
+    size = 0
+    if row < 35:
+        size = 10
+    elif row < 55:
+        size = 8
+    elif row < 60:
+        size = 6
+    else:
+        size = 4
+
+    size = int(6 + (100/row))
+    size = size if row < 80 else 6
+    size = 10 if row < 38 else size
+
+
+
+    #citazione['autore'] = ' righe %s %%s' % row % size
+
     tabella_testo = [
         [
-            par_nero("{canzone}".format(**citazione), font=8, align=TA_CENTER)
+            par_nero("""{canzone}<br/><br/>""".format(**citazione), font=12, align=TA_CENTER, fontName='papyrus')
 
         ],
         [
-            par_nero("{testo}".format(**citazione), font=size, lead=size, align=TA_CENTER, fontName='Times-BoldItalic')
+            #par_nero("{testo}".format(**citazione), font=size, lead=size, align=TA_CENTER, fontName='Times-BoldItalic')
+            par_nero("{testo}".format(**citazione), font=size, lead=size, align=TA_CENTER, fontName='papyrus')
         ],
         [
-            par_nero("{autore}".format(**citazione), font=8, align=TA_RIGHT)
+            #par_nero("{autore}".format(**citazione), font=8, align=TA_RIGHT)
+            par_nero("{autore}".format(**citazione), font=8, align=TA_RIGHT, fontName='papyrus')
         ]
     ]
 
     style_row = TableStyle([])
-    style_row.add('LINEABOVE', (0, 0), (-1, -1), 0.25, colors.grey)
-    style_row.add('LINEBELOW', (0, 0), (-1, -1), 0.25, colors.grey)
-    style_row.add('LINEAFTER', (0, 0), (-1, -1), 0.25, colors.grey)
-    style_row.add('LINEBEFORE', (0, 0), (-1, -1), 0.25, colors.grey)
-    table = Table(tabella_testo, colWidths=8 * units.cm, style=style_row)
+    #style_row.add('LINEABOVE', (0, 0), (-1, -1), 0.25, colors.grey)
+    #style_row.add('LINEBELOW', (0, 0), (-1, -1), 0.25, colors.grey)
+    #style_row.add('LINEAFTER', (0, 0), (-1, -1), 0.25, colors.grey)
+    #style_row.add('LINEBEFORE', (0, 0), (-1, -1), 0.25, colors.grey)
+    table = Table(tabella_testo, colWidths=12 * units.cm, style=style_row)
 
 
-    doc = SimpleDocTemplate(path_file, pagesize=(12*units.cm, 20*units.cm))
-    doc.topMargin = 1* units.cm
+    doc = SimpleDocTemplate(path_file, pagesize=(13*units.cm, 21*units.cm))
+    margin_top = 0.5 if row > 60 else (90/row)
+    doc.topMargin = units.cm * margin_top
+    doc.bottomMargin = 0.5 *units.cm
+
     doc.build([table])
 
 

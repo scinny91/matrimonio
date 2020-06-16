@@ -8,7 +8,7 @@ import os, shutil
 def main(args):
     if settings.AMBIENTE == 'LOCALE':
         print('Copertine....')
-        crea_copertina(args)
+        #crea_copertina(args)
         print('Lettere....')
         crea_lettera(args)
     print('Segnposto....')
