@@ -222,3 +222,6 @@ def _ruota_immagine(path):
     except:
         image.close()
     # fine rotazione
+
+
+# commit di test da pycharm
