@@ -79,8 +79,10 @@ def admin(request):
 
 @check_login
 def render_info(request):
+    objFamiglia = base.Famiglia.objects.get(hash=request.COOKIES['hash'])
     diz_html = {
         'appserver': settings.APPSERVER,
+        'nome_famiglia': objFamiglia.nome_famiglia,
         'delta_days': costants.delta_days,
         'due_date_umana': costants.due_date_umana,
         'js_index': costants.js_index,
@@ -95,8 +97,10 @@ def render_info(request):
 
 @check_login
 def render_viaggio(request):
+    objFamiglia = base.Famiglia.objects.get(hash=request.COOKIES['hash'])
     diz_html = {
         'appserver': settings.APPSERVER,
+        'nome_famiglia': objFamiglia.nome_famiglia,
         'delta_days': costants.delta_days,
         'due_date_umana': costants.due_date_umana,
         'js_index': costants.js_index,
@@ -134,6 +138,7 @@ def render_guestbook(request):
 
     diz_html = {
         'appserver': settings.APPSERVER,
+        'nome_famiglia': objFamiglia.nome_famiglia,
         'delta_days': costants.delta_days,
         'due_date_umana': costants.due_date_umana,
         'js_index': costants.js_index,
@@ -165,6 +170,7 @@ def render_profilazione(request):
     famiglia = base.Famiglia.objects.filter(hash=utente)[0]
     dati_ospiti = base.Ospite.objects.filter(utente=utente)
     lista_righe = [view.render_blocco_righe_invitato(i.toHtml(famiglia)) for i in dati_ospiti]
+    diz_html['nome_famiglia'] = famiglia.nome_famiglia
     diz_html['index_blocco_righe_invitato'] = ''.join(lista_righe)
     if not lista_righe:
         diz_html['index_blocco_righe_invitato'] = '''
@@ -182,6 +188,8 @@ def render_profilazione(request):
 
 @check_login
 def render_gallery(request):
+    objFamiglia = base.Famiglia.objects.get(hash=request.COOKIES['hash'])
+
     diz_html = {
         'appserver': settings.APPSERVER,
         'delta_days': costants.delta_days,
@@ -189,6 +197,7 @@ def render_gallery(request):
         'js_index': costants.js_index,
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
+        'nome_famiglia': objFamiglia.nome_famiglia,
         'page': 'gallery',
     }
     diz_html['menu'] = view.render_menu(diz_html)

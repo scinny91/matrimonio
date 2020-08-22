@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 from matrimonio import settings
 from . import costants, view
+from .bo import base
 import traceback
 import codecs
 from PIL import Image
@@ -44,6 +45,7 @@ def start(request):
         # per l'html ci schiaffo dentro le costanti...
         html = read_file(url)
         cookies = request.COOKIES
+        objFamiglia = base.Famiglia.objects.get(hash=cookies['hash'])
         if 'index.html' in url:
             diz_html = {
                 'appserver': settings.APPSERVER,
@@ -51,7 +53,8 @@ def start(request):
                 'due_date_umana': costants.due_date_umana,
                 'js_index': costants.js_index,
                 'version': costants.get_version(),
-                'hash': request.COOKIES['hash'],
+                'hash': cookies['hash'],
+                'nome_famiglia': objFamiglia.nome_famiglia,
                 'page': 'index',
                 'carosello_alto': view.html_carosello('carosello'),
                 'indicators_alto': view.indicators_carosello('carosello', 'carousel-example-generic'),
