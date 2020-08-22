@@ -224,4 +224,4 @@ def _ruota_immagine(path):
     # fine rotazione
 
 
-# commit di test da sourcetree
+# commit di test da pycharm
