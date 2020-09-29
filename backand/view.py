@@ -28,6 +28,12 @@ def render_admin(diz_html):
     html = html.format(**diz_html)
     return html
 
+def render_lista_nozze(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/lista_nozze.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
 def render_info(diz_html):
     with codecs.open(settings.STATIC_HTML + '/html/info.html', 'r', encoding='utf-8', errors='ignore') as content_file:
         html = content_file.read()
@@ -62,6 +68,30 @@ def render_guestbook(diz_html):
     html = html.format(**diz_html)
     return html
 
+def render_tabella_lista_nozze(elenco_lista):
+    html = []
+
+    for elemento in elenco_lista:
+        html.append('''
+        <div class="row">
+
+            <div class="col-sm-1"></div> 
+            <div class="col-sm-2">
+                <h2>{nome} </h2><br> {descrizione}
+            </div> 
+            <div class="col-sm-7">
+                <div class="text-center">
+                 <img src='../assets/img/lista_nozze/{immagine}' class="img-fluid rounded" >
+                    
+                </div> 
+            </div>
+            <div class="col-sm-1">
+               {stato}
+            </div>
+            <div class="col-sm-1"></div> 
+        </div>
+            '''.format(**elemento.__dict__))
+    return ''.join(html)
 
 def render_tabella_ospiti(dati_tabella):
     lista_html = ['<table class="tabella_ospiti table">']
@@ -144,7 +174,7 @@ def render_menu(diz_html):
     tap_selezionato = ''
     if diz_html['page'] == 'viaggio':
         tap_selezionato = 'menu_selected'
-    lista_pulsanti.append("""<li><a href="{appserver}/viaggio/" class="btn btn-round btn-block pulsanti_menu %s">Viaggio di nozze</a></li>""" % tap_selezionato)
+    lista_pulsanti.append("""<li><a href="{appserver}/viaggio/" class="btn btn-round btn-block pulsanti_menu %s">Lista di nozze</a></li>""" % tap_selezionato)
 
     tap_selezionato = ''
     if diz_html['page'] == 'guestbook':

@@ -107,10 +107,11 @@ def render_viaggio(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'page': 'viaggio',
+        'tabella_nozze': view.render_tabella_lista_nozze(base.ListaNozze.objects.exclude(stato='annullato')),
     }
     diz_html['menu'] = view.render_menu(diz_html)
 
-    html = view.render_unauth(diz_html)
+    html = view.render_lista_nozze(diz_html)
     return HttpResponse(html)
 
 

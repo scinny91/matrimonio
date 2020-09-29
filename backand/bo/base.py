@@ -112,3 +112,14 @@ class Commento(models.Model):
 
             commenti.append(i.__dict__)
         return commenti
+
+class ListaNozze(models.Model):
+    id_articolo = models.AutoField(max_length=11, primary_key=True)
+    nome = models.Field(name='nome', blank=True)
+    descrizione = models.Field(name='descrizione', blank=True)
+    immagine = models.Field(name='immagine', blank=True)
+    stato = models.Field(name='stato', blank=True)
+    ins_ts = models.DateTimeField(name='ins_ts', auto_now=True)
+    class Meta:
+        db_table = 'lista_nozze'
+        app_label = 'matrimonio'
