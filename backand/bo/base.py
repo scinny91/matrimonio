@@ -117,9 +117,21 @@ class ListaNozze(models.Model):
     id_articolo = models.AutoField(max_length=11, primary_key=True)
     nome = models.Field(name='nome', blank=True)
     descrizione = models.Field(name='descrizione', blank=True)
+    link = models.Field(name='link', blank=True)
     immagine = models.Field(name='immagine', blank=True)
     stato = models.Field(name='stato', blank=True)
     ins_ts = models.DateTimeField(name='ins_ts', auto_now=True)
     class Meta:
         db_table = 'lista_nozze'
         app_label = 'matrimonio'
+
+    def to_html(self):
+        self.pulsante_html = ''
+        if self.stato == 'completato':
+            self.pulsante_html = """<button class="btn btn-danger btn-round"><i class="fab fa-paypal"></i> Completato</button>""".format(**self.__dict__)
+        elif self.stato == 'valido':
+            self.pulsante_html = """<a href='{link}'><button class="btn btn-primary btn-round"><i class="fab fa-paypal"></i> Partecipa tramite Paypall</button></a>""".format(**self.__dict__)
+        else:
+            self.pulsante_html = """<button class="btn btn-danger btn-warning-filled"><i class="fab fa-paypal"></i> {stato}</button>""".format(**self.__dict__)
+
+        return self.__dict__

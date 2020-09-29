@@ -79,18 +79,18 @@ def render_tabella_lista_nozze(elenco_lista):
             <div class="col-sm-2">
                 <h2>{nome} </h2><br> {descrizione}
             </div> 
-            <div class="col-sm-7">
+            <div class="col-sm-6">
                 <div class="text-center">
                  <img src='../assets/img/lista_nozze/{immagine}' class="img-fluid rounded" >
                     
                 </div> 
             </div>
-            <div class="col-sm-1">
-               {stato}
+            <div class="col-sm-2">
+               {pulsante_html}
             </div>
             <div class="col-sm-1"></div> 
         </div>
-            '''.format(**elemento.__dict__))
+            '''.format(**elemento.to_html()))
     return ''.join(html)
 
 def render_tabella_ospiti(dati_tabella):
