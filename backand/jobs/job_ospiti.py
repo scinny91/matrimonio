@@ -47,10 +47,8 @@ def invia_mail_aggiornamento():
     elenco_ospiti = base.Ospite.objects.filter(
                 mail_valida='N'
             ).exclude(mail='')
-    print(elenco_ospiti)
-
+    
     for ospite in elenco_ospiti:
-        print(ospite.__dict__)
         ospite.url = settings.APPSERVER + '/fast_login/?hash=' + ospite.utente
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
