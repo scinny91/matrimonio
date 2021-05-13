@@ -2,6 +2,7 @@
 from email.message import EmailMessage
 import smtplib
 import os
+import time
 
 from matrimonio.backand.bo import base, doc
 from matrimonio import settings
@@ -11,10 +12,13 @@ Benvenuto {nome},
 Siamo lieti di averti ospite nel giorno più bello della nostra vita.
 
 Ti ringraziamo per esserti profilato e permetterci così di poter organizzare il nostro evento al meglio.
-Non perdere il codice ({utente}) per poter accedere nuovamente al sito.
+Non perdere il codice "{utente}" fornito nella partecipazione oppure il nome inserito in fase di profilazione ({nome}) per poter accedere nuovamente al sito.
 
 #stayTuned
 Marco&Marialaura
+
+
+{url}
 """
 
 
@@ -43,7 +47,11 @@ def invia_mail_aggiornamento():
     elenco_ospiti = base.Ospite.objects.filter(
                 mail_valida='N'
             ).exclude(mail='')
+    print(elenco_ospiti)
+
     for ospite in elenco_ospiti:
+        print(ospite.__dict__)
+        ospite.url = settings.APPSERVER + '/fast_login/?hash=' + ospite.utente
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
         server.starttls()
