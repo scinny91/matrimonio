@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^delete_comment/', controller.delete_comment),
     url(r'^check_login/', controller.check_login),
     url(r'^fast_login/', login.fast_login),
+    url(r'^fl/', login.fast_login),
     url(r'^admin/', login.admin),
     url(r'^info/', login.render_info),
     url(r'^viaggio/', login.render_viaggio),

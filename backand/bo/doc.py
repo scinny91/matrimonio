@@ -12,29 +12,42 @@ pdfmetrics.registerFont(TTFont('papyrus', settings.FONT_DIR+'papyrus.ttf'))
 
 import qrcode
 
-def genera_partecipazione(alias, hash):
-    path_file = '%s/partecipazione/part_%s.pdf' % (settings.DOCDIR, alias)
-    c = canvas.Canvas(path_file, pagesize=pagesizes.landscape(pagesizes.A5))
-    c.setFontSize(10)
+def genera_partecipazione(dict_famiglia):
+    url = settings.APPSERVER
+    url = 'https://www.marcoemarialaura.com'
+    path_file = '%s/partecipazione/part_%s.pdf' % (settings.DOCDIR, dict_famiglia['alias'])
+    c = canvas.Canvas(path_file, pagesize=pagesizes.portrait(pagesizes.A7))
+    c.setFontSize(6)
+
+    testo = '[fam. {alias}]'.format(**dict_famiglia)
+    c.drawString(units.cm * 3, units.cm * 9, testo)
+
+
+
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=1,
     )
-    qr.add_data(settings.APPSERVER + '/fast_login/?hash=' + hash)
+    qr.add_data(url + '/fl/?hash=' + dict_famiglia['hash'])
     qr.make()
     img = qr.make_image(fill_color="black", back_color="white")
-
     img_jpeg = img.convert('RGB')
     img_jpeg.save(settings.DOCDIR + '/qr.jpeg')
     img_for_print = utils.ImageReader(settings.DOCDIR + '/qr.jpeg')
 
-    c.drawImage(img_for_print, units.cm * 8, units.cm * 5, width=units.cm * 5, height=units.cm * 5)
-    testo = settings.APPSERVER + '/fast_login/?hash=' + hash
-    c.drawString(units.cm * 4, units.cm * 4, testo)
-    testo = 'Ciao, inquadra il QR code oppure vai su %s e digita il codice: %s' % (settings.APPSERVER, hash)
-    c.drawString(units.cm * 1, units.cm * 3, testo)
+    c.drawImage(img_for_print, x=units.cm * 2.4, y=units.cm * 5.5, width=units.cm * 3, height=units.cm * 3)
+    testo = url + '/fl/?hash=' + dict_famiglia['hash']
+    c.drawString(units.cm * 1, units.cm * 5, testo)
+    c.setFontSize(8)
+    testo = 'Inquadra il QR code oppure vai su:'
+    c.drawString(units.cm * 1.5, units.cm * 3.7, testo)
+    testo = '%s' % (url)
+    c.drawString(units.cm * 1.5, units.cm * 3, testo)
+    testo = 'Per accedere usa il codice: {hash} '.format(**dict_famiglia)
+    c.drawString(units.cm * 1, units.cm * 2.3, testo)
+
     c.save()
 
 

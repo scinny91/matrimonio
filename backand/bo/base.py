@@ -55,6 +55,7 @@ class Famiglia(models.Model):
     hash = models.Field(name='hash', blank=True)
     nome_famiglia = models.Field(name='nome_famiglia', blank=True)
     albergo_abilitato = models.Field(name='albergo_abilitato', blank=True)
+    partecipazione_inviata = models.Field(name='partecipazione_inviata', blank=True)
     upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
     class Meta:
@@ -66,7 +67,10 @@ class Famiglia(models.Model):
         self.save()
 
     def genera_partecipazione(self):
-        doc.genera_partecipazione(self.alias, self.hash)
+        if self.partecipazione_inviata != 'S':
+            doc.genera_partecipazione(self.__dict__)
+            self.partecipazione_inviata = 'S'
+            self.save()
 
 
 class Frase(models.Model):
