@@ -500,3 +500,7 @@ span.messaggio_guestbook{
     min-height: 0px;
     margin-top: -10px;
 }
+
+.immagine_carosello{
+    height: 400px;
+}
