@@ -447,6 +447,7 @@ background-color: rgba(52, 172, 220, 0.98);
 }
 
 .titolo_paragrafi{
+    padding: 10px;
     text-align: center;
 	color: #FFFFFF;
 	font-weight: 500;
@@ -454,6 +455,10 @@ background-color: rgba(52, 172, 220, 0.98);
 	text-transform: uppercase;
 	display: inline-block;
 	margin-bottom: 3px;
+}
+
+.testo_paragrafi{
+    padding: 10px;
 }
 
 .pulsanti_menu{
