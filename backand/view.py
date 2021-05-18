@@ -176,10 +176,11 @@ def render_menu(diz_html):
         tap_selezionato = 'menu_selected'
     lista_pulsanti.append("""<li><a href="{appserver}/viaggio/" class="btn btn-round btn-block pulsanti_menu %s">Lista di nozze</a></li>""" % tap_selezionato)
 
-    tap_selezionato = ''
-    if diz_html['page'] == 'guestbook':
-        tap_selezionato = 'menu_selected'
-    lista_pulsanti.append("""<li><a href="{appserver}/guestbook/" class="btn btn-round btn-block pulsanti_menu %s">Guestbook</a></li>""" % tap_selezionato)
+    if diz_html['hash'] == 'super_user' or diz_html['delta_days'] < 10:
+        tap_selezionato = ''
+        if diz_html['page'] == 'guestbook':
+            tap_selezionato = 'menu_selected'
+        lista_pulsanti.append("""<li><a href="{appserver}/guestbook/" class="btn btn-round btn-block pulsanti_menu %s">Guestbook</a></li>""" % tap_selezionato)
 
     if diz_html['hash'] == 'super_user':
         tap_selezionato = ''
@@ -187,7 +188,8 @@ def render_menu(diz_html):
             tap_selezionato = 'menu_selected'
         lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu %s">Admin</a></li>""" % tap_selezionato)
 
-    if diz_html['hash'] == 'super_user':
+
+    if diz_html['hash'] == 'super_user' or diz_html['delta_days'] < 10:
         tap_selezionato = ''
         if diz_html['page'] == 'gallery':
             tap_selezionato = 'menu_selected'
@@ -321,16 +323,23 @@ def render_blocco_righe_invitato(diz_invitato):
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-sm-3 lbl">
+                        <div class="col-sm-4 lbl">
                             <input type="file" class="form-control-file" id="foto_{id_ospite}" onchange='uploadFile(this)' name="foto_{id_ospite}" style="display: none;" >
                             <label for="foto_{id_ospite}" >
                                 <span> <i class="fas fa-upload fa-2x"></i> Carica la foto!</span>
                             </label>
                         </div>
-                        <div class="col-sm-3 lbl">
+                        <div class="col-sm-4 lbl">
                            <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
                                <label>
                                     <span> <i class="fas fa-user-times fa-2x"></i>  Elimina ospite!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 lbl">
+                           <div>
+                               <label>
+                                    <span> <i class="fas fa-user-plus fa-2x"></i>  Salva</span>
                                 </label>
                             </div>
                         </div>
