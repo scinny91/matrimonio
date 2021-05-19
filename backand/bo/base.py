@@ -13,7 +13,7 @@ class Ospite(models.Model):
     id_ospite = models.AutoField(max_length=11, primary_key=True)
     nome = models.Field(name='nome', blank=True)
     speciale = models.CharField(max_length=10, choices=choices, default='')
-    albergo = models.CharField(max_length=1, choices=choices, default='N')
+    covid = models.CharField(max_length=1, choices=choices, default='N')
     mail = models.CharField(max_length=100, blank=True)
     mail_valida = models.CharField(max_length=100, blank=True, default='N')
     sesso = models.CharField(default='Uomo')
@@ -28,7 +28,7 @@ class Ospite(models.Model):
         app_label = 'matrimonio'
 
     def toHtml(self, famigliaObj):
-        check_fields = ['albergo']
+        check_fields = ['covid']
         for item in check_fields:
             value = self.__getattribute__(item)
             self.__setattr__(item, '' if value == 'N' else 'checked')

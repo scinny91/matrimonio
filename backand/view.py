@@ -129,7 +129,7 @@ def render_tabella_ospiti(dati_tabella):
                  <td class="cella_ospiti title"> Note </td> 
                  <td class="cella_ospiti title"> Menu </td> 
                  <td class="cella_ospiti title"> Sesso </td> 
-                 <td class="cella_ospiti title"> Albergo </td>
+                 <td class="cella_ospiti title"> Covid </td>
                  <td class="cella_ospiti title"> Speciale </td>  
                  <td class="cella_ospiti title"> Upd TS </td> 
                 </tr>''')
@@ -142,7 +142,7 @@ def render_tabella_ospiti(dati_tabella):
                                     <td class="cella_ospiti"> {note} </td> 
                                     <td class="cella_ospiti"> {menu} </td> 
                                     <td class="cella_ospiti"> {sesso} </td> 
-                                    <td class="cella_ospiti"> {albergo} </td>
+                                    <td class="cella_ospiti"> {covid} </td>
                                     <td class="cella_ospiti"> {speciale} </td>  
                                     <td class="cella_ospiti"> {upd_ts} </td> 
                                    </tr>'''.format(**ospite))
@@ -323,23 +323,30 @@ def render_blocco_righe_invitato(diz_invitato):
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-sm-4 lbl">
+                        <div class="col-sm-3 lbl">
                             <input type="file" class="form-control-file" id="foto_{id_ospite}" onchange='uploadFile(this)' name="foto_{id_ospite}" style="display: none;" >
                             <label for="foto_{id_ospite}" >
                                 <span> <i class="fas fa-upload fa-2x"></i> Carica la foto!</span>
                             </label>
                         </div>
-                        <div class="col-sm-4 lbl">
+                        <div class="col-sm-3 lbl">
                            <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
                                <label>
                                     <span> <i class="fas fa-user-times fa-2x"></i>  Elimina ospite!</span>
                                 </label>
                             </div>
                         </div>
-                        <div class="col-sm-4 lbl">
+                        <div class="col-sm-2 lbl">
                            <div>
                                <label>
                                     <span> <i class="fas fa-user-plus fa-2x"></i>  Salva</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 lbl">
+                           <div class='{mostra_albergo} testo_centrato'>
+                               <label>
+                                    Per te gli sposi hanno previsto l'albergo, contattali per maggiori info!
                                 </label>
                             </div>
                         </div>
@@ -388,13 +395,13 @@ def render_blocco_righe_invitato(diz_invitato):
                         </div>
 
                         <div class="col-sm-4 lbl">
-                            <div class="input-group {mostra_albergo}">
-                               <span class="input-group-addon">Albergo:</span>
+                            <div class="input-group">
+                               <span class="input-group-addon">Covid/Vaccino:</span>
                                 <div class="input-group-addon">
-                                    <div class="switch-unload" id='switchAlbergo_{id_ospite}'  
+                                    <div class="switch-unload" id='switchCovid_{id_ospite}'  
                                     data-on-label="<i class='fa fa-check'></i>" 
                                     data-off-label="<i class='fa fa-times'></i>">
-                                      <input type="checkbox" {albergo} id='albergo_{id_ospite}' class='onchangeupdate'  name='albergo'/>
+                                      <input type="checkbox" {covid} id='covid_{id_ospite}' class='onchangeupdate'  name='covid'/>
                                 </div>
                                  </div>
 
