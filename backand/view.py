@@ -386,8 +386,8 @@ def render_blocco_righe_invitato(diz_invitato):
                             <div class="input-group">
                                 <span class="input-group-addon">Menu:</span>
                                 <select class="form-control onchangeupdate" id="menu_{id_ospite}" name='menu'>
+                                      <option {select_adulto} value='adulto'>Adulto</option>
                                       <option {select_bambino} value='bambino'>Bambino</option>
-                                      <option {select_adulto} value='adulto'>Carne</option>
                                       <option {select_senza_glutine} value='senza_glutine'>Senza glutine</option>
                                       <option {select_senza_lattosio} value='senza_lattosio'>Senza lattosio</option>
                                 </select>
