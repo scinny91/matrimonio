@@ -134,11 +134,14 @@ def render_tabella_ospiti(dati_tabella):
                  <td class="cella_ospiti title"> Upd TS </td> 
                 </tr>''')
         for ospite in famiglia['invitati']:
+            ospite['flag_mail_check'] = ''
+            if ospite['mail']:
+                ospite['flag_mail_check'] = '<i class="fas fa-check"></i>' if ospite['mail_valida'] == 'S' else '<i class="fas fa-exclamation-circle"></i>'
             tabella_ospiti.append('''
                                    <tr>
                                     <td class="cella_ospiti"> <img src='../{url_img_user}' class='img-piccola'> </td>
                                     <td class="cella_ospiti"> {nome} </td> 
-                                    <td class="cella_ospiti"> {mail} </td> 
+                                    <td class="cella_ospiti"> {mail} {flag_mail_check}</td> 
                                     <td class="cella_ospiti"> {note} </td> 
                                     <td class="cella_ospiti"> {menu} </td> 
                                     <td class="cella_ospiti"> {sesso} </td> 
