@@ -20,7 +20,7 @@ def genera_partecipazione(dict_famiglia):
     c.setFontSize(6)
 
     testo = '[fam. {alias}]'.format(**dict_famiglia)
-    c.drawString(units.cm * 3, units.cm * 9, testo)
+    c.drawString(units.cm * 3, units.cm * 12, testo)
 
 
 

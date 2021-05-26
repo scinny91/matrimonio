@@ -411,6 +411,17 @@
 .testo_centrale{
     text-align: center;
 }
+.testo_centralissimo{
+    text-align: center;
+    padding-top: 10%;
+
+    height: 100%;
+}
+
+.full_height{
+    height: 100%;
+    border: 1px solid grey;
+}
 
 
 .tabella_ospiti{
