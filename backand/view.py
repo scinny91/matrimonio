@@ -73,20 +73,25 @@ def render_tabella_lista_nozze(elenco_lista):
 
     for elemento in elenco_lista:
         html.append('''
-        <div class="row">
+        <div class="row" >
 
-            <div class="col-sm-1"></div> 
-            <div class="col-sm-2">
-                <h2>{nome} </h2><br> {descrizione}
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3">
+                <div class=''>
+                     <h2>{nome} </h2>
+                     <br> {descrizione}
+                </div>
             </div> 
-            <div class="col-sm-6">
+            <div class="col-sm-5 testo_centrale">
                 <div class="text-center">
-                 <img src='../assets/img/lista_nozze/{immagine}' class="img-fluid rounded" >
+                 <img src='../assets/img/lista_nozze/{immagine}' class="img-fluid rounded" style='max-width:350px'>
                     
                 </div> 
             </div>
-            <div class="col-sm-2">
-               {pulsante_html}
+            <div class="col-sm-2 testo_centralissimo">
+                <div class='' > 
+                    {pulsante_html}
+                </div>
             </div>
             <div class="col-sm-1"></div> 
         </div>
