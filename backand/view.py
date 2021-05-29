@@ -247,20 +247,24 @@ def render_menu(diz_html):
     return html
 
 
-def html_carosello(tipo_carosello, rand=True):
+def html_carosello(tipo_carosello, rand=True, limit=0):
     DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
     elenco_file = os.listdir(DIR)
     elenco_file = [i for i in elenco_file if i != '.DS_Store']
     if rand:
         random.shuffle(elenco_file)
+    if limit:
+        elenco_file = elenco_file[:limit]
     posizione = 'assets/img/%s' % tipo_carosello
     return crea_html_carosello(elenco_file, posizione)
 
 
-def indicators_carosello(tipo_carosello, id_carosello):
+def indicators_carosello(tipo_carosello, id_carosello, limit=0):
     DIR = settings.IMG_DIR + '/%s/' % tipo_carosello
     elenco_file = os.listdir(DIR)
     elenco_file = [i for i in elenco_file if i != '.DS_Store']
+    if limit:
+        elenco_file = elenco_file[:limit]
     html = ["""<li data-target="#%s" data-slide-to="0" class="active"></li>""" % id_carosello]
     for index in range(1, len(elenco_file)):
         html.append("""<li data-target="#{id_carosello}" data-slide-to="{index}"></li>""".format(**locals()))
