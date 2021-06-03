@@ -448,6 +448,10 @@
 .error{
  color: red;
 }
+.error_nome_mancante{
+ color: black;
+ background-color: red;
+}
 
 .nascosta{
     display: none

@@ -75,6 +75,14 @@ function updateGuest(){
     formData.append("campo", campo);
     formData.append("valore", valore);
 
+    if (!jQuery('#nome_ospite_'+id_ospite).val())
+    {
+        jQuery('#nome_ospite_'+id_ospite).addClass('error_nome_mancante')
+    }
+    else
+        jQuery('#nome_ospite_'+id_ospite).removeClass('error_nome_mancante')
+
+
     if (this.name == 'mail')
     {
         if (!ValidateEmail(valore))
