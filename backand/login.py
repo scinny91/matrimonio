@@ -54,12 +54,16 @@ def admin(request):
         return HttpResponse('utente non autorizzato')
 
     dati_tabella = []
+    ospiti = []
     elenco_famiglie = base.Famiglia.objects.filter()
-    for famiglia in elenco_famiglie:
+    import operator
+    for famiglia in sorted(elenco_famiglie, key=operator.attrgetter('nome_famiglia')):
         uuid = famiglia.__dict__
         invitati = base.Ospite.objects.filter(utente=famiglia.hash)
         uuid['invitati'] = [i.__dict__ for i in invitati]
         dati_tabella.append(uuid)
+        ospiti.extend(invitati)
+
 
 
     diz_html = {
@@ -70,7 +74,12 @@ def admin(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'tabella_ospiti': view.render_tabella_ospiti(dati_tabella),
-        'page' : 'admin',
+        'famiglie': len(elenco_famiglie),
+        'ospiti': len(ospiti),
+        'maschi': len([i for i in ospiti if i.sesso == 'Uomo']),
+        'femmine': len([i for i in ospiti if i.sesso == 'Donna']),
+        'bambini': len([i for i in ospiti if i.menu == 'bambino']),
+        'page': 'admin',
     }
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_admin(diz_html)

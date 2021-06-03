@@ -19,7 +19,7 @@ class Ospite(models.Model):
     sesso = models.CharField(default='Uomo')
     note = models.Field(blank=True)
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
-    menu = models.Field(blank=True, default='bambino')
+    menu = models.Field(blank=True, default='adulto')
     utente = models.Field(blank=True)
     upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
