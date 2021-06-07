@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .bo import base, doc
 from . import view, start, costants, controller
 from matrimonio import settings
+import datetime
 import random
 import os
 
@@ -234,13 +235,23 @@ def make_login(hash_inserito, response):
         hash=hash_inserito
     )
     if famigliaObj:
-        codice_famiglia = famigliaObj[0].hash
+        famigliaObj = base.Famiglia.objects.get(
+            hash=hash_inserito
+        )
+        codice_famiglia = famigliaObj.hash
+        famigliaObj.upd_ts = datetime.datetime.now()
+        famigliaObj.save()
     else:
         ospiteObj = base.Ospite.objects.filter(
             nome=hash_inserito
         )
         if ospiteObj:
             codice_famiglia = ospiteObj[0].utente
+            famigliaObj = base.Famiglia.objects.get(
+                hash=codice_famiglia
+            )
+            famigliaObj.upd_ts = datetime.datetime.now()
+            famigliaObj.save()
 
     if codice_famiglia:
         response.set_cookie('hash', codice_famiglia)
