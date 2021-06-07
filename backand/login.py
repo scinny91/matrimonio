@@ -34,8 +34,11 @@ def mostra_login(request):
 
 def fast_login(request):
     hash_inserito = request.GET.get('hash', '')
-
-    return make_login(hash_inserito, HttpResponseRedirect(settings.APPSERVER))
+    response, check = make_login_fast(hash_inserito)
+    if check:
+        return _render_profilazione(response, utente=hash_inserito)
+    else:
+        return make_login(hash_inserito, HttpResponseRedirect(settings.APPSERVER))
 
 
 def render_login(ret):
@@ -166,18 +169,23 @@ def render_guestbook(request):
 
 @check_login
 def render_profilazione(request):
+    return _render_profilazione(request)
+
+def _render_profilazione(request, utente=''):
+    if not utente:
+        utente = request.COOKIES['hash']
     diz_html = {
         'appserver': settings.APPSERVER,
         'delta_days': costants.delta_days,
         'due_date_umana': costants.due_date_umana,
         'js_index': costants.js_index,
         'version': costants.get_version(),
-        'hash': request.COOKIES['hash'],
+        'hash': utente,
         'page': 'profilazione',
     }
     diz_html['menu'] = view.render_menu(diz_html)
 
-    utente = request.COOKIES['hash']
+
     famiglia = base.Famiglia.objects.filter(hash=utente)[0]
     dati_ospiti = base.Ospite.objects.filter(utente=utente)
     lista_righe = [view.render_blocco_righe_invitato(i.toHtml(famiglia)) for i in dati_ospiti]
@@ -195,6 +203,7 @@ def render_profilazione(request):
         '''
     html = view.render_profilazione(diz_html)
     return HttpResponse(html)
+
 
 
 @check_login
@@ -263,4 +272,41 @@ def make_login(hash_inserito, response):
         response.content = 'ko'
     return response
 
+
+def make_login_fast(hash_inserito):
+    response = HttpResponse()
+    codice_famiglia = None
+
+    #fallback con codice utente
+    famigliaObj = base.Famiglia.objects.filter(
+        hash=hash_inserito
+    )
+    if famigliaObj:
+        famigliaObj = base.Famiglia.objects.get(
+            hash=hash_inserito
+        )
+        codice_famiglia = famigliaObj.hash
+        famigliaObj.upd_ts = datetime.datetime.now()
+        famigliaObj.save()
+    else:
+        ospiteObj = base.Ospite.objects.filter(
+            nome=hash_inserito
+        )
+        if ospiteObj:
+            codice_famiglia = ospiteObj[0].utente
+            famigliaObj = base.Famiglia.objects.get(
+                hash=codice_famiglia
+            )
+            famigliaObj.upd_ts = datetime.datetime.now()
+            famigliaObj.save()
+
+    if codice_famiglia:
+        response.set_cookie('hash', codice_famiglia)
+        response.set_cookie('login', True)
+        response.content = 'ok'
+    else:
+        response.delete_cookie('hash')
+        response.set_cookie('login', False)
+        response.content = 'ko'
+    return response, codice_famiglia
 
