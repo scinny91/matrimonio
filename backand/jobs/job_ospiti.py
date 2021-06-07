@@ -3,6 +3,7 @@ from email.message import EmailMessage
 import smtplib
 import os
 import time
+from datetime import datetime
 
 from matrimonio.backand.bo import base, doc
 from matrimonio import settings
@@ -66,6 +67,17 @@ def invia_mail_aggiornamento():
         ospite.mail_valida = 'S'
         ospite.save()
 
+    end_date = datetime.today()
+    elenco_ospiti = base.Ospite.objects.filter(
+                nome='',
+            )
+
+    for ospite in elenco_ospiti:
+        ttl = (datetime.today() - ospite.upd_ts).days
+        if ttl:
+            utente = ospite.utente
+            print('ospite (famiglia {utente} senza nome da {ttl} giorni, lo cavo!'.format(**locals()))
+            ospite.delete()
 
 def pulisci_immagini():
     elenco_immagini_ospiti = []
