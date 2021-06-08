@@ -381,8 +381,8 @@ def render_blocco_righe_invitato(diz_invitato):
                             <div class="input-group">
                                 <span class="input-group-addon">Sesso:</span>
                                 <select class="form-control onchangeupdate" id="sesso_{id_ospite}" name='sesso'>
-                                      <option {select_uomo} value='Uomo'>Uomo</option>
-                                      <option {select_donna} value='Donna'>Donna</option>
+                                      <option {select_Uomo} value='Uomo'>Uomo</option>
+                                      <option {select_Donna} value='Donna'>Donna</option>
                                 </select> 
                             </div>
                         </div>

@@ -39,8 +39,8 @@ class Ospite(models.Model):
         self.select_senza_lattosio = ''
         self.__setattr__('select_%s' % self.menu, 'selected')
 
-        self.select_uomo = ''
-        self.select_donna = ''
+        self.select_Uomo = ''
+        self.select_Donna = ''
         self.__setattr__('select_%s' % self.sesso, 'selected')
 
         self.mostra_albergo = ''
