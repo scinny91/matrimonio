@@ -351,7 +351,8 @@ def render_blocco_righe_invitato(diz_invitato):
                         <div class="col-sm-2 lbl">
                            <div>
                                <label>
-                                    <span> <i class="fas fa-user-plus fa-2x"></i>  Salva</span>
+                                    <span> <div class='salva_ospite'  id='salva_ospite_{id_ospite}'>
+                                        <i class="fas fa-user-plus fa-2x"></i>Salva</div> </span>
                                 </label>
                             </div>
                         </div>

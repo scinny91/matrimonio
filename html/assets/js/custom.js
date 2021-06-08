@@ -7,6 +7,7 @@ function Init()
 {
     jQuery('.add_guest').click(add_guest)
     jQuery('.delete_ospite').click(deleteGuest)
+    jQuery('.salva_ospite').click(salva_ospite)
     jQuery('.onchangeupdate').change(updateGuest)
     jQuery('#login').click(login)
     jQuery('#body_login').on('keypress', enter_press)
@@ -37,9 +38,18 @@ function add_guest()
                 themeInit();
                 jQuery('.onchangeupdate').change(updateGuest);
                 jQuery('.delete_ospite').click(deleteGuest)
+                jQuery('.salva_ospite').click(salva_ospite)
                 jQuery('.add_guest').html('Aggiungi partecipante')
         }
   });
+}
+
+function salva_ospite(){
+    id_ospite = (this.id).split('_').pop()
+    jQuery("#salva_ospite_"+id_ospite).html('<i class="fas fa-spinner fa-2x"></i>')
+    setTimeout(function(){ jQuery("#salva_ospite_"+id_ospite).html('<i class="fas fa-user-plus fa-2x"></i>Salva')}, 1000);
+
+
 }
 
 
