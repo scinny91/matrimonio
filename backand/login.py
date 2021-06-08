@@ -262,7 +262,7 @@ def make_login(hash_inserito, response):
             famigliaObj.upd_ts = datetime.datetime.now()
             famigliaObj.save()
 
-    if codice_famiglia:
+    if codice_famiglia and hash_inserito:
         response.set_cookie('hash', codice_famiglia)
         response.set_cookie('login', True)
         response.content = 'ok'
@@ -288,17 +288,7 @@ def make_login_fast(hash_inserito):
         codice_famiglia = famigliaObj.hash
         famigliaObj.upd_ts = datetime.datetime.now()
         famigliaObj.save()
-    else:
-        ospiteObj = base.Ospite.objects.filter(
-            nome=hash_inserito
-        )
-        if ospiteObj:
-            codice_famiglia = ospiteObj[0].utente
-            famigliaObj = base.Famiglia.objects.get(
-                hash=codice_famiglia
-            )
-            famigliaObj.upd_ts = datetime.datetime.now()
-            famigliaObj.save()
+
 
     if codice_famiglia:
         response.set_cookie('hash', codice_famiglia)
