@@ -73,13 +73,14 @@ def invia_mail_aggiornamento():
 
     for ospite in elenco_ospiti:
         #gli devo dare a datetime lo stesso timezone che ho sul DB
-        ttl = (datetime.now(ospite.upd_ts.tzinfo) - ospite.upd_ts).days
+        ttl = (datetime.now(ospite.upd_ts.tzinfo) - ospite.upd_ts).seconds
+        ttl = ttl/3600
         utente = ospite.utente
-        if ttl:
-            print('ospite (famiglia {utente} senza nome da {ttl} giorni, lo cavo!'.format(**locals()))
+        if ttl>1:
+            print('ospite (famiglia {utente} senza nome da {ttl} ore, lo cavo!'.format(**locals()))
             ospite.delete()
         else:
-            print('ospite (famiglia {utente} senza nome da {ttl} giorni, aspetto a cancellarlo cavo!'.format(**locals()))
+            print('ospite (famiglia {utente} senza nome da {ttl} ore, aspetto a cancellarlo cavo!'.format(**locals()))
 
 def pulisci_immagini():
     elenco_immagini_ospiti = []
