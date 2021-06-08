@@ -67,13 +67,13 @@ def invia_mail_aggiornamento():
         ospite.mail_valida = 'S'
         ospite.save()
 
-    end_date = datetime.today()
     elenco_ospiti = base.Ospite.objects.filter(
                 nome='',
             )
 
     for ospite in elenco_ospiti:
-        ttl = (datetime.today() - ospite.upd_ts).days
+        #gli devo dare a datetime lo stesso timezone che ho sul DB
+        ttl = (datetime.now(ospite.upd_ts.tzinfo) - ospite.upd_ts).days
         if ttl:
             utente = ospite.utente
             print('ospite (famiglia {utente} senza nome da {ttl} giorni, lo cavo!'.format(**locals()))
