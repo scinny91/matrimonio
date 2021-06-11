@@ -36,7 +36,8 @@ def fast_login(request):
     hash_inserito = request.GET.get('hash', '')
     response, check = make_login_fast(hash_inserito)
     if check:
-        return _render_profilazione(response, utente=hash_inserito)
+        response.content = _render_profilazione(response, utente=hash_inserito)
+        return response
     else:
         return make_login(hash_inserito, HttpResponseRedirect(settings.APPSERVER))
 
@@ -169,7 +170,7 @@ def render_guestbook(request):
 
 @check_login
 def render_profilazione(request):
-    return _render_profilazione(request)
+    return HttpResponse(_render_profilazione(request))
 
 def _render_profilazione(request, utente=''):
     if not utente:
@@ -202,7 +203,7 @@ def _render_profilazione(request, utente=''):
         </div>
         '''
     html = view.render_profilazione(diz_html)
-    return HttpResponse(html)
+    return html
 
 
 
