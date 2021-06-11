@@ -36,7 +36,7 @@ def fast_login(request):
     hash_inserito = request.GET.get('hash', '')
     response, check = make_login_fast(hash_inserito)
     if check:
-        response.content = _render_profilazione(response, utente=hash_inserito)
+        response.content = _render_profilazione(hash_inserito)
         return response
     else:
         return make_login(hash_inserito, HttpResponseRedirect(settings.APPSERVER))
@@ -170,11 +170,11 @@ def render_guestbook(request):
 
 @check_login
 def render_profilazione(request):
-    return HttpResponse(_render_profilazione(request))
+    utente = request.COOKIES['hash']
+    return HttpResponse(_render_profilazione(utente))
 
-def _render_profilazione(request, utente=''):
-    if not utente:
-        utente = request.COOKIES['hash']
+def _render_profilazione(utente):
+
     diz_html = {
         'appserver': settings.APPSERVER,
         'delta_days': costants.delta_days,
