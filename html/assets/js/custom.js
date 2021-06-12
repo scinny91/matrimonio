@@ -1,6 +1,6 @@
 var transparentDemo = true;
 var fixedTop = false;
-
+var version = '';
 
 
 function Init()
@@ -18,6 +18,7 @@ function Init()
     jQuery('#add_comment').click(add_comment)
     jQuery('.elimina_commento').click(elimina_commento)
 
+     setInterval(check_commit, 3000);
 }
 
 jQuery(window).scroll(function(e) {
@@ -301,6 +302,23 @@ function elimina_commento()
               setTimeout(function () {
                 jQuery('#messaggio_eliminazione').hide()
                  }, 4000);
+        }
+  });
+}
+
+
+function check_commit(){
+    jQuery.ajax(
+        {
+        url: jQuery('#appserver').val() + "/check_commit/",
+
+        success: function(result){
+            console.log(result)
+
+            if (version == '')
+                version = result.version
+            if (version != result.version)
+                logout()
         }
   });
 }

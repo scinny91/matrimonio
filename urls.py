@@ -20,6 +20,7 @@ from .backand import view, controller, login
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     #url(r'^html/', start.start),
+    url(r'^check_commit/', controller.check_commit),
     url(r'^save_image/', controller.save_image),
     url(r'^delete_guest/', controller.delete_guest),
     url(r'^update_guest/', controller.update_guest),

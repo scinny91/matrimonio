@@ -1,8 +1,8 @@
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, JsonResponse
 import traceback
 from matrimonio import settings
 from datetime import datetime
-from . import view, login
+from . import view, login, costants
 from PIL import Image, ExifTags
 import zipfile
 import os
@@ -225,3 +225,7 @@ def _ruota_immagine(path):
 
 
 # commit di test da sourcetree
+
+
+def check_commit(request):
+    return JsonResponse({'version': costants.get_version()})
