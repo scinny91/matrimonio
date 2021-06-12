@@ -45,25 +45,42 @@ def start(request):
         # per l'html ci schiaffo dentro le costanti...
         html = read_file(url)
         cookies = request.COOKIES
-        objFamiglia = base.Famiglia.objects.get(hash=cookies['hash'])
-        if 'index.html' in url:
+        hash = cookies.get('hash')
+        if hash:
+            objFamiglia = base.Famiglia.objects.get(hash=cookies['hash'])
+            if 'index.html' in url:
+                diz_html = {
+                    'appserver': settings.APPSERVER,
+                    'delta_days': costants.delta_days,
+                    'due_date_umana': costants.due_date_umana,
+                    'js_index': costants.js_index,
+                    'version': costants.get_version(),
+                    'hash': cookies['hash'],
+                    'nome_famiglia': objFamiglia.nome_famiglia,
+                    'page': 'index',
+                    'carosello_alto': view.html_carosello('carosello', limit=7),
+                    'indicators_alto': view.indicators_carosello('carosello', 'carousel-example-generic', limit=7),
+                    'foto_sposo': view.html_carosello('carosello_sposo', rand=False),
+                    'foto_sposa': view.html_carosello('carosello_sposa', rand=False),
+                    'foto_sposo_testimoni': view.html_carosello('carosello_sposo_testimoni', rand=False),
+                    'foto_sposa_testimoni': view.html_carosello('carosello_sposa_testimoni', rand=False),
+                }
+                html = view.render_index(diz_html)
+        elif cookies.get('login') == 'False':
             diz_html = {
                 'appserver': settings.APPSERVER,
                 'delta_days': costants.delta_days,
                 'due_date_umana': costants.due_date_umana,
                 'js_index': costants.js_index,
                 'version': costants.get_version(),
-                'hash': cookies['hash'],
-                'nome_famiglia': objFamiglia.nome_famiglia,
-                'page': 'index',
-                'carosello_alto': view.html_carosello('carosello', limit=7),
-                'indicators_alto': view.indicators_carosello('carosello', 'carousel-example-generic', limit=7),
-                'foto_sposo': view.html_carosello('carosello_sposo', rand=False),
-                'foto_sposa': view.html_carosello('carosello_sposa', rand=False),
-                'foto_sposo_testimoni': view.html_carosello('carosello_sposo_testimoni', rand=False),
-                'foto_sposa_testimoni': view.html_carosello('carosello_sposa_testimoni', rand=False),
             }
-            html = view.render_index(diz_html)
+            html = view.render_login(diz_html)
+        else:
+            diz_html = {
+                'appserver': settings.APPSERVER,
+                'version': costants.get_version(),
+            }
+            html = view.render_unauth(diz_html)
 
         ret = HttpResponse()
         ret.content = html
