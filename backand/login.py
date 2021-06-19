@@ -10,8 +10,8 @@ import os
 
 def check_login(func):
     def wrapper(request):
-        #print(request.COOKIES)
-        if request.COOKIES.get('login') != 'False':
+        print(request.COOKIES)
+        if request.COOKIES and request.COOKIES.get('login') != 'False':
             return func(request)
         else:
             diz_html = {
