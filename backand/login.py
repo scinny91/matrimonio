@@ -89,6 +89,7 @@ def admin(request):
         'maschi': len([i for i in ospiti if i.sesso == 'Uomo']),
         'femmine': len([i for i in ospiti if i.sesso == 'Donna']),
         'bambini': len([i for i in ospiti if i.menu == 'bambino']),
+        'tavoli': len(list(set([i.tavolo.nome for i in ospiti]))),
         'page': 'admin',
     }
     diz_html['menu'] = view.render_menu(diz_html)

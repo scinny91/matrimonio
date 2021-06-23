@@ -42,6 +42,7 @@ class Ospite(models.Model):
         app_label = 'matrimonio'
 
     def toHtml(self, famigliaObj=None):
+        self.covid_html = 'si' if self.covid == 'S' else 'no'
         check_fields = ['covid']
         for item in check_fields:
             value = self.__getattribute__(item)
@@ -63,7 +64,7 @@ class Ospite(models.Model):
 
         self.nome_tavolo = self.tavolo.nome
 
-        self.covid_html = 'si' if self.covid == 'S' else 'no'
+
 
         return self.__dict__
 
