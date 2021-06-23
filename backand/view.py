@@ -232,9 +232,11 @@ def render_tabella_tavoli(ospiti):
             """.format(**ospite.toHtml()))
 
         html_sezione = ''.join(sezione)
+        qta_ospiti = len(ospiti_tavolo)
         lista_html.append('''
         <div class='row'>    
-            <div class="col-sm-6 title"> {ospite.tavolo.nome} </div>
+            <div class="col-sm-2 title"> Ospiti: {qta_ospiti} </div>
+            <div class="col-sm-4 title"> {ospite.tavolo.nome} </div>
             <div class="col-sm-2 title"> {ospite.tavolo.bottiglia}</div>
             <div class="col-sm-2 title"> {ospite.tavolo.note}</div>
             <div class="col-sm-2 title"> {ospite.tavolo.ins_ts} </div>
