@@ -144,6 +144,7 @@ def render_info(request):
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
         'page': 'info',
+        'sezione_albergo': view.render_sezione_albergo() if objFamiglia.albergo_abilitato == 'S' else '',
     }
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_info(diz_html)

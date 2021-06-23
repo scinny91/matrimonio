@@ -76,6 +76,21 @@ def render_guestbook(diz_html):
     html = html.format(**diz_html)
     return html
 
+def render_sezione_albergo():
+    return """
+    <div class="row">
+             <div class="col-sm-3">
+                 <h3>Albergo:</h3>
+                 <label class="control-label">Holiday Inn Express Reggio Emilia</label>
+                 <label class="control-label">Reception: +39 0522507122</label>
+                 <label class="control-label">Via Meuccio Ruini n°7,Reggio Emilia, 42100</label>
+
+             </div>
+             <div class="col-sm-9 lbl">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2835.0799518522317!2d10.640245351084486!3d44.717979778996664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47801c301eed65c7%3A0xf0604fe427499001!2sHoliday%20Inn%20Express%20Reggio%20Emilia!5e0!3m2!1sit!2sit!4v1624459141687!5m2!1sit!2sit" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>            
+                </div>
+        </div>"""
+
 def render_tabella_lista_nozze(elenco_lista):
     html = []
 
