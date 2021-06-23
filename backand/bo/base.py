@@ -64,7 +64,6 @@ class Ospite(models.Model):
         self.nome_tavolo = self.tavolo.nome
 
         self.covid_html = 'si' if self.covid == 'S' else 'no'
-        self.sesso_html = 'Maschio' if self.sesso == 'M' else 'Femmina'
 
         return self.__dict__
 
