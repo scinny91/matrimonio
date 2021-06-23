@@ -177,7 +177,7 @@ def render_tabella_ospiti(dati_tabella, tavoli):
                                     <td class="cella_ospiti"> {mail} {flag_mail_check}</td> 
                                     <td class="cella_ospiti"> {note} </td> 
                                     <td class="cella_ospiti"> {menu} </td> 
-                                    <td class="cella_ospiti"> {sesso_html} </td> 
+                                    <td class="cella_ospiti"> {sesso} </td> 
                                     <td class="cella_ospiti"> {covid_html} </td>
                                     <td class="cella_ospiti"> {speciale} </td>  
                                     <td class="cella_ospiti"> {nome_tavolo} </td>  
@@ -211,7 +211,7 @@ def render_tabella_tavoli(ospiti):
                 <div class="col-md-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
                 <div class="col-md-4">{nome}</div>
                 <div class="col-md-3">Menu: {menu}</div>
-                <div class="col-md-2">Sesso: {sesso_html}</div>
+                <div class="col-md-2">Sesso: {sesso}</div>
                 <div class="col-md-2">Covid: {covid_html}</div>
             </div>
             """.format(**ospite.toHtml()))
