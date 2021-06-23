@@ -3,6 +3,19 @@ from matrimonio.backand.bo import doc
 import hashlib
 from datetime import datetime
 
+
+
+class Tavolo(models.Model):
+    id_tavolo = models.AutoField(max_length=11, primary_key=True)
+    nome = models.Field(name='nome', blank=True)
+    bottiglia = models.Field(name='bottiglia', blank=True)
+    note = models.Field(name='note', blank=True)
+    ins_ts = models.DateTimeField(name='ins_ts', auto_now=True)
+    class Meta:
+        db_table = 'tavoli'
+        app_label = 'matrimonio'
+
+
 class Ospite(models.Model):
 
     choices = [
@@ -21,13 +34,14 @@ class Ospite(models.Model):
     url_img_user = models.Field(blank=True, default='assets/img/mockup.png')
     menu = models.Field(blank=True, default='adulto')
     utente = models.Field(blank=True)
+    tavolo = models.ForeignKey(Tavolo, on_delete=models.CASCADE, default='1')
     upd_ts = models.DateTimeField(name='upd_ts', auto_now=True)
 
     class Meta:
         db_table = 'ospiti'
         app_label = 'matrimonio'
 
-    def toHtml(self, famigliaObj):
+    def toHtml(self, famigliaObj=None):
         check_fields = ['covid']
         for item in check_fields:
             value = self.__getattribute__(item)
@@ -44,8 +58,14 @@ class Ospite(models.Model):
         self.__setattr__('select_%s' % self.sesso, 'selected')
 
         self.mostra_albergo = ''
-        if famigliaObj.albergo_abilitato != 'S':
+        if famigliaObj and famigliaObj.albergo_abilitato != 'S':
             self.mostra_albergo = 'nascosta'
+
+        self.nome_tavolo = self.tavolo.nome
+
+        self.covid_html = 'si' if self.covid == 'S' else 'no'
+        self.sesso_html = 'Maschio' if self.sesso == 'M' else 'Femmina'
+
         return self.__dict__
 
 
@@ -139,3 +159,5 @@ class ListaNozze(models.Model):
             self.pulsante_html = """<button class="btn btn-danger btn-warning-filled"><i class="fab fa-paypal"></i> {stato}</button>""".format(**self.__dict__)
 
         return self.__dict__
+
+

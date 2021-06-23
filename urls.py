@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^fast_login/', login.fast_login),
     url(r'^fl/', login.fast_login),
     url(r'^admin/', login.admin),
+    url(r'^tavoli/', login.tavoli),
     url(r'^info/', login.render_info),
     url(r'^viaggio/', login.render_viaggio),
     url(r'^guestbook/', login.render_guestbook),

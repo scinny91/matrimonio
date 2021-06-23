@@ -3,6 +3,8 @@ import random
 import codecs
 import os
 from datetime import datetime, timezone
+from operator import attrgetter
+import itertools
 
 from .bo import base
 from matrimonio import settings
@@ -24,6 +26,12 @@ def render_login(diz_html):
 
 def render_admin(diz_html):
     with codecs.open(settings.STATIC_HTML + '/html/admin.html', 'r', encoding='utf-8', errors='ignore') as content_file:
+        html = content_file.read()
+    html = html.format(**diz_html)
+    return html
+
+def render_tavoli(diz_html):
+    with codecs.open(settings.STATIC_HTML + '/html/tavoli.html', 'r', encoding='utf-8', errors='ignore') as content_file:
         html = content_file.read()
     html = html.format(**diz_html)
     return html
@@ -98,7 +106,7 @@ def render_tabella_lista_nozze(elenco_lista):
             '''.format(**elemento.to_html()))
     return ''.join(html)
 
-def render_tabella_ospiti(dati_tabella):
+def render_tabella_ospiti(dati_tabella, tavoli):
     lista_html = ['<table class="tabella_ospiti table">']
     if not dati_tabella:
         lista_html.append('Nessuna famiglia trovata')
@@ -119,6 +127,7 @@ def render_tabella_ospiti(dati_tabella):
                 <td  class="cella_ospiti"> {nome_famiglia}</td>  
                 <td  class="cella_ospiti"> {albergo_abilitato}</td>  
                 <td  class="cella_ospiti"> {upd_ts} </td> 
+                
             </tr>
             '''.format(**famiglia))
         tabella_ospiti = []
@@ -135,28 +144,90 @@ def render_tabella_ospiti(dati_tabella):
                  <td class="cella_ospiti title"> Menu </td> 
                  <td class="cella_ospiti title"> Sesso </td> 
                  <td class="cella_ospiti title"> Covid </td>
+                 <td class="cella_ospiti title"> Tavolo </td>  
                  <td class="cella_ospiti title"> Speciale </td>  
                  <td class="cella_ospiti title"> Upd TS </td> 
+                 <td class="cella_ospiti title"> Azioni </td> 
                 </tr>''')
         for ospite in famiglia['invitati']:
             ospite['flag_mail_check'] = ''
             if ospite['mail']:
                 ospite['flag_mail_check'] = '<i class="fas fa-check"></i>' if ospite['mail_valida'] == 'S' else '<i class="fas fa-exclamation-circle"></i>'
+
+            ospite['html_selezione_tavolo'] = """
+            <div class="input-group">
+                <span class="input-group-addon">tavolo:</span>
+                    <select class="form-control onchangeupdate" id="tavolo_{id_ospite}" name='tavolo'>
+                          {valori_selezione}
+                    </select> 
+            </div>"""
+            valori = []
+            for tavolo in tavoli:
+                sel = ""
+                if ospite['tavolo_id'] == tavolo['id_tavolo']:
+                    sel = 'selected'
+                valori.append(" <option {sel} value='{tavolo[id_tavolo]}'>{tavolo[nome]}</option>".format(**locals()))
+            ospite['valori_selezione'] = ''.join(valori)
+            ospite['html_selezione_tavolo'] = ospite['html_selezione_tavolo'].format(**ospite)
+
             tabella_ospiti.append('''
-                                   <tr>
+                                   <tr id='riga_invitato_{id_ospite}'>
                                     <td class="cella_ospiti"> <img src='../{url_img_user}' class='img-piccola'> </td>
                                     <td class="cella_ospiti"> {nome} </td> 
                                     <td class="cella_ospiti"> {mail} {flag_mail_check}</td> 
                                     <td class="cella_ospiti"> {note} </td> 
                                     <td class="cella_ospiti"> {menu} </td> 
-                                    <td class="cella_ospiti"> {sesso} </td> 
-                                    <td class="cella_ospiti"> {covid} </td>
+                                    <td class="cella_ospiti"> {sesso_html} </td> 
+                                    <td class="cella_ospiti"> {covid_html} </td>
                                     <td class="cella_ospiti"> {speciale} </td>  
-                                    <td class="cella_ospiti"> {upd_ts} </td> 
+                                    <td class="cella_ospiti"> {nome_tavolo} </td>  
+                                    <td class="cella_ospiti"> {upd_ts} </td>  
+                                    <td class="cella_ospiti"> 
+                                        <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
+                                           <label>
+                                                <span> <i class="fas fa-user-times"></i>  Elimina</span>
+                                            </label>
+                                       </div> 
+                                       {html_selezione_tavolo}
+                                    </td> 
                                    </tr>'''.format(**ospite))
             #print(ospite)
         lista_html.append('<tr class="famiglia"> <td colspan=5> <table class="tabella_ospiti"> %s </table> </td> </tr>' % ''.join(tabella_ospiti))
     lista_html.append('</table>')
+
+    return ''.join(lista_html)
+
+
+def render_tabella_tavoli(ospiti):
+    lista_html = []
+
+    grouper = attrgetter('tavolo.nome')
+    for tavolo, c in itertools.groupby(sorted(ospiti, key=grouper), key=grouper):
+        ospiti_tavolo = list(c)
+        sezione = []
+        for ospite in ospiti_tavolo:
+            sezione.append("""
+            <div class='row'>  
+                <div class="col-md-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
+                <div class="col-md-4">{nome}</div>
+                <div class="col-md-3">Menu: {menu}</div>
+                <div class="col-md-2">Sesso: {sesso_html}</div>
+                <div class="col-md-2">Covid: {covid_html}</div>
+            </div>
+            """.format(**ospite.toHtml()))
+
+        html_sezione = ''.join(sezione)
+        lista_html.append('''
+        <div class='row'>    
+            <div class="col-sm-6 title"> {ospite.tavolo.nome} </div>
+            <div class="col-sm-2 title"> {ospite.tavolo.bottiglia}</div>
+            <div class="col-sm-2 title"> {ospite.tavolo.note}</div>
+            <div class="col-sm-2 title"> {ospite.tavolo.ins_ts} </div>
+            {html_sezione}
+        </div>'''.format(**locals()))
+
+
+
 
     return ''.join(lista_html)
 
@@ -195,6 +266,10 @@ def render_menu(diz_html):
         if diz_html['page'] == 'admin':
             tap_selezionato = 'menu_selected'
         lista_pulsanti.append("""<li><a href="{appserver}/admin/" class="btn btn-round btn-block pulsanti_menu %s">Admin</a></li>""" % tap_selezionato)
+        tap_selezionato = ''
+        if diz_html['page'] == 'tavoli':
+            tap_selezionato = 'menu_selected'
+        lista_pulsanti.append("""<li><a href="{appserver}/tavoli/" class="btn btn-round btn-block pulsanti_menu %s">Tavoli</a></li>""" % tap_selezionato)
 
 
     if diz_html['hash'] == 'super_user' or diz_html['delta_days'] < 10:
@@ -346,7 +421,7 @@ def render_blocco_righe_invitato(diz_invitato):
                                <label>
                                     <span> <i class="fas fa-user-times fa-2x"></i>  Elimina ospite!</span>
                                 </label>
-                            </div>
+                           </div>
                         </div>
                         <div class="col-sm-2 lbl">
                            <div>

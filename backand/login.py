@@ -1,3 +1,5 @@
+import pprint
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from .bo import base, doc
@@ -66,9 +68,11 @@ def admin(request):
     for famiglia in sorted(elenco_famiglie, key=operator.attrgetter('nome_famiglia')):
         uuid = famiglia.__dict__
         invitati = base.Ospite.objects.filter(utente=famiglia.hash)
-        uuid['invitati'] = [i.__dict__ for i in invitati]
+        uuid['invitati'] = [i.toHtml(famiglia) for i in invitati]
         dati_tabella.append(uuid)
         ospiti.extend(invitati)
+
+    tavoli = [i.__dict__ for i in base.Tavolo.objects.filter()]
 
 
 
@@ -79,7 +83,7 @@ def admin(request):
         'js_index': costants.js_index,
         'version': costants.get_version(),
         'hash': request.COOKIES['hash'],
-        'tabella_ospiti': view.render_tabella_ospiti(dati_tabella),
+        'tabella_ospiti': view.render_tabella_ospiti(dati_tabella, tavoli),
         'famiglie': len(elenco_famiglie),
         'ospiti': len(ospiti),
         'maschi': len([i for i in ospiti if i.sesso == 'Uomo']),
@@ -89,6 +93,41 @@ def admin(request):
     }
     diz_html['menu'] = view.render_menu(diz_html)
     html = view.render_admin(diz_html)
+    return HttpResponse(html)
+
+@check_login
+def tavoli(request):
+    if not request.COOKIES.get('hash') == 'super_user':
+        return HttpResponse('utente non autorizzato')
+
+    ospiti = []
+    elenco_famiglie = base.Famiglia.objects.filter()
+    import operator
+    for famiglia in sorted(elenco_famiglie, key=operator.attrgetter('nome_famiglia')):
+        invitati = base.Ospite.objects.filter(utente=famiglia.hash)
+        if invitati:
+            ospiti.extend(invitati)
+
+    tavoli = base.Tavolo.objects.filter()
+
+
+    diz_html = {
+        'appserver': settings.APPSERVER,
+        'delta_days': costants.delta_days,
+        'due_date_umana': costants.due_date_umana,
+        'js_index': costants.js_index,
+        'version': costants.get_version(),
+        'hash': request.COOKIES['hash'],
+        'tabella_ospiti': view.render_tabella_tavoli(ospiti),
+        'famiglie': len(elenco_famiglie),
+        'ospiti': len(ospiti),
+        'maschi': len([i for i in ospiti if i.sesso == 'Uomo']),
+        'femmine': len([i for i in ospiti if i.sesso == 'Donna']),
+        'bambini': len([i for i in ospiti if i.menu == 'bambino']),
+        'page': 'tavoli',
+    }
+    diz_html['menu'] = view.render_menu(diz_html)
+    html = view.render_tavoli(diz_html)
     return HttpResponse(html)
 
 

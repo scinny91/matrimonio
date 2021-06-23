@@ -82,6 +82,11 @@ function updateGuest(){
         valore = (jQuery('#'+this.id).is(':checked') ? 'S' : 'N')
     else
         valore = jQuery('#'+this.id).val()
+    if (this.name == 'tavolo')
+    {
+        campo = 'tavolo_id'
+    }
+
     formData.append("id_ospite", id_ospite);
     formData.append("campo", campo);
     formData.append("valore", valore);
