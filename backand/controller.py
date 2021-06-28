@@ -87,6 +87,7 @@ def update_guest(request):
         ospiteOBJ = base.Ospite.objects.get(
                 id_ospite=request.POST['id_ospite']
             )
+        ospiteOBJ.flag_stampato_segnaposto = 'N'
         ospiteOBJ.__setattr__(request.POST['campo'], request.POST['valore'])
         if request.POST['campo'] == 'mail':
             ospiteOBJ.mail_valida = 'N'

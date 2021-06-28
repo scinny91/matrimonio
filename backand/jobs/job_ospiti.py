@@ -41,11 +41,14 @@ def crea_hash():
 def crea_segnaposto():
     print('creo segnaposto')
     elenco_ospiti = base.Ospite.objects.filter()
-    elenco_ospiti = sorted(elenco_ospiti, key=operator.attrgetter('utente'))
+    elenco_ospiti = sorted(elenco_ospiti, key=operator.attrgetter('tavolo.nome'))
     lista_nomi = []
     for ospite in elenco_ospiti:
         if ospite.nome:
-            doc.genera_segnaposto(ospite.nome)
+            if ospite.flag_stampato_segnaposto == 'N':
+                doc.genera_segnaposto(ospite.nome)
+                ospite.flag_stampato_segnaposto = 'S'
+                ospite.save()
             uuid = ospite.nome
             lista_nomi.append((uuid.split(' ')[0], ospite.tavolo.nome))
     doc.genera_segnaposto_bottiglia(lista_nomi)
