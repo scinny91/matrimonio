@@ -1,7 +1,7 @@
 from matrimonio import settings
 from reportlab.platypus.tables import Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, SimpleDocTemplate
+from reportlab.platypus import Paragraph, SimpleDocTemplate, PageBreak
 from reportlab.pdfgen import canvas
 from reportlab.lib import pagesizes, units, utils, colors
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
@@ -19,8 +19,7 @@ def genera_partecipazione(dict_famiglia):
     c = canvas.Canvas(path_file, pagesize=pagesizes.portrait(pagesizes.A7))
     c.setFontSize(6)
 
-    testo = '[fam. {alias}]'.format(**dict_famiglia)
-    c.drawString(units.cm * 3, units.cm * 12, testo)
+
 
 
 
@@ -55,9 +54,55 @@ def genera_segnaposto(nome):
     path_file = '%s/segnaposto/%s.pdf' % (settings.DOCDIR, nome)
     dimensione = (9 * units.cm, 1.8 * units.cm)
     c = canvas.Canvas(path_file, pagesize=dimensione)
-
     c.setFont('mvboli', 0.6*units.cm)
     c.drawCentredString(4.5*units.cm, 0.6*units.cm, nome.upper())
+    c.save()
+
+def genera_segnaposto_bottiglia(lista_nomi):
+    lista_nomi = sorted(lista_nomi)
+    path_file = '%s/segnaposto_bottiglie.pdf' % (settings.DOCDIR)
+    dimensione = pagesizes.A4
+    c = canvas.Canvas(path_file, pagesize=dimensione)
+
+    spazio_x = 1*units.cm
+    spazio_y = 2.5*units.cm
+    larghezza = 2*units.cm
+    altezza = 3*units.cm
+
+    orig_x1 = 0.5 * units.cm
+    orig_y1 = 1 * units.cm
+
+
+    qta_per_riga = int(pagesizes.A4[1] / (altezza + spazio_y))
+    qta_per_colonna = int(pagesizes.A4[0] / (larghezza + spazio_x))
+    for index, nome in enumerate(lista_nomi):
+        indice = index % (qta_per_colonna * qta_per_riga)
+        if index % (qta_per_colonna * qta_per_riga) == 0 and index:
+            P = PageBreak()
+            P.drawOn(c, 0, 1000)
+            c.showPage()
+
+        riga = int(indice /qta_per_riga)
+        colonna = indice - riga*qta_per_riga
+
+
+        x1 = orig_x1 + riga * (larghezza + spazio_x)
+        y1 = orig_y1 + colonna * (altezza+ spazio_y)
+
+        c.line(x1, y1, x1, y1+altezza) # |
+        c.line(x1, y1, x1+larghezza, y1) # _
+        c.line(x1+larghezza, y1, x1+larghezza, y1+altezza) #  |
+
+
+
+        altezza_font = round(altezza/units.cm / (len(nome)+1), 2)
+        c.setFont('mvboli', altezza_font*units.cm)
+
+
+        count = 0
+        for lettera in nome.upper()[::-1]:
+            count += 1
+            c.drawCentredString(x1+larghezza/2, y1+altezza_font*units.cm * count, lettera)
     c.save()
 
 

@@ -27,6 +27,7 @@ def main(args):
     pulisci_immagini()
     crea_hash()
     invia_mail_aggiornamento()
+    crea_segnaposto()
 
 def crea_hash():
     print('creo hash famiglie')
@@ -39,9 +40,13 @@ def crea_hash():
 def crea_segnaposto():
     print('creo segnaposto')
     elenco_ospiti = base.Ospite.objects.filter()
-    print(elenco_ospiti)
-    doc.genera_segnaposto([i.nome for i in elenco_ospiti])
-    doc.genera_copertina()
+    lista_nomi = []
+    for ospite in elenco_ospiti:
+        if ospite.nome:
+            doc.genera_segnaposto(ospite.nome)
+            uuid = ospite.nome
+            lista_nomi.append(uuid.split(' ')[0])
+    doc.genera_segnaposto_bottiglia(lista_nomi)
 
 def invia_mail_aggiornamento():
     print('invia_mail_aggiornamento')
