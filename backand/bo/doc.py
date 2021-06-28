@@ -59,7 +59,6 @@ def genera_segnaposto(nome):
     c.save()
 
 def genera_segnaposto_bottiglia(lista_nomi):
-    lista_nomi = sorted(lista_nomi)
     path_file = '%s/segnaposto_bottiglie.pdf' % (settings.DOCDIR)
     dimensione = pagesizes.A4
     c = canvas.Canvas(path_file, pagesize=dimensione)
@@ -75,7 +74,9 @@ def genera_segnaposto_bottiglia(lista_nomi):
 
     qta_per_riga = int(pagesizes.A4[1] / (altezza + spazio_y))
     qta_per_colonna = int(pagesizes.A4[0] / (larghezza + spazio_x))
-    for index, nome in enumerate(lista_nomi):
+    for index, t_nome in enumerate(lista_nomi):
+        nome = t_nome[0]
+        tavolo = t_nome[1]
         indice = index % (qta_per_colonna * qta_per_riga)
         if index % (qta_per_colonna * qta_per_riga) == 0 and index:
             P = PageBreak()
@@ -103,6 +104,8 @@ def genera_segnaposto_bottiglia(lista_nomi):
         for lettera in nome.upper()[::-1]:
             count += 1
             c.drawCentredString(x1+larghezza/2, y1+altezza_font*units.cm * count, lettera)
+        c.setFont('mvboli', 0.3*units.cm)
+        c.drawCentredString(x1+larghezza/2, y1-0.3*units.cm, tavolo)
     c.save()
 
 

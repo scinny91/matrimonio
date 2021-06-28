@@ -4,6 +4,7 @@ import smtplib
 import os
 import time
 from datetime import datetime
+import operator
 
 from matrimonio.backand.bo import base, doc
 from matrimonio import settings
@@ -40,12 +41,13 @@ def crea_hash():
 def crea_segnaposto():
     print('creo segnaposto')
     elenco_ospiti = base.Ospite.objects.filter()
+    elenco_ospiti = sorted(elenco_ospiti, key=operator.attrgetter('utente'))
     lista_nomi = []
     for ospite in elenco_ospiti:
         if ospite.nome:
             doc.genera_segnaposto(ospite.nome)
             uuid = ospite.nome
-            lista_nomi.append(uuid.split(' ')[0])
+            lista_nomi.append((uuid.split(' ')[0], ospite.tavolo.nome))
     doc.genera_segnaposto_bottiglia(lista_nomi)
 
 def invia_mail_aggiornamento():
