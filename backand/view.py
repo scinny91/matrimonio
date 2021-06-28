@@ -159,7 +159,6 @@ def render_tabella_ospiti(dati_tabella, tavoli):
                  <td class="cella_ospiti title"> Menu </td> 
                  <td class="cella_ospiti title"> Sesso </td> 
                  <td class="cella_ospiti title"> Covid </td>
-                 <td class="cella_ospiti title"> Tavolo </td>  
                  <td class="cella_ospiti title"> Speciale </td>  
                  <td class="cella_ospiti title"> Upd TS </td> 
                  <td class="cella_ospiti title"> Azioni </td> 
@@ -195,7 +194,6 @@ def render_tabella_ospiti(dati_tabella, tavoli):
                                     <td class="cella_ospiti"> {sesso} </td> 
                                     <td class="cella_ospiti"> {covid_html} </td>
                                     <td class="cella_ospiti"> {speciale} </td>  
-                                    <td class="cella_ospiti"> {nome_tavolo} </td>  
                                     <td class="cella_ospiti"> {upd_ts} </td>  
                                     <td class="cella_ospiti"> 
                                         <div class='delete_ospite'  id='cancella_ospite_{id_ospite}'>
@@ -484,7 +482,7 @@ def render_blocco_righe_invitato(diz_invitato):
                         <div class="col-sm-4 lbl">
                             <div class="input-group">
                                 <span class="input-group-addon">Note:</span>
-                                 <textarea class="form-control onchangeupdate" id="note_{id_ospite}" rows="2" name='note'></textarea>
+                                 <textarea class="form-control onchangeupdate" id="note_{id_ospite}" rows="2" name='note'>{note}</textarea>
                             </div>
                         </div>
                         <div class="col-sm-4 lbl">
