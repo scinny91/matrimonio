@@ -9,6 +9,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 pdfmetrics.registerFont(TTFont('mvboli', settings.FONT_DIR+'mvboli.ttf'))
 pdfmetrics.registerFont(TTFont('papyrus', settings.FONT_DIR+'papyrus.ttf'))
+pdfmetrics.registerFont(TTFont('ink-free-normal', settings.FONT_DIR+'ink-free-normal.ttf'))
 
 import qrcode
 
@@ -97,7 +98,7 @@ def genera_segnaposto_bottiglia(lista_nomi):
 
 
         altezza_font = round(altezza/units.cm / (len(nome)+1), 2)
-        c.setFont('mvboli', altezza_font*units.cm)
+        c.setFont('ink-free-normal', altezza_font*units.cm)
 
 
         count = 0
