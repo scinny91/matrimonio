@@ -66,8 +66,8 @@ def genera_segnaposto_bottiglia(lista_nomi):
 
     spazio_x = 1*units.cm
     spazio_y = 2.5*units.cm
-    larghezza = 2*units.cm
-    altezza = 3*units.cm
+    larghezza = 2.5*units.cm
+    altezza = 3.3*units.cm
 
     orig_x1 = 0.5 * units.cm
     orig_y1 = 1 * units.cm
