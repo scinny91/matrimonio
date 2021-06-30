@@ -221,11 +221,11 @@ def render_tabella_tavoli(ospiti):
         for ospite in ospiti_tavolo:
             sezione.append("""
             <div class='row'>  
-                <div class="col-md-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
-                <div class="col-md-4">{nome}</div>
-                <div class="col-md-3">Menu: {menu}</div>
-                <div class="col-md-2">Sesso: {sesso}</div>
-                <div class="col-md-2">Covid: {covid_html}</div>
+                <div class="col-sm-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
+                <div class="col-sm-4">{nome}</div>
+                <div class="col-sm-3">Menu: {menu}</div>
+                <div class="col-sm-2">Sesso: {sesso}</div>
+                <div class="col-sm-2">Covid: {covid_html}</div>
             </div>
             """.format(**ospite.toHtml()))
 
