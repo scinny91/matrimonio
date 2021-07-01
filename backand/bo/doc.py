@@ -53,10 +53,17 @@ def genera_partecipazione(dict_famiglia):
 
 def genera_segnaposto(nome):
     path_file = '%s/segnaposto/%s.pdf' % (settings.DOCDIR, nome)
-    dimensione = (9 * units.cm, 1.8 * units.cm)
+    altezza = 1.8
+    larghezza = 9
+
+    dimensione = (larghezza * units.cm, altezza * units.cm)
     c = canvas.Canvas(path_file, pagesize=dimensione)
-    c.setFont('mvboli', 0.6*units.cm)
-    c.drawCentredString(4.5*units.cm, 0.6*units.cm, nome.upper())
+
+    font_size = round(12 / (len(nome)), 2)
+    font_size = min(font_size, altezza-0.3) # 1.5 sopra e sotto
+
+    c.setFont('mvboli', font_size*units.cm)
+    c.drawCentredString(larghezza/2*units.cm, (altezza-font_size)/2*units.cm, nome.upper())
     c.save()
 
 def genera_segnaposto_bottiglia(lista_nomi):
