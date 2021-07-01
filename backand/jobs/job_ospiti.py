@@ -31,7 +31,7 @@ def main(args):
     crea_segnaposto()
 
 def crea_hash():
-    print('creo hash famiglie')
+    #print('creo hash famiglie')
     elenco_famiglie = base.Famiglia.objects.filter()
     for famiglia in elenco_famiglie:
         if not famiglia.hash:
