@@ -29,6 +29,7 @@ def main(args):
     crea_hash()
     invia_mail_aggiornamento()
     crea_segnaposto()
+    invia_mail_covid()
 
 def crea_hash():
     #print('creo hash famiglie')
@@ -113,3 +114,46 @@ def pulisci_immagini():
                 os.remove('%soriginal/%s' % (settings.IMAGE_USER_PATH, file))
             except:
                 pass
+
+def invia_mail_covid():
+    print('invio mail covid')
+    testo = """
+Ciao {nome},
+Purtroppo il Covid-19 ci impone di adeguare i nostri comportamenti anche nel giorno più bello della nostra vita.
+
+Per chiarezza ricapitoliamo le poche e semplici regole che il protocollo ci impone:
+    -Per accedere all'evento in villa sarà obbligatorio presentare l'autocertificazione in allegato a questa mail.
+    -Potrà essere rilevata la temperatura corporea, impedendo l'accesso in caso di temperatura >37,5 °C.
+    -Resta obbligatorio l'uso della mascherina in tutti i locali chiusi e all'aperto nei casi in cui non è possibile mantenere le distanze di sicurezza.
+    -I bambini sotto i 6 anni non sono soggetti ad autocertificazione.
+
+Per evitare assembramenti e velocizzare le operazioni burocratiche legate all'autocertificazione suggeriamo di arrivare con il documento precedentemente compilato.
+
+#stayTuned
+Marco&Marialaura
+
+
+    {url}
+    """
+    elenco_ospiti = base.Ospite.objects.filter(
+        mail_valida='S', mail_covid='N', utente='super_user'
+    ).exclude(mail='')
+    with open(settings.STATIC_HTML + '/AUTOCERTIFICAZIONE GREEN PASS.pdf', 'rb') as content_file:
+        content = content_file.read()
+    for ospite in elenco_ospiti:
+        ospite.url = settings.APPSERVER + '/fast_login/?hash=' + ospite.utente
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+        msg = EmailMessage()
+        msg.set_content(testo.format(**ospite.__dict__))
+        msg.add_attachment(content, maintype='application', subtype='pdf', filename='example.pdf')
+   
+        msg['Subject'] = 'Matrimomoio - GREEN PASS'
+        msg['From'] = settings.EMAIL_HOST_USER
+        msg['To'] = ospite.mail
+        server.send_message(msg)
+
+        ospite.mail_covid = 'S'
+        ospite.save()

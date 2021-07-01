@@ -29,6 +29,7 @@ class Ospite(models.Model):
     covid = models.CharField(max_length=1, choices=choices, default='N')
     mail = models.CharField(max_length=100, blank=True)
     mail_valida = models.CharField(max_length=100, blank=True, default='N')
+    mail_covid = models.CharField(max_length=1, blank=True, default='N')
     flag_stampato_segnaposto = models.CharField(max_length=1, blank=True, default='N')
     sesso = models.CharField(default='Uomo')
     note = models.Field(blank=True)
