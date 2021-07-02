@@ -55,8 +55,14 @@ function salva_ospite(){
 
 
 function deleteGuest(){
-    formData= new FormData();
     id_ospite = (this.id).split('_').pop()
+    nome_ospite = jQuery('#nome_ospite_'+id_ospite).val()
+    if (nome_ospite)
+        if (!confirm("Confermi di voler eliminare "+nome_ospite+'?'))
+            return
+
+    formData= new FormData();
+
     formData.append("id_ospite", id_ospite);
     jQuery("#riga_invitato_"+id_ospite).html('<i class="fas fa-spinner"></i>')
     jQuery.ajax({
