@@ -136,7 +136,7 @@ Marco&Marialaura
     {url}
     """
     elenco_ospiti = base.Ospite.objects.filter(
-        mail_valida='S', mail_covid='N', utente='super_user'
+        mail_valida='S', mail_covid='N'
     ).exclude(mail='')
     with open(settings.STATIC_HTML + '/AUTOCERTIFICAZIONE GREEN PASS.pdf', 'rb') as content_file:
         content = content_file.read()
