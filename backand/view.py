@@ -231,9 +231,10 @@ def render_tabella_tavoli(ospiti):
 
         html_sezione = ''.join(sezione)
         qta_ospiti = len(ospiti_tavolo)
+        qta_bambini = len([i for i in ospiti_tavolo if i.menu=='bambino'])
         lista_html.append('''
         <div class='row'>    
-            <div class="col-sm-2 title"> Ospiti: {qta_ospiti} </div>
+            <div class="col-sm-2 title"> Ospiti: {qta_ospiti} ({qta_bambini}) </div>
             <div class="col-sm-4 title"> Nome: {ospite.tavolo.nome} </div>
             <div class="col-sm-2 title"> Bottiglia: {ospite.tavolo.bottiglia}</div>
             <div class="col-sm-2 title"> Note: {ospite.tavolo.note}</div>
