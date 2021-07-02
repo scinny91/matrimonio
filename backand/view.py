@@ -218,7 +218,7 @@ def render_tabella_tavoli(ospiti):
     for tavolo, c in itertools.groupby(sorted(ospiti, key=grouper), key=grouper):
         ospiti_tavolo = list(c)
         sezione = []
-        for ospite in ospiti_tavolo:
+        for ospite in sorted(ospiti_tavolo, key=attrgetter('utente')):
             sezione.append("""
             <div class='row'>  
                 <div class="col-sm-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
@@ -234,9 +234,9 @@ def render_tabella_tavoli(ospiti):
         lista_html.append('''
         <div class='row'>    
             <div class="col-sm-2 title"> Ospiti: {qta_ospiti} </div>
-            <div class="col-sm-4 title"> {ospite.tavolo.nome} </div>
-            <div class="col-sm-2 title"> {ospite.tavolo.bottiglia}</div>
-            <div class="col-sm-2 title"> {ospite.tavolo.note}</div>
+            <div class="col-sm-4 title"> Nome: {ospite.tavolo.nome} </div>
+            <div class="col-sm-2 title"> Bottiglia: {ospite.tavolo.bottiglia}</div>
+            <div class="col-sm-2 title"> Note: {ospite.tavolo.note}</div>
             <div class="col-sm-2 title"> {ospite.tavolo.ins_ts} </div>
             {html_sezione}
         </div>'''.format(**locals()))
