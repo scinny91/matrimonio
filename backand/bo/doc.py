@@ -103,17 +103,18 @@ def genera_segnaposto_bottiglia(lista_nomi):
         c.line(x1+larghezza, y1, x1+larghezza, y1+altezza) #  |
 
 
+        lista_nomi = nome.split(' ')
+        qta_nomi = len(lista_nomi)
 
-        altezza_font = round(altezza/units.cm / (len(nome)+1), 2)
-        c.setFont('ink-free-normal', altezza_font*units.cm)
-
-
-        count = 0
-        for lettera in nome.upper()[::-1]:
-            count += 1
-            c.drawCentredString(x1+larghezza/2, y1+altezza_font*units.cm * count, lettera)
-        c.setFont('mvboli', 0.3*units.cm)
-        c.drawCentredString(x1+larghezza/2, y1-0.3*units.cm, tavolo)
+        for parte, parte_nome in enumerate(lista_nomi):
+            altezza_font = round(altezza / units.cm / (len(parte_nome) + 1), 2)
+            c.setFont('ink-free-normal', altezza_font * units.cm)
+            count = 0
+            for lettera in parte_nome.upper()[::-1]:
+                count += 1
+                c.drawCentredString(x1+larghezza/(qta_nomi+1)*(parte+1) , y1+altezza_font*units.cm * count, lettera)
+            c.setFont('mvboli', 0.3*units.cm)
+            c.drawCentredString(x1+larghezza/2, y1-0.3*units.cm, tavolo)
     c.save()
 
 
