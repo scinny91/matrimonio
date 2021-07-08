@@ -220,14 +220,14 @@ def render_tabella_tavoli(ospiti):
         sezione = []
         for ospite in sorted(ospiti_tavolo, key=attrgetter('utente')):
             sezione.append("""
-            <div class='row'>  
-                <div class="col-sm-1"><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </div>
-                <div class="col-sm-2">{nome}</div>
-                <div class="col-sm-2">{note}</div>
-                <div class="col-sm-3">Menu: {menu}</div>
-                <div class="col-sm-2">Sesso: {sesso}</div>
-                <div class="col-sm-2">Covid: {covid_html}</div>
-            </div>
+            <tr>
+                <td><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </td>
+                <td>{nome}</td>
+                <td>{nome}</td>
+                <td>Menu: {menu}</td>
+                <td>Sesso: {sesso}</td>
+                <td>Covid: {covid_html}</td>
+            </tr>
             """.format(**ospite.toHtml()))
 
         html_sezione = ''.join(sezione)
@@ -240,7 +240,9 @@ def render_tabella_tavoli(ospiti):
             <div class="col-sm-2 title"> Bottiglia: {ospite.tavolo.bottiglia}</div>
             <div class="col-sm-2 title"> Note: {ospite.tavolo.note}</div>
             <div class="col-sm-2 title"> {ospite.tavolo.ins_ts} </div>
+        <table>  
             {html_sezione}
+        </table>  
         </div>'''.format(**locals()))
 
 
