@@ -223,7 +223,7 @@ def render_tabella_tavoli(ospiti):
             <tr>
                 <td><img src="../{url_img_user}" alt="Circle Image" class="img-circle img-piccola" id='img_{id_ospite}'> </td>
                 <td>{nome}</td>
-                <td>{nome}</td>
+                <td>{note}</td>
                 <td>Menu: {menu}</td>
                 <td>Sesso: {sesso}</td>
                 <td>Covid: {covid_html}</td>
