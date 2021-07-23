@@ -26,12 +26,17 @@ def start(request):
         response = HttpResponse(content_type="image/png")
         img.save(response, "PNG")
         return response
-    elif '.jpg' in url:
+    elif '.jpg' in url or '.JPG' in url:
         img = Image.open(settings.STATIC_HTML + url)
         response = HttpResponse(content_type="image/png")
         img.save(response, "PNG")
         return response
-    elif '.jpeg' in url:
+    elif '.heic' in url or '.HEIC' in url:
+        img = Image.open(settings.STATIC_HTML + url)
+        response = HttpResponse(content_type="image/png")
+        img.save(response, "PNG")
+        return response
+    elif '.jpeg' in url or '.JPEG' in url:
         img = Image.open(settings.STATIC_HTML + url)
         response = HttpResponse(content_type="image/png")
         img.save(response, "PNG")

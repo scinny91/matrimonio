@@ -221,7 +221,9 @@ def _ruota_immagine(path):
         image.save(path)
         image.close()
     except:
-        image.close()
+        pass
+        print(traceback.format_exc())
+        #image.close()
     # fine rotazione
 
 
